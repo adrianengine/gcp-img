@@ -17,10 +17,6 @@
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false"
   },
-  "dependencies": {
-    "lit-html": "^1.1.2",
-    "lit-element": "^2.2.1"
-  },
   "devDependencies": {
     "es-dev-server": "^1.23.0",
     "eslint": "^6.1.0",

@@ -1,29 +1,34 @@
-<!doctype html>
-<html lang="en-GB">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       background: #fafafa;
     }
   </style>
+  <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+  <script type="module" src="../gcp-image.js"></script>
+  <title>GCP Image Custom Element Demo</title>
 </head>
 <body>
-  <div id="demo"></div>
+  <main id="demo">
+    <section>
+      <h1>Google Cloud Platform Image</h1>
+    </section>
 
-  <script type="module">
-    import { html, render } from 'lit-html';
-    import '../gcp-image.js';
+    <section>
+      <h2>Basic Usage</h2>
+      <pre>&lt;gcp-image src=&quot;https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND&quot;&gt;&lt;/gcp-image&gt;</pre>
+      <gcp-image src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND"></gcp-image>
+    </section>
 
-    const title = 'Hello owc World!';
-    render(
-      html`
-        <gcp-image .title=${title}>
-          some more light-dom
-        </gcp-image>
-      `,
-      document.querySelector('#demo')
-    );
-  </script>
+    <section>
+      <h2>With Alt text</h2>
+      <pre>&lt;gcp-image src=&quot;https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND&quot; alt=&quot;Three people sitting on a lawn and blowing bubbles.&quot;&gt;&lt;/gcp-image&gt;</pre>
+      <gcp-image src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" alt="Three people sitting on a lawn and blowing bubbles."></gcp-image>
+    </section>
+  </main>
 </body>
 </html>
