@@ -7,6 +7,10 @@ const src = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452
 const sizesConfig = '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
 const sourceSet = `${src}=s320 320w,${src}=s640 600w,${src}=s960 1024w`;
 
+const srcArtDirected = 'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg';
+const sizesConfigArtDirected = `[{"screen":320,"size":320},{"screen":600,"size":640,"source":"${srcArtDirected}"},{"screen":1024,"size":960}]`;
+const sourceSetArtDirected = `${src}=s320 320w,${srcArtDirected}=s640 600w,${src}=s960 1024w`;
+
 let element;
 
 afterEach(() => {
@@ -185,6 +189,38 @@ describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
   it('Image sets the srcset property', async () => {
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.srcset).to.equal(sourceSet);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-image src="${src}" sizes=${sizesConfigArtDirected}></gcp-image>
+    `);
+  });
+
+  it('has a read only sizes prop', () => {
+    const init = element.sizes;
+
+    element.sizes = Math.random();
+    expect(element.sizes).to.equal(init);
+  });
+
+  it('returns sizes dom property', () => {
+    expect(element.getAttribute('sizes')).to.equal(sizesConfigArtDirected);
+  });
+
+  it('Image sets the srcset property', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.srcset).to.equal(sourceSetArtDirected);
   });
 
   it('passes the a11y audit', () => {

@@ -188,12 +188,14 @@ export class GcpImage extends HTMLElement {
 
     for (const key in sizes) {
       if (sizes.hasOwnProperty(key)) {
-        const source = sizes[key];
-        const screen = source.screen;
-        const size = source.size;
+        const sourceSet = sizes[key];
+        const screen = sourceSet.screen;
+        const size = sourceSet.size;
+        const source = sourceSet.source;
+        const imgUrl = (source) ? source : imgSource;
 
         if (screen && size) {
-          sourcesArray.push(`${imgSource}=s${size} ${screen}w`);
+          sourcesArray.push(`${imgUrl}=s${size} ${screen}w`);
         }
       }
     }
