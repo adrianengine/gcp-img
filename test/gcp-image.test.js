@@ -2,14 +2,26 @@ import { html, fixture, expect, aTimeout, elementUpdated } from '@open-wc/testin
 
 import '../gcp-image.js';
 
-// eslint-disable-next-line max-len
-const src = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
-const sizesConfig = '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
-const sourceSet = `${src}=s320 320w,${src}=s640 600w,${src}=s960 1024w`;
+const defaultProps = {
+  'ttl': 'e365'
+};
 
-const srcArtDirected = 'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg';
-const sizesConfigArtDirected = `[{"screen":320,"size":320},{"screen":600,"size":640,"source":"${srcArtDirected}"},{"screen":1024,"size":960}]`;
-const sourceSetArtDirected = `${src}=s320 320w,${srcArtDirected}=s640 600w,${src}=s960 1024w`;
+const props = Object.values(defaultProps).join('-');
+
+// eslint-disable-next-line max-len
+const imgURL = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
+
+const imgAltURL = 'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg';
+
+const gcpURL = `${imgURL}=${props}`;
+
+const sizesConfig = '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
+
+const sourceSet = `${imgURL}=s320-${props} 320w,${imgURL}=s640-${props} 600w,${imgURL}=s960-${props} 1024w`;
+
+const sizesAltConfig = `[{"screen":320,"size":320},{"screen":600,"size":640,"source":"${imgAltURL}"},{"screen":1024,"size":960}]`;
+
+const sourceSetAlt = `${imgURL}=s320-${props} 320w,${imgAltURL}=s640-${props} 600w,${imgURL}=s960-${props} 1024w`;
 
 let element;
 
@@ -83,7 +95,7 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
     describe('"IntersectionObserver" supported', () => {
       beforeEach(async () => {
         element = await fixture(`
-          <gcp-image style="position: fixed; left: -10000px;" src="${src}"></gcp-image>
+          <gcp-image style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-image>
         `)
       });
 
@@ -106,7 +118,7 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
         });
 
         it('Loads image', async () => {
-          expect(element.shadowImage.src).to.equal(src);
+          expect(element.shadowImage.src).to.equal(`${gcpURL}`);
         });
 
         it('sets intersecting attr', async () => {
@@ -118,12 +130,12 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
     describe('"IntersectionObserver" not supported', () => {
       beforeEach(async () => {
         element = await fixture(`
-          <gcp-image style="position: fixed; left: -10000px;" src="${src}"></gcp-image>
+          <gcp-image style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-image>
         `)
       });
 
       it('sets img src immediately', () => {
-        expect(element.shadowImage.src).to.equal(src);
+        expect(element.shadowImage.src).to.equal(`${gcpURL}`);
       });
     });
   }
@@ -132,7 +144,7 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
 describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${src}" size="180"></gcp-image>
+      <gcp-image src="${imgURL}" size="180"></gcp-image>
     `);
     await elementUpdated(element);
   });
@@ -142,7 +154,7 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
   });
 
   it('Image sets the size property', () => {
-    expect(element.shadowImage.src).to.equal(`${src}=s180`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=s180-${props}`);
   });
 
   it('can override the size via attribute', async () => {
@@ -153,10 +165,10 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
   });
 
   it('can override the shadow image src via size attribute', async () => {
-    expect(element.shadowImage.src).to.eq(`${src}=s180`);
+    expect(element.shadowImage.src).to.eq(`${imgURL}=s180-${props}`);
     element.size = '360';
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${src}=s360`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=s360-${props}`);
   });
 
   it('passes the a11y audit', () => {
@@ -171,7 +183,7 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
 describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${src}" sizes=${sizesConfig}></gcp-image>
+      <gcp-image src="${imgURL}" sizes=${sizesConfig}></gcp-image>
     `);
   });
 
@@ -203,7 +215,7 @@ describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
 describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${src}" sizes=${sizesConfigArtDirected}></gcp-image>
+      <gcp-image src="${imgURL}" sizes=${sizesAltConfig}></gcp-image>
     `);
   });
 
@@ -215,12 +227,44 @@ describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify-with-src">', 
   });
 
   it('returns sizes dom property', () => {
-    expect(element.getAttribute('sizes')).to.equal(sizesConfigArtDirected);
+    expect(element.getAttribute('sizes')).to.equal(sizesAltConfig);
   });
 
   it('Image sets the srcset property', async () => {
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.srcset).to.equal(sourceSetArtDirected);
+    expect(element.shadowImage.srcset).to.equal(sourceSetAlt);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('<gcp-image src="path/to/cloud/img" ttl="180">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-image src="${imgURL}" ttl="180"></gcp-image>
+    `);
+  });
+
+  it('has a read only time to live (ttl) prop', () => {
+    const init = element.ttl;
+
+    element.ttl = Math.random();
+    expect(element.ttl).to.equal(init);
+  });
+
+  it('returns ttl dom property', () => {
+    expect(element.getAttribute('ttl')).to.equal('180');
+  });
+
+  it('Image sets the ttl property', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=e180`);
   });
 
   it('passes the a11y audit', () => {

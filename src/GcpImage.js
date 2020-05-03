@@ -93,7 +93,7 @@ export class GcpImage extends HTMLElement {
   }
 
   /**
-   * Whether the element is on screen.
+   * Gets the sizes attribute.
    * @type {Boolean}
    */
   get sizes() {
@@ -101,6 +101,16 @@ export class GcpImage extends HTMLElement {
   }
 
   set sizes(v) {}
+
+  /**
+   * Gets the Cache Time to live attribute.
+   * @type {Boolean}
+   */
+  get ttl() {
+    return this.hasAttribute('ttl');
+  }
+
+  set ttl(v) {}
 
   /**
    * Whether the element is on screen.
@@ -124,6 +134,7 @@ export class GcpImage extends HTMLElement {
     this.shadowImage.onload = this.onLoad;
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
+    this.extraProperties = '';
   }
 
   connectedCallback() {
@@ -131,6 +142,7 @@ export class GcpImage extends HTMLElement {
     this.alt = this.getAttribute('alt') || '';
     this.size = this.getAttribute('size');
     this.placeholder = this.getAttribute('placeholder');
+    this.getProperties_()
     this.updateShadyStyles();
     if ('IntersectionObserver' in window) this.initIntersectionObserver();
     else this.loadImage();
@@ -151,9 +163,11 @@ export class GcpImage extends HTMLElement {
     const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
     const size = (hasSize) ? `=s${this.size}` : '';
+    const separator = (hasSize) ? '-' : '=';
+    const extra = this.extraProperties;
 
     this.setAttribute('intersecting', '');
-    this.shadowImage.src = `${this.src}${size}`;
+    this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
     if (hasSources) {
       this.shadowImage.srcset = this.getMediaSources_();
@@ -180,6 +194,7 @@ export class GcpImage extends HTMLElement {
       return;
     }
 
+    const extra = this.extraProperties;
     const sizesAttribute = this.getAttribute('sizes');
     const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
     const sizes = JSON.parse(sizesAdjusted);
@@ -195,12 +210,25 @@ export class GcpImage extends HTMLElement {
         const imgUrl = (source) ? source : imgSource;
 
         if (screen && size) {
-          sourcesArray.push(`${imgUrl}=s${size} ${screen}w`);
+          sourcesArray.push(`${imgUrl}=s${size}-${extra} ${screen}w`);
         }
       }
     }
 
     return sourcesArray.join(',');
+  }
+
+  /**
+   * Returns the propeties string.
+   */
+  getProperties_() {
+    const cacheDays = this.getAttribute('ttl');
+    const ttl = (cacheDays) ? `e${cacheDays}` : 'e365';
+    let props = [];
+
+    props.push(ttl);
+
+    this.extraProperties = props.join('-');
   }
 
   /**
