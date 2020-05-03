@@ -1,5 +1,7 @@
 # \<gcp-img>
 
+The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage into the document.
+
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 ## Installation
@@ -13,57 +15,14 @@ npm i gcp-img
   import 'gcp-img/gcp-img.js';
 </script>
 
-<gcp-img></gcp-img>
+<gcp-img src="https://lh3.googleusercontent.com/YXPVsT8M2Z…" alt="Three people sitting on a lawn and blowing bubbles."></gcp-img>
 ```
 
-## Linting with ESLint, Prettier, and Types
-To scan the project for linting errors, run
-```bash
-npm run lint
-```
+The above example shows usage of the `<gcp-img>` element:
 
-You can lint with ESLint and Prettier individually as well
-```bash
-npm run lint:eslint
-```
-```bash
-npm run lint:prettier
-```
+- The `src` attribute is **required**, and contains the path to the image you want to embed.
+- The `alt` attribute holds a text description of the image, which isn't mandatory but is **incredibly useful** for accessibility — screen readers read this description out to their users so they know what the image means. Alt text is also displayed on the page if the image can't be loaded for some reason: for example, network errors, content blocking, or linkrot.
 
-To automatically fix many linting errors, run
-```bash
-npm run format
-```
+## How to Contribute
 
-You can format using ESLint and Prettier individually as well
-```bash
-npm run format:eslint
-```
-```bash
-npm run format:prettier
-```
-
-## Testing with Karma
-To run the suite of karma tests, run
-```bash
-npm run test
-```
-
-To run the tests in watch mode (for <abbr title="test driven development">TDD</abbr>, for example), run
-
-```bash
-npm run test:watch
-```
-
-
-## Tooling configs
-
-For most of the tools, the configuration is in the `package.json` to reduce the amount of files in your project.
-
-If you customize the configuration a lot, you can consider moving them to individual files.
-
-## Local Demo with `es-dev-server`
-```bash
-npm start
-```
-To run a local development server that serves the basic demo located in `demo/index.html`
+Please check the [Conributor Guide](/.github/CONTRIBUTING.md).
