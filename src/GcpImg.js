@@ -37,7 +37,7 @@ template.innerHTML = `
 /* istanbul ignore next */
 if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
 
-export class GcpImage extends HTMLElement {
+export class GcpImg extends HTMLElement {
   /**
    * Guards against loops when reflecting observed attributes.
    * @param  {String} name Attribute name

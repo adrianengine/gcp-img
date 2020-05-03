@@ -1,6 +1,6 @@
 import { html, fixture, expect, aTimeout, elementUpdated } from '@open-wc/testing';
 
-import '../gcp-image.js';
+import '../gcp-img.js';
 
 const defaultProps = {
   'quality': 'v1',
@@ -30,10 +30,10 @@ afterEach(() => {
   element = undefined;
 })
 
-describe('<gcp-image>', () => {
+describe('<gcp-img>', () => {
   beforeEach(async function() {
     element = await fixture(`
-      <gcp-image></gcp-image>
+      <gcp-img></gcp-img>
     `);
   });
 
@@ -66,10 +66,10 @@ describe('<gcp-image>', () => {
   });
 });
 
-describe('<gcp-image alt="attribute alt">', () => {
+describe('<gcp-img alt="attribute alt">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image alt="attribute alt"></gcp-image>
+      <gcp-img alt="attribute alt"></gcp-img>
     `);
   });
 
@@ -91,12 +91,12 @@ describe('<gcp-image alt="attribute alt">', () => {
   });
 });
 
-describe('<gcp-image src="path/to/cloud/img">', () => {
+describe('<gcp-img src="path/to/cloud/img">', () => {
   if ("IntersectionObserver" in window) {
     describe('"IntersectionObserver" supported', () => {
       beforeEach(async () => {
         element = await fixture(`
-          <gcp-image style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-image>
+          <gcp-img style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-img>
         `)
       });
 
@@ -131,7 +131,7 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
     describe('"IntersectionObserver" not supported', () => {
       beforeEach(async () => {
         element = await fixture(`
-          <gcp-image style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-image>
+          <gcp-img style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-img>
         `)
       });
 
@@ -142,10 +142,10 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
   }
 });
 
-describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
+describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${imgURL}" size="180"></gcp-image>
+      <gcp-img src="${imgURL}" size="180"></gcp-img>
     `);
     await elementUpdated(element);
   });
@@ -181,10 +181,10 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
   });
 });
 
-describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
+describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${imgURL}" sizes=${sizesConfig}></gcp-image>
+      <gcp-img src="${imgURL}" sizes=${sizesConfig}></gcp-img>
     `);
   });
 
@@ -213,10 +213,10 @@ describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
   });
 });
 
-describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
+describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${imgURL}" sizes=${sizesAltConfig}></gcp-image>
+      <gcp-img src="${imgURL}" sizes=${sizesAltConfig}></gcp-img>
     `);
   });
 
@@ -245,10 +245,10 @@ describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify-with-src">', 
   });
 });
 
-describe('<gcp-image src="path/to/cloud/img" ttl="180">', () => {
+describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${imgURL}" ttl="180"></gcp-image>
+      <gcp-img src="${imgURL}" ttl="180"></gcp-img>
     `);
   });
 
@@ -280,7 +280,7 @@ describe('<gcp-image src="path/to/cloud/img" ttl="180">', () => {
 describe('The image quality changes according to the connection speed', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-image src="${imgURL}"></gcp-image>
+      <gcp-img src="${imgURL}"></gcp-img>
     `);
     await elementUpdated(element);
   });

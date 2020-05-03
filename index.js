@@ -1,1 +1,1 @@
-export { GcpImage } from './src/GcpImage.js';
+export { GcpImg } from './src/GcpImg.js';

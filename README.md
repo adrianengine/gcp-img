@@ -1,19 +1,19 @@
-# \<gcp-image>
+# \<gcp-img>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 ## Installation
 ```bash
-npm i gcp-image
+npm i gcp-img
 ```
 
 ## Usage
 ```html
 <script type="module">
-  import 'gcp-image/gcp-image.js';
+  import 'gcp-img/gcp-img.js';
 </script>
 
-<gcp-image></gcp-image>
+<gcp-img></gcp-img>
 ```
 
 ## Linting with ESLint, Prettier, and Types
