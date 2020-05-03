@@ -1,3 +1,5 @@
+<img src="gcp-img-logo.png" alt="gcp-img Web Component" align="right" height="60" />
+
 # \<gcp-img>
 
 The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage into the document.
