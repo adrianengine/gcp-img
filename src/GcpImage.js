@@ -135,6 +135,8 @@ export class GcpImage extends HTMLElement {
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
     this.extraProperties = '';
+    // TODO: Implement Network Aware Detection to change this value
+    this.isConnectionFast = true;
   }
 
   connectedCallback() {
@@ -222,10 +224,12 @@ export class GcpImage extends HTMLElement {
    * Returns the propeties string.
    */
   getProperties_() {
+    const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
     const ttl = (cacheDays) ? `e${cacheDays}` : 'e365';
     let props = [];
 
+    props.push(quality);
     props.push(ttl);
 
     this.extraProperties = props.join('-');

@@ -3,6 +3,7 @@ import { html, fixture, expect, aTimeout, elementUpdated } from '@open-wc/testin
 import '../gcp-image.js';
 
 const defaultProps = {
+  'quality': 'v1',
   'ttl': 'e365'
 };
 
@@ -264,7 +265,32 @@ describe('<gcp-image src="path/to/cloud/img" ttl="180">', () => {
 
   it('Image sets the ttl property', async () => {
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=e180`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('The image quality changes according to the connection speed', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-image src="${imgURL}"></gcp-image>
+    `);
+    await elementUpdated(element);
+  });
+
+  it('connection speed is updated', async () => {
+    expect(element.isConnectionFast).to.be.true;
+  });
+
+  it('image quality is updated', async () => {
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365`);
   });
 
   it('passes the a11y audit', () => {
