@@ -15,7 +15,9 @@ npm i gcp-img
   import 'gcp-img/gcp-img.js';
 </script>
 
-<gcp-img src="https://lh3.googleusercontent.com/YXPVsT8M2Z…" alt="Three people sitting on a lawn and blowing bubbles."></gcp-img>
+<gcp-img
+  src="https://lh3.googleusercontent.com/YXPVsT8M2Z…"
+  alt="Three people sitting on a lawn and blowing bubbles."></gcp-img>
 ```
 
 The above example shows usage of the `<gcp-img>` element:
@@ -25,4 +27,4 @@ The above example shows usage of the `<gcp-img>` element:
 
 ## How to Contribute
 
-Please check the [Conributor Guide](/.github/CONTRIBUTING.md).
+Please check the [Contributor Guide](/.github/CONTRIBUTING.md).
