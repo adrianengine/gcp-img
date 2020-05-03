@@ -96,6 +96,16 @@ export class GcpImage extends HTMLElement {
    * Whether the element is on screen.
    * @type {Boolean}
    */
+  get sizes() {
+    return this.hasAttribute('sizes');
+  }
+
+  set sizes(v) {}
+
+  /**
+   * Whether the element is on screen.
+   * @type {Boolean}
+   */
   get intersecting() {
     return this.hasAttribute('intersecting');
   }
@@ -138,11 +148,16 @@ export class GcpImage extends HTMLElement {
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
    */
   loadImage() {
+    const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
     const size = (hasSize) ? `=s${this.size}` : '';
 
     this.setAttribute('intersecting', '');
     this.shadowImage.src = `${this.src}${size}`;
+
+    if (hasSources) {
+      this.shadowImage.srcset = this.getMediaSources_();
+    }
   }
 
   onLoad(event) {
@@ -155,6 +170,35 @@ export class GcpImage extends HTMLElement {
 
   onError(event) {
     this.dispatchEvent(new CustomEvent('loadend', {detail: {success: false}}));
+  }
+
+  /**
+   * Return image srcset sttribute.
+   */
+  getMediaSources_() {
+    if (!this.getAttribute('sizes')) {
+      return;
+    }
+
+    const sizesAttribute = this.getAttribute('sizes');
+    const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
+    const sizes = JSON.parse(sizesAdjusted);
+    const imgSource = this.src;
+    let sourcesArray = [];
+
+    for (const key in sizes) {
+      if (sizes.hasOwnProperty(key)) {
+        const source = sizes[key];
+        const screen = source.screen;
+        const size = source.size;
+
+        if (screen && size) {
+          sourcesArray.push(`${imgSource}=s${size} ${screen}w`);
+        }
+      }
+    }
+
+    return sourcesArray.join(',');
   }
 
   /**

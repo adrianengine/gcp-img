@@ -4,19 +4,21 @@ import '../gcp-image.js';
 
 // eslint-disable-next-line max-len
 const src = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
+const sizesConfig = '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
+const sourceSet = `${src}=s320 320w,${src}=s640 600w,${src}=s960 1024w`;
 
 let element;
 
-afterEach(function() {
+afterEach(() => {
   element = undefined;
 })
 
-describe('<gcp-image>', function() {
+describe('<gcp-image>', () => {
   beforeEach(async function() {
     element = await fixture(`
       <gcp-image></gcp-image>
     `);
-  })
+  });
 
   it('has an img element in shadow root', () => {
     expect(element.shadowImage).to.be.an.instanceof(HTMLImageElement);
@@ -41,6 +43,10 @@ describe('<gcp-image>', function() {
   it('passes the a11y audit', () => {
     expect(element).shadowDom.to.be.accessible();
   });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
 });
 
 describe('<gcp-image alt="attribute alt">', () => {
@@ -48,7 +54,7 @@ describe('<gcp-image alt="attribute alt">', () => {
     element = await fixture(`
       <gcp-image alt="attribute alt"></gcp-image>
     `);
-  })
+  });
 
   it('returns alt dom property', () => {
     expect(element.alt).to.equal('attribute alt');
@@ -61,6 +67,10 @@ describe('<gcp-image alt="attribute alt">', () => {
 
   it('passes the a11y audit', () => {
     expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
   });
 });
 
@@ -121,7 +131,7 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
       <gcp-image src="${src}" size="180"></gcp-image>
     `);
     await elementUpdated(element);
-  })
+  });
 
   it('returns size dom property', () => {
     expect(element.size).to.equal('180');
@@ -147,5 +157,41 @@ describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
 
   it('passes the a11y audit', () => {
     expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('<gcp-image src="path/to/cloud/img" sizes="json-stringify">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-image src="${src}" sizes=${sizesConfig}></gcp-image>
+    `);
+  });
+
+  it('has a read only sizes prop', () => {
+    const init = element.sizes;
+
+    element.sizes = Math.random();
+    expect(element.sizes).to.equal(init);
+  });
+
+  it('returns sizes dom property', () => {
+    expect(element.getAttribute('sizes')).to.equal(sizesConfig);
+  });
+
+  it('Image sets the srcset property', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.srcset).to.equal(sourceSet);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
   });
 });
