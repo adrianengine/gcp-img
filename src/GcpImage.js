@@ -5,19 +5,19 @@ const template = document.createElement('template');
 template.innerHTML = `
   <style>
     :host {
-      display: block;
-      height: var(--lazy-image-height, 100%);
+      display: inline-block;
       position: relative;
-      width: var(--lazy-image-width, 100%);
     }
     #image,
     #placeholder ::slotted(*) {
+      display: block;
       transition:
         opacity
         var(--lazy-image-fade-duration, 0.3s)
         var(--lazy-image-fade-easing, ease);
       object-fit: var(--lazy-image-fit, contain);
-      width: 100%;
+      height: var(--lazy-image-height, auto);
+      width: var(--lazy-image-width, auto);
     }
     :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
     :host([fade]) #image:not([aria-hidden="true"]) {
@@ -49,7 +49,7 @@ export class GcpImage extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['src', 'alt'];
+    return ['src', 'alt', 'size'];
   }
 
   /**
@@ -79,6 +79,20 @@ export class GcpImage extends HTMLElement {
   }
 
   /**
+   * Image size.
+   * @type {String}
+   */
+  set size(value) {
+    this.safeSetAttribute('size', value);
+    this.shadowImage.size = value;
+    this.src = this.getAttribute('src');
+  }
+
+  get size() {
+    return this.getAttribute('size');
+  }
+
+  /**
    * Whether the element is on screen.
    * @type {Boolean}
    */
@@ -103,9 +117,9 @@ export class GcpImage extends HTMLElement {
   }
 
   connectedCallback() {
-    this.setAttribute('role', 'presentation');
     this.src = this.getAttribute('src');
     this.alt = this.getAttribute('alt') || '';
+    this.size = this.getAttribute('size');
     this.placeholder = this.getAttribute('placeholder');
     this.updateShadyStyles();
     if ('IntersectionObserver' in window) this.initIntersectionObserver();
@@ -124,8 +138,11 @@ export class GcpImage extends HTMLElement {
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
    */
   loadImage() {
+    const hasSize = this.hasAttribute('size');
+    const size = (hasSize) ? `=s${this.size}` : '';
+
     this.setAttribute('intersecting', '');
-    this.shadowImage.src = this.src;
+    this.shadowImage.src = `${this.src}${size}`;
   }
 
   onLoad(event) {

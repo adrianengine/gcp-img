@@ -1,9 +1,9 @@
-import { html, fixture, expect, aTimeout } from '@open-wc/testing';
+import { html, fixture, expect, aTimeout, elementUpdated } from '@open-wc/testing';
 
 import '../gcp-image.js';
 
 // eslint-disable-next-line max-len
-const src = 'data:image/gif;base64,R0lGODlhEAAQAMQAAORHHOVSKudfOulrSOp3WOyDZu6QdvCchPGolfO0o/XBs/fNwfjZ0frl3/zy7////wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAkAABAALAAAAAAQABAAAAVVICSOZGlCQAosJ6mu7fiyZeKqNKToQGDsM8hBADgUXoGAiqhSvp5QAnQKGIgUhwFUYLCVDFCrKUE1lBavAViFIDlTImbKC5Gm2hB0SlBCBMQiB0UjIQA7';
+const src = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
 
 let element;
 
@@ -51,11 +51,11 @@ describe('<gcp-image alt="attribute alt">', () => {
   })
 
   it('returns alt dom property', () => {
-    expect(element.alt).to.equal('attribute alt')
+    expect(element.alt).to.equal('attribute alt');
   });
 
   it('can override the alt via attribute', () => {
-    element.alt = 'override alt'
+    element.alt = 'override alt';
     expect(element.shadowImage.alt).to.equal('override alt');
   });
 
@@ -98,7 +98,7 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
         it('sets intersecting attr', async () => {
           expect(element.hasAttribute('intersecting')).to.be.true;
         });
-      })
+      });
     });
   } else {
     describe('"IntersectionObserver" not supported', () => {
@@ -113,4 +113,39 @@ describe('<gcp-image src="path/to/cloud/img">', () => {
       });
     });
   }
+});
+
+describe('<gcp-image src="path/to/cloud/img" size="180">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-image src="${src}" size="180"></gcp-image>
+    `);
+    await elementUpdated(element);
+  })
+
+  it('returns size dom property', () => {
+    expect(element.size).to.equal('180');
+  });
+
+  it('Image sets the size property', () => {
+    expect(element.shadowImage.src).to.equal(`${src}=s180`);
+  });
+
+  it('can override the size via attribute', async () => {
+    expect(element.size).to.eq('180');
+    element.size = '360';
+    await elementUpdated(element);
+    expect(element.size).to.equal('360');
+  });
+
+  it('can override the shadow image src via size attribute', async () => {
+    expect(element.shadowImage.src).to.eq(`${src}=s180`);
+    element.size = '360';
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${src}=s360`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
 });
