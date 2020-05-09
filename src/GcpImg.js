@@ -49,7 +49,17 @@ export class GcpImg extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['src', 'alt', 'size', 'rotate', 'flip'];
+    return [
+      'src',
+      'alt',
+      'size',
+      'rotate',
+      'flip',
+      'blur',
+      'vignette',
+      'invert',
+      'bw',
+    ];
   }
 
   /**
@@ -150,6 +160,66 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Sets the Blur filter attribute.
+   * @type {Boolean}
+   */
+  set blur(value) {
+    this.safeSetAttribute('blur', value);
+    this.shadowImage.blur = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get blur() {
+    return this.getAttribute('blur');
+  }
+
+  /**
+   * Sets the vignette filter attribute.
+   * @type {Boolean}
+   */
+  set vignette(value) {
+    this.safeSetAttribute('vignette', value);
+    this.shadowImage.vignette = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get vignette() {
+    return this.getAttribute('vignette');
+  }
+
+  /**
+   * Sets the invert filter attribute.
+   * @type {Boolean}
+   */
+  set invert(value) {
+    this.safeSetAttribute('invert', value);
+    this.shadowImage.invert = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get invert() {
+    return this.getAttribute('invert');
+  }
+
+  /**
+   * Sets the bw filter attribute.
+   * @type {Boolean}
+   */
+  set bw(value) {
+    this.safeSetAttribute('bw', value);
+    this.shadowImage.bw = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get bw() {
+    return this.getAttribute('bw');
+  }
+
+  /**
    * Whether the element is on screen.
    * @type {Boolean}
    */
@@ -188,6 +258,10 @@ export class GcpImg extends HTMLElement {
     this.size = this.getAttribute('size');
     this.rotate = this.getAttribute('rotate');
     this.flip = this.getAttribute('flip');
+    this.blur = this.getAttribute('blur');
+    this.vignette = this.getAttribute('vignette');
+    this.invert = this.getAttribute('invert');
+    this.bw = this.getAttribute('bw');
     this.placeholder = this.getAttribute('placeholder');
     this.getProperties_();
     this.updateShadyStyles();
@@ -271,6 +345,18 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Returns true if the filter radius is valid.
+   * @returns {boolean}
+   */
+  validateFilterRadius_(radius) {
+    if (this.blur || this.vignette) {
+      return Number.isInteger(radius) && radius >= 0 && radius <= 100;
+    }
+
+    return false;
+  }
+
+  /**
    * Returns the propeties string.
    */
   getProperties_() {
@@ -278,6 +364,13 @@ export class GcpImg extends HTMLElement {
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
     const flip = this.getAttribute('flip');
+    const blur = parseInt(this.getAttribute('blur'), 10);
+    const hasValidBlur = this.validateFilterRadius_(blur);
+    const vignette = parseInt(this.getAttribute('vignette'), 10);
+    const hasValidVignette = this.validateFilterRadius_(vignette);
+    const invert = this.getAttribute('invert') === 'true';
+    const bw = this.getAttribute('bw') === 'true';
+    const vignetteColor = '000000';
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
     const props = [];
 
@@ -290,6 +383,22 @@ export class GcpImg extends HTMLElement {
 
     if (flip === 'h' || flip === 'v') {
       props.push(`f${flip}`);
+    }
+
+    if (hasValidBlur) {
+      props.push(`fSoften=1,${blur},0`);
+    }
+
+    if (hasValidVignette) {
+      props.push(`fVignette=1,${vignette},1.4,0,${vignetteColor}`);
+    }
+
+    if (invert) {
+      props.push('fInvert=0');
+    }
+
+    if (bw) {
+      props.push('fbw=0');
     }
 
     this.extraProperties = props.join('-');
