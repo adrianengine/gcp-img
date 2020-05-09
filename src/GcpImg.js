@@ -49,7 +49,7 @@ export class GcpImg extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['src', 'alt', 'size'];
+    return ['src', 'alt', 'size', 'rotate', 'flip'];
   }
 
   /**
@@ -58,7 +58,10 @@ export class GcpImg extends HTMLElement {
    */
   set src(value) {
     this.safeSetAttribute('src', value);
-    if (this.intersecting) this.loadImage();
+
+    if (this.intersecting) {
+      this.loadImage();
+    }
   }
 
   get src() {
@@ -117,6 +120,36 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Sets the Rotate attribute.
+   * @type {Boolean}
+   */
+  set rotate(value) {
+    this.safeSetAttribute('rotate', value);
+    this.shadowImage.rotate = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get rotate() {
+    return this.getAttribute('rotate');
+  }
+
+  /**
+   * Sets the Flip attribute.
+   * @type {Boolean}
+   */
+  set flip(value) {
+    this.safeSetAttribute('flip', value);
+    this.shadowImage.flip = value;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
+  }
+
+  get flip() {
+    return this.getAttribute('flip');
+  }
+
+  /**
    * Whether the element is on screen.
    * @type {Boolean}
    */
@@ -153,6 +186,8 @@ export class GcpImg extends HTMLElement {
     this.src = this.getAttribute('src');
     this.alt = this.getAttribute('alt') || '';
     this.size = this.getAttribute('size');
+    this.rotate = this.getAttribute('rotate');
+    this.flip = this.getAttribute('flip');
     this.placeholder = this.getAttribute('placeholder');
     this.getProperties_();
     this.updateShadyStyles();
@@ -241,11 +276,21 @@ export class GcpImg extends HTMLElement {
   getProperties_() {
     const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
+    const rotation = this.getAttribute('rotate');
+    const flip = this.getAttribute('flip');
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
     const props = [];
 
     props.push(quality);
     props.push(ttl);
+
+    if (rotation) {
+      props.push(`r${rotation}`);
+    }
+
+    if (flip === 'h' || flip === 'v') {
+      props.push(`f${flip}`);
+    }
 
     this.extraProperties = props.join('-');
   }

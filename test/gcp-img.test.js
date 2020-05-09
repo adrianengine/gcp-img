@@ -304,3 +304,69 @@ describe('The image quality changes according to the connection speed', () => {
     expect(element.shadowImage).to.be.accessible();
   });
 });
+
+describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" rotate="90"></gcp-img>
+    `);
+  });
+
+  it('returns rotate dom property', () => {
+    expect(element.getAttribute('rotate')).to.equal('90');
+  });
+
+  it('Image sets the rotate property', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365-r90`);
+  });
+
+  it('can override the rotate via attribute', async () => {
+    expect(element.rotate).to.eq('90');
+    element.rotate = '270';
+    await elementUpdated(element);
+    expect(element.rotate).to.equal('270');
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365-r270`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" flip="v"></gcp-img>
+    `);
+  });
+
+  it('returns flip dom property', () => {
+    expect(element.getAttribute('flip')).to.equal('v');
+  });
+
+  it('Image sets the flip property', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-fv`);
+  });
+
+  it('can override the flip via attribute', async () => {
+    expect(element.flip).to.eq('v');
+    element.flip = 'h';
+    await elementUpdated(element);
+    expect(element.flip).to.equal('h');
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-fh`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
