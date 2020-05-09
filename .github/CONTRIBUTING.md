@@ -1,3 +1,5 @@
+<img src="../gcp-img-logo.png" alt="gcp-img Web Component" align="right" height="60" />
+
 # \<gcp-img>
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
