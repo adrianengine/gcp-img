@@ -8,30 +8,43 @@ template.innerHTML = `
       display: inline-block;
       position: relative;
     }
+
     #image,
     #placeholder ::slotted(*) {
       display: block;
+      height: var(--lazy-image-height, auto);
       transition:
         opacity
         var(--lazy-image-fade-duration, 0.3s)
         var(--lazy-image-fade-easing, ease);
       object-fit: var(--lazy-image-fit, contain);
-      height: var(--lazy-image-height, auto);
       width: var(--lazy-image-width, auto);
     }
+
+    #placeholder ::slotted(*) {
+      height: 100%;
+      left: 0;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
     :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
     :host([fade]) #image:not([aria-hidden="true"]) {
       opacity: 1;
+      visibility: visible;
     }
+
     :host([fade]) #image,
     :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
       opacity: 0;
+      visibility: hidden;
     }
   </style>
   <div id="placeholder" aria-hidden="false">
     <slot name="placeholder"></slot>
   </div>
-  <img id="image" aria-hidden="true"/>
+  <img id="image" loading="lazy" aria-hidden="true"/>
 `;
 
 /* istanbul ignore next */
@@ -441,6 +454,7 @@ export class GcpImg extends HTMLElement {
     this.observer = new IntersectionObserver(this.observerCallback, {
       rootMargin,
     });
+
     this.observer.observe(this);
   }
 
