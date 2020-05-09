@@ -1,22 +1,25 @@
-import { html, fixture, expect, aTimeout, elementUpdated } from '@open-wc/testing';
+import { fixture, expect, aTimeout, elementUpdated } from '@open-wc/testing';
 
 import '../gcp-img.js';
 
 const defaultProps = {
-  'quality': 'v1',
-  'ttl': 'e365'
+  quality: 'v1',
+  ttl: 'e365',
 };
 
 const props = Object.values(defaultProps).join('-');
 
 // eslint-disable-next-line max-len
-const imgURL = 'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
+const imgURL =
+  'https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND';
 
-const imgAltURL = 'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg';
+const imgAltURL =
+  'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg';
 
 const gcpURL = `${imgURL}=${props}`;
 
-const sizesConfig = '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
+const sizesConfig =
+  '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
 
 const sourceSet = `${imgURL}=s320-${props} 320w,${imgURL}=s640-${props} 600w,${imgURL}=s960-${props} 1024w`;
 
@@ -28,10 +31,10 @@ let element;
 
 afterEach(() => {
   element = undefined;
-})
+});
 
 describe('<gcp-img>', () => {
-  beforeEach(async function() {
+  beforeEach(async () => {
     element = await fixture(`
       <gcp-img></gcp-img>
     `);
@@ -42,8 +45,8 @@ describe('<gcp-img>', () => {
   });
 
   it('reflects src property', () => {
-    element.src = 'foo'
-    expect(element.getAttribute("src")).to.equal('foo')
+    element.src = 'foo';
+    expect(element.getAttribute('src')).to.equal('foo');
   });
 
   it('has a default empty alt text', () => {
@@ -92,12 +95,12 @@ describe('<gcp-img alt="attribute alt">', () => {
 });
 
 describe('<gcp-img src="path/to/cloud/img">', () => {
-  if ("IntersectionObserver" in window) {
+  if ('IntersectionObserver' in window) {
     describe('"IntersectionObserver" supported', () => {
       beforeEach(async () => {
         element = await fixture(`
           <gcp-img style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-img>
-        `)
+        `);
       });
 
       it('initializes an IntersectionObserver', () => {
@@ -132,7 +135,7 @@ describe('<gcp-img src="path/to/cloud/img">', () => {
       beforeEach(async () => {
         element = await fixture(`
           <gcp-img style="position: fixed; left: -10000px;" src="${imgURL}"></gcp-img>
-        `)
+        `);
       });
 
       it('sets img src immediately', () => {

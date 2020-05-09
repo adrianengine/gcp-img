@@ -1,4 +1,4 @@
-const isIntersecting = ({isIntersecting}) => isIntersecting;
+const observerIsIntersecting = ({ isIntersecting }) => isIntersecting;
 
 const tagName = 'lazy-image';
 const template = document.createElement('template');
@@ -100,7 +100,9 @@ export class GcpImg extends HTMLElement {
     return this.hasAttribute('sizes');
   }
 
-  set sizes(v) {}
+  set sizes(val) {
+    return this.sizes;
+  }
 
   /**
    * Gets the Cache Time to live attribute.
@@ -110,7 +112,9 @@ export class GcpImg extends HTMLElement {
     return this.hasAttribute('ttl');
   }
 
-  set ttl(v) {}
+  set ttl(val) {
+    return this.val;
+  }
 
   /**
    * Whether the element is on screen.
@@ -120,7 +124,9 @@ export class GcpImg extends HTMLElement {
     return this.hasAttribute('intersecting');
   }
 
-  set intersecting(v) {}
+  set intersecting(val) {
+    return this.intersecting;
+  }
 
   constructor() {
     super();
@@ -128,15 +134,19 @@ export class GcpImg extends HTMLElement {
     this.loadImage = this.loadImage.bind(this);
     this.onLoad = this.onLoad.bind(this);
     this.onError = this.onError.bind(this);
-    this.attachShadow({mode: 'open'});
+    this.attachShadow({ mode: 'open' });
+    this.applyTemplate();
+    this.extraProperties = '';
+    // TODO: Implement Network Aware Detection to change this value
+    this.isConnectionFast = true;
+  }
+
+  applyTemplate() {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
     this.shadowImage = this.shadowRoot.getElementById('image');
     this.shadowImage.onload = this.onLoad;
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
-    this.extraProperties = '';
-    // TODO: Implement Network Aware Detection to change this value
-    this.isConnectionFast = true;
   }
 
   connectedCallback() {
@@ -144,10 +154,14 @@ export class GcpImg extends HTMLElement {
     this.alt = this.getAttribute('alt') || '';
     this.size = this.getAttribute('size');
     this.placeholder = this.getAttribute('placeholder');
-    this.getProperties_()
+    this.getProperties_();
     this.updateShadyStyles();
-    if ('IntersectionObserver' in window) this.initIntersectionObserver();
-    else this.loadImage();
+
+    if ('IntersectionObserver' in window) {
+      this.initIntersectionObserver();
+    } else {
+      this.loadImage();
+    }
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
@@ -164,8 +178,8 @@ export class GcpImg extends HTMLElement {
   loadImage() {
     const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
-    const size = (hasSize) ? `=s${this.size}` : '';
-    const separator = (hasSize) ? '-' : '=';
+    const size = hasSize ? `=s${this.size}` : '';
+    const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
 
     this.setAttribute('intersecting', '');
@@ -176,24 +190,29 @@ export class GcpImg extends HTMLElement {
     }
   }
 
-  onLoad(event) {
-    this.dispatchEvent(new CustomEvent('loadend', {detail: {success: true}}));
+  onLoad() {
+    this.dispatchEvent(
+      new CustomEvent('loadend', { detail: { success: true } })
+    );
     this.shadowImage.removeAttribute('aria-hidden');
     this.shadowPlaceholder.setAttribute('aria-hidden', 'true');
     this.disconnectObserver();
     this.updateShadyStyles();
   }
 
-  onError(event) {
-    this.dispatchEvent(new CustomEvent('loadend', {detail: {success: false}}));
+  onError() {
+    this.dispatchEvent(
+      new CustomEvent('loadend', { detail: { success: false } })
+    );
   }
 
   /**
    * Return image srcset sttribute.
+   * @return {Array}
    */
   getMediaSources_() {
     if (!this.getAttribute('sizes')) {
-      return;
+      return false;
     }
 
     const extra = this.extraProperties;
@@ -201,19 +220,15 @@ export class GcpImg extends HTMLElement {
     const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
     const sizes = JSON.parse(sizesAdjusted);
     const imgSource = this.src;
-    let sourcesArray = [];
+    const sourcesArray = [];
+    const sizeValues = Object.values(sizes);
 
-    for (const key in sizes) {
-      if (sizes.hasOwnProperty(key)) {
-        const sourceSet = sizes[key];
-        const screen = sourceSet.screen;
-        const size = sourceSet.size;
-        const source = sourceSet.source;
-        const imgUrl = (source) ? source : imgSource;
+    for (const key of sizeValues) {
+      const { screen, size, source } = key;
+      const imgUrl = source || imgSource;
 
-        if (screen && size) {
-          sourcesArray.push(`${imgUrl}=s${size}-${extra} ${screen}w`);
-        }
+      if (screen && size) {
+        sourcesArray.push(`${imgUrl}=s${size}-${extra} ${screen}w`);
       }
     }
 
@@ -226,8 +241,8 @@ export class GcpImg extends HTMLElement {
   getProperties_() {
     const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
-    const ttl = (cacheDays) ? `e${cacheDays}` : 'e365';
-    let props = [];
+    const ttl = cacheDays ? `e${cacheDays}` : 'e365';
+    const props = [];
 
     props.push(quality);
     props.push(ttl);
@@ -241,7 +256,7 @@ export class GcpImg extends HTMLElement {
    */
   updateShadyStyles() {
     /* istanbul ignore next */
-    if(window.ShadyCSS) {
+    if (window.ShadyCSS) {
       window.ShadyCSS.styleElement(this);
     }
   }
@@ -252,7 +267,7 @@ export class GcpImg extends HTMLElement {
    * @protected
    */
   observerCallback(entries) {
-    if (entries.some(isIntersecting)) {
+    if (entries.some(observerIsIntersecting)) {
       this.loadImage();
     }
   }
@@ -269,11 +284,11 @@ export class GcpImg extends HTMLElement {
 
     const rootMargin = '10px';
 
-    this.observer =
-      new IntersectionObserver(this.observerCallback, { rootMargin });
+    this.observer = new IntersectionObserver(this.observerCallback, {
+      rootMargin,
+    });
     this.observer.observe(this);
   }
-
 
   /**
    * Disconnects and unloads the IntersectionObserver.
@@ -282,7 +297,7 @@ export class GcpImg extends HTMLElement {
   disconnectObserver() {
     if (!this.observer) {
       return;
-    };
+    }
 
     this.observer.disconnect();
     this.observer = null;
