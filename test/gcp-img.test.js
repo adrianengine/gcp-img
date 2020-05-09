@@ -21,11 +21,11 @@ const gcpURL = `${imgURL}=${props}`;
 const sizesConfig =
   '[{"screen":320,"size":320},{"screen":600,"size":640},{"screen":1024,"size":960}]';
 
-const sourceSet = `${imgURL}=s320-${props} 320w,${imgURL}=s640-${props} 600w,${imgURL}=s960-${props} 1024w`;
+const sourceSet = `${imgURL}=w320-${props} 320w,${imgURL}=w640-${props} 600w,${imgURL}=w960-${props} 1024w`;
 
 const sizesAltConfig = `[{"screen":320,"size":320},{"screen":600,"size":640,"source":"${imgAltURL}"},{"screen":1024,"size":960}]`;
 
-const sourceSetAlt = `${imgURL}=s320-${props} 320w,${imgAltURL}=s640-${props} 600w,${imgURL}=s960-${props} 1024w`;
+const sourceSetAlt = `${imgURL}=w320-${props} 320w,${imgAltURL}=w640-${props} 600w,${imgURL}=w960-${props} 1024w`;
 
 let element;
 
@@ -158,7 +158,7 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('Image sets the size property', () => {
-    expect(element.shadowImage.src).to.equal(`${imgURL}=s180-${props}`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${props}`);
   });
 
   it('can override the size via attribute', async () => {
@@ -169,10 +169,10 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('can override the shadow image src via size attribute', async () => {
-    expect(element.shadowImage.src).to.eq(`${imgURL}=s180-${props}`);
+    expect(element.shadowImage.src).to.eq(`${imgURL}=w180-${props}`);
     element.size = '360';
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=s360-${props}`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w360-${props}`);
   });
 
   it('passes the a11y audit', () => {

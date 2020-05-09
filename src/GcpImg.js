@@ -287,7 +287,7 @@ export class GcpImg extends HTMLElement {
   loadImage() {
     const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
-    const size = hasSize ? `=s${this.size}` : '';
+    const size = hasSize ? `=w${this.size}` : '';
     const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
 
@@ -337,7 +337,7 @@ export class GcpImg extends HTMLElement {
       const imgUrl = source || imgSource;
 
       if (screen && size) {
-        sourcesArray.push(`${imgUrl}=s${size}-${extra} ${screen}w`);
+        sourcesArray.push(`${imgUrl}=w${size}-${extra} ${screen}w`);
       }
     }
 
