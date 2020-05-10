@@ -5,6 +5,7 @@ import '../gcp-img.js';
 const defaultProps = {
   quality: 'v1',
   ttl: 'e365',
+  webp: 'rw',
 };
 
 const props = Object.values(defaultProps).join('-');
@@ -268,7 +269,7 @@ describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
 
   it('Image sets the ttl property', async () => {
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180-rw`);
   });
 
   it('passes the a11y audit', () => {
@@ -293,7 +294,7 @@ describe('The image quality changes according to the connection speed', () => {
   });
 
   it('image quality is updated', async () => {
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365`);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}`);
   });
 
   it('passes the a11y audit', () => {
@@ -318,7 +319,7 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
 
   it('Image sets the rotate property', async () => {
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365-r90`);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-r90`);
   });
 
   it('can override the rotate via attribute', async () => {
@@ -326,7 +327,7 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
     element.rotate = '270';
     await elementUpdated(element);
     expect(element.rotate).to.equal('270');
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e365-r270`);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-r270`);
   });
 
   it('passes the a11y audit', () => {

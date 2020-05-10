@@ -373,6 +373,7 @@ export class GcpImg extends HTMLElement {
    * Returns the propeties string.
    */
   getProperties_() {
+    const page = document.querySelector('html');
     const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
@@ -385,10 +386,15 @@ export class GcpImg extends HTMLElement {
     const bw = this.getAttribute('bw') === 'true';
     const vignetteColor = '000000';
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
+    const supportsWebP = page.classList.contains('webp');
     const props = [];
 
     props.push(quality);
     props.push(ttl);
+
+    if (supportsWebP) {
+      props.push('rw');
+    }
 
     if (rotation) {
       props.push(`r${rotation}`);

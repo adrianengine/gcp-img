@@ -22,7 +22,6 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
   - [ ] Grammar
 
 ### Miscellaneous
-- [ ] Add a minification task for JS and CSS
 - [ ] Create an SVG Favicon for Demo Page
 - [ ] Edit logo to be transparent and support for dark background
 - [ ] Publish to NPM
@@ -31,11 +30,11 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Add default WebP Support to the component
-
+- [ ] Add a minification task for JS and CSS
 ---
 
 ## Completed ✓
+- [x] Add default WebP Support to the component
 - [x] Include an introduction to Google Cloud Image Service with links
 - [x] Include a summary attribute table on README
 - [x] Add a TODO file
