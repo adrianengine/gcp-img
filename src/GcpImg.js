@@ -15,8 +15,8 @@ template.innerHTML = `
       height: var(--lazy-image-height, auto);
       transition:
         opacity
-        var(--lazy-image-fade-duration, 0.3s)
-        var(--lazy-image-fade-easing, ease);
+        var(--lazy-image-fade-duration, 1s)
+        var(--lazy-image-fade-easing, ease-out);
       object-fit: var(--lazy-image-fit, contain);
       width: var(--lazy-image-width, auto);
     }
