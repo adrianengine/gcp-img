@@ -34,6 +34,7 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## Completed ✓
+- [x] Refactor filter
 - [x] Add default WebP Support to the component
 - [x] Include an introduction to Google Cloud Image Service with links
 - [x] Include a summary attribute table on README

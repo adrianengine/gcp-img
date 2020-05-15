@@ -169,72 +169,74 @@
 
     <section>
       <h2>Blur</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" blur="40">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="blur" radius="40">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fSoften=1,40,0">
         </noscript>
       </gcp-img>
       <article>
-        <p>Add some blur to the image with the <code>blur</code> attribute. Pass a value between <code>0</code> and <code>100</code>.</p>
+        <p>Add some blur to the image by adding the <code>blur</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-          <span>blur</span>=<span>"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          <span>filter</span>=<span>"blur"</span>
+          <span>radius</span>=<span>"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>
 
     <section>
       <h2>Vignette</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" vignette="100">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="vignette" radius="100">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fVignette=1,100,1.4,0,000000">
         </noscript>
       </gcp-img>
       <article>
-        <p>Add a vignette to the image with the <code>vignette</code> attribute. Pass a value between <code>0</code> and <code>100</code>.</p>
+        <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-          <span>vignette</span>=<span>"100"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          <span>filter</span>=<span>"vignette"</span>
+          <span>radius</span>=<span>"100"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>
 
     <section>
       <h2>Invert</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" invert="true">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="invert">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fInvert=0">
         </noscript>
       </gcp-img>
       <article>
-        <p>Invert the image using <code>invert</code> attribute.</p>
+        <p>Invert the image using the <code>invert</code> value on the <code>filter</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-          <span>invert</span>=<span>"true"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          <span>filter</span>=<span>"invert"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>
 
     <section>
       <h2>Black &amp; White</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" bw="true">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="bw">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fbw=0">
         </noscript>
       </gcp-img>
       <article>
-        <p>Convert to black and white the image using <code>bw</code> attribute.</p>
+        <p>Convert to black and white the image using the <code>bw</code> value on the <code>filter</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-          <span>bw</span>=<span>"true"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          <span>filter</span>=<span>"bw"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>

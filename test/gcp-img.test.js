@@ -372,27 +372,31 @@ describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" blur="radius">', () => {
+describe('<gcp-img src="path/to/cloud/img" filter="blur" radius="100">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" blur="100"></gcp-img>
+      <gcp-img src="${imgURL}" filter="blur" radius="100"></gcp-img>
     `);
   });
 
-  it('returns blur dom property', () => {
-    expect(element.getAttribute('blur')).to.equal('100');
+  it('returns filter blur dom property', () => {
+    expect(element.getAttribute('filter')).to.equal('blur');
   });
 
-  it('Image sets the blur property', async () => {
+  it('returns filter radius dom property', () => {
+    expect(element.getAttribute('radius')).to.equal('100');
+  });
+
+  it('Image sets the blur filter', async () => {
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fSoften=1,100,0`);
   });
 
-  it('can override the blur via attribute', async () => {
-    expect(element.blur).to.eq('100');
-    element.blur = '50';
+  it('can override the filter radius via attribute', async () => {
+    expect(element.radius).to.eq('100');
+    element.radius = '50';
     await elementUpdated(element);
-    expect(element.blur).to.equal('50');
+    expect(element.radius).to.equal('50');
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fSoften=1,50,0`);
   });
 
@@ -405,29 +409,33 @@ describe('<gcp-img src="path/to/cloud/img" blur="radius">', () => {
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" vignette="{options}">', () => {
+describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" vignette="100"></gcp-img>
+      <gcp-img src="${imgURL}" filter="vignette" radius="100"></gcp-img>
     `);
   });
 
-  it('returns vignette dom property', () => {
-    expect(element.getAttribute('vignette')).to.equal('100');
+  it('returns filter vignette dom property', () => {
+    expect(element.getAttribute('filter')).to.equal('vignette');
   });
 
-  it('Image sets the vignette property', async () => {
+  it('returns filter radius dom property', () => {
+    expect(element.getAttribute('radius')).to.equal('100');
+  });
+
+  it('Image sets the vignette filter', async () => {
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.src).to.equal(
       `${gcpURL}-fVignette=1,100,1.4,0,000000`
     );
   });
 
-  it('can override the vignette via attribute', async () => {
-    expect(element.vignette).to.eq('100');
-    element.vignette = '50';
+  it('can override the vignette radius via attribute', async () => {
+    expect(element.radius).to.eq('100');
+    element.radius = '50';
     await elementUpdated(element);
-    expect(element.vignette).to.equal('50');
+    expect(element.radius).to.equal('50');
     expect(element.shadowImage.src).to.equal(
       `${gcpURL}-fVignette=1,50,1.4,0,000000`
     );
@@ -442,28 +450,20 @@ describe('<gcp-img src="path/to/cloud/img" vignette="{options}">', () => {
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" invert="true">', () => {
+describe('<gcp-img src="path/to/cloud/img" filter="invert">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" invert="true"></gcp-img>
+      <gcp-img src="${imgURL}" filter="invert"></gcp-img>
     `);
   });
 
   it('returns invert dom property', () => {
-    expect(element.getAttribute('invert')).to.equal('true');
+    expect(element.getAttribute('filter')).to.equal('invert');
   });
 
-  it('Image sets the invert property', async () => {
+  it('Image sets the invert filter', async () => {
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fInvert=0`);
-  });
-
-  it('can override the invert via attribute', async () => {
-    expect(element.invert).to.equal('true');
-    element.invert = false;
-    await elementUpdated(element);
-    expect(element.invert).to.equal('false');
-    expect(element.shadowImage.src).to.equal(`${gcpURL}`);
   });
 
   it('passes the a11y audit', () => {
@@ -475,28 +475,20 @@ describe('<gcp-img src="path/to/cloud/img" invert="true">', () => {
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" bw="true">', () => {
+describe('<gcp-img src="path/to/cloud/img" filter="bw">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" bw="true"></gcp-img>
+      <gcp-img src="${imgURL}" filter="bw"></gcp-img>
     `);
   });
 
-  it('returns bw dom property', () => {
-    expect(element.getAttribute('bw')).to.equal('true');
+  it('returns filter bw dom property', () => {
+    expect(element.getAttribute('filter')).to.equal('bw');
   });
 
-  it('Image sets the bw property', async () => {
+  it('Image sets the bw filter', async () => {
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fbw=0`);
-  });
-
-  it('can override the bw via attribute', async () => {
-    expect(element.bw).to.equal('true');
-    element.bw = false;
-    await elementUpdated(element);
-    expect(element.bw).to.equal('false');
-    expect(element.shadowImage.src).to.equal(`${gcpURL}`);
   });
 
   it('passes the a11y audit', () => {
