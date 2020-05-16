@@ -441,6 +441,22 @@ describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () 
     );
   });
 
+  it('can override the vignette color via attribute', async () => {
+    element.color = 'F90F90';
+    await elementUpdated(element);
+    expect(element.shadowImage.src).to.equal(
+      `${gcpURL}-fVignette=1,100,1.4,0,F90F90`
+    );
+  });
+
+  it('an invalid vignette color returns black', async () => {
+    element.color = 'INVALID';
+    await elementUpdated(element);
+    expect(element.shadowImage.src).to.equal(
+      `${gcpURL}-fVignette=1,100,1.4,0,000000`
+    );
+  });
+
   it('passes the a11y audit', () => {
     expect(element).shadowDom.to.be.accessible();
   });

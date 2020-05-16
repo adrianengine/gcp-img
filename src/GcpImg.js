@@ -62,7 +62,16 @@ export class GcpImg extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['src', 'alt', 'size', 'rotate', 'flip', 'filter', 'radius'];
+    return [
+      'src',
+      'alt',
+      'size',
+      'rotate',
+      'flip',
+      'filter',
+      'radius',
+      'color',
+    ];
   }
 
   /**
@@ -139,8 +148,6 @@ export class GcpImg extends HTMLElement {
   set rotate(value) {
     this.safeSetAttribute('rotate', value);
     this.shadowImage.rotate = value;
-    this.getProperties_();
-    this.src = this.getAttribute('src');
   }
 
   get rotate() {
@@ -154,8 +161,6 @@ export class GcpImg extends HTMLElement {
   set flip(value) {
     this.safeSetAttribute('flip', value);
     this.shadowImage.flip = value;
-    this.getProperties_();
-    this.src = this.getAttribute('src');
   }
 
   get flip() {
@@ -169,8 +174,6 @@ export class GcpImg extends HTMLElement {
   set filter(value) {
     this.safeSetAttribute('filter', value);
     this.shadowImage.filter = value;
-    this.getProperties_();
-    this.src = this.getAttribute('src');
   }
 
   get filter() {
@@ -184,12 +187,23 @@ export class GcpImg extends HTMLElement {
   set radius(value) {
     this.safeSetAttribute('radius', value);
     this.shadowImage.radius = value;
-    this.getProperties_();
-    this.src = this.getAttribute('src');
   }
 
   get radius() {
     return this.getAttribute('radius');
+  }
+
+  /**
+   * Sets the filter vignnete color attribute.
+   * @type {Boolean}
+   */
+  set color(value) {
+    this.safeSetAttribute('color', value);
+    this.shadowImage.color = value;
+  }
+
+  get color() {
+    return this.getAttribute('color');
   }
 
   /**
@@ -233,6 +247,7 @@ export class GcpImg extends HTMLElement {
     this.flip = this.getAttribute('flip');
     this.filter = this.getAttribute('filter');
     this.radius = this.getAttribute('radius');
+    this.color = this.getAttribute('color');
     this.placeholder = this.getAttribute('placeholder');
     this.getProperties_();
     this.updateShadyStyles();
@@ -246,6 +261,8 @@ export class GcpImg extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
     this[name] = newVal;
+    this.getProperties_();
+    this.src = this.getAttribute('src');
   }
 
   disconnectedCallback() {
@@ -317,9 +334,13 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Returns a valid filter radius number.
-   * @returns {boolean}
+   * @returns {number}
    */
   normalizeFilterRadius_() {
+    if (!this.getAttribute('radius')) {
+      return 0;
+    }
+
     const radius = this.getAttribute('radius');
     const radiusVal = parseInt(radius, 10);
 
@@ -335,6 +356,26 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Returns a valid vignette radius number.
+   * @returns {string}
+   */
+  normalizeVignetteColor_() {
+    if (!this.getAttribute('color')) {
+      return '000000';
+    }
+
+    const vignetteColor = this.getAttribute('color');
+    const captureHexColor = /[0-9A-Fa-f]{6}\b/;
+    const isValidColor = vignetteColor.match(captureHexColor);
+
+    if (isValidColor) {
+      return vignetteColor.toUpperCase();
+    }
+
+    return '000000';
+  }
+
+  /**
    * Returns the propeties string.
    */
   getProperties_() {
@@ -345,7 +386,7 @@ export class GcpImg extends HTMLElement {
     const flip = this.getAttribute('flip');
     const filter = this.getAttribute('filter');
     const radius = this.normalizeFilterRadius_();
-    const vignetteColor = '000000';
+    const vignetteColor = this.normalizeVignetteColor_();
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
     const supportsWebP = page.classList.contains('webp');
     const props = [];

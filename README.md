@@ -192,64 +192,65 @@ The above example shows usage of the `flip` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  blur="40"></gcp-img>
+  filter="blur"
+  radius="40"></gcp-img>
 ```
 
-The above example shows usage of the `blur` attribute:
+The above example shows usage of the `blur` on the `filter` attribute:
 
-- You can blur images by specifying a radius value between `0` and `100`.
+- You can blur images by specifying a `radius` value between `0` and `100`.
 
 #### Vignette
 
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  vignette="80"></gcp-img>
+  filter="vignette"
+  radius="80"></gcp-img>
 ```
 
-The above example shows usage of the `vignette` attribute:
+The above example shows usage of the `vignette` on the `filter` attribute:
 
-- You can vignette images by specifying a radius value between `0` and `100`.
+- You can vignette images by specifying a `radius` value between `0` and `100`.
 
 #### Invert
 
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  invert="true"></gcp-img>
+  filter="invert"></gcp-img>
 ```
 
-The above example shows usage of the `invert` attribute:
+The above example shows usage of the `invert` on the `filter` attribute:
 
-- You can invert images by specifying a boolean value of `true`.
+- You can make images invert by specifying a value of `invert`.
 
 #### Black and White
 
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  bw="true"></gcp-img>
+  filter="bw"></gcp-img>
 ```
 
-The above example shows usage of the `bw` attribute:
+The above example shows usage of the `bw` on the `filter` attribute:
 
-- You can bw images by specifying a boolean value of `true`.
+- You can make images black and white by specifying a value of `bw`.
 
 ## Attribute Summary
 
-| Attribute  | Required | Read-only | Type      | Default | Description                                                                                 |
-|------------|----------|-----------|-----------|---------|---------------------------------------------------------------------------------------------|
-| `src`      | Yes      | No        | URL       | `null`  | The path to the image you want to embed from Google Cloud Services.                         |
-| `alt`      | No       | No        | *String*  | *empty* | A text description of the image.                                                            |
-| `size`     | No       | No        | *Number*  | `null`  | The numeric value of the image width to be displayed.                                       |
-| `sizes`    | No       | Yes       | *String*  | `null`  | A JS object converted to text with the configuration of the image to be displayed.          |
-| `ttl`      | No       | Yes       | *Number*  | `365`   | The number of days to cache the image. Default value is recommended.                        |
-| `rotate`   | No       | No        | *Number*  | `null`  | The value for the degrees clockwise to rotate the image. Only accepts `90`,`180`, or `270`. |
-| `flip`     | No       | No        | *String*  | `null`  | Flip images vertically with `v` or horizontally with `h`.                                   |
-| `blur`     | No       | No        | *Number*  | `null`  | Blur images by specifying a radius value between `0` and `100`.                             |
-| `vignette` | No       | No        | *Number*  | `null`  | Vignette images by specifying a radius value between `0` and `100`.                         |
-| `invert`   | No       | No        | *Boolean* | `null`  | Invert image if `true`.                                                                     |
-| `bw`       | No       | No        | *Boolean* | `null`  | Black and White image if `true`.                                                            |
+| Attribute | Required | Read-only | Type     | Default  | Description                                                                                  |
+|-----------|----------|-----------|----------|----------|----------------------------------------------------------------------------------------------|
+| `src`     | Yes      | No        | URL      | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
+| `alt`     | No       | No        | *String* | *empty*  | A text description of the image.                                                             |
+| `size`    | No       | No        | *Number* | `null`   | The numeric value of the image width to be displayed.                                        |
+| `sizes`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
+| `ttl`     | No       | Yes       | *Number* | `365`    | The number of days to cache the image. Default value is recommended.                         |
+| `rotate`  | No       | No        | *Number* | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
+| `flip`    | No       | No        | *String* | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
+| `filter`  | No       | No        | *String* | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
+| `radius`  | No       | No        | *Number* | `null`   | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
+| `color`   | No       | No        | *String* | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 

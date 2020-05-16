@@ -188,19 +188,20 @@
 
     <section>
       <h2>Vignette</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="vignette" radius="100">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="vignette" radius="100" color="FC0FC0">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fVignette=1,100,1.4,0,000000">
         </noscript>
       </gcp-img>
       <article>
-        <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
+        <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute. Add a vignette color by adding a six digit HEX color number value on the <code>color</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
           <span>filter</span>=<span>"vignette"</span>
-          <span>radius</span>=<span>"100"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          <span>radius</span>=<span>"100"</span>
+          <span>color</span>=<span>"FC0FC00"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>
