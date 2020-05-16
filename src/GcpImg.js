@@ -71,6 +71,7 @@ export class GcpImg extends HTMLElement {
       'filter',
       'radius',
       'color',
+      'crop',
     ];
   }
 
@@ -207,6 +208,19 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Sets the crop attribute.
+   * @type {Boolean}
+   */
+  set crop(value) {
+    this.safeSetAttribute('crop', value);
+    this.shadowImage.crop = value;
+  }
+
+  get crop() {
+    return this.getAttribute('crop');
+  }
+
+  /**
    * Whether the element is on screen.
    * @type {Boolean}
    */
@@ -248,6 +262,7 @@ export class GcpImg extends HTMLElement {
     this.filter = this.getAttribute('filter');
     this.radius = this.getAttribute('radius');
     this.color = this.getAttribute('color');
+    this.crop = this.getAttribute('crop');
     this.placeholder = this.getAttribute('placeholder');
     this.getProperties_();
     this.updateShadyStyles();
@@ -387,6 +402,7 @@ export class GcpImg extends HTMLElement {
     const filter = this.getAttribute('filter');
     const radius = this.normalizeFilterRadius_();
     const vignetteColor = this.normalizeVignetteColor_();
+    const crop = this.getAttribute('crop');
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
     const supportsWebP = page.classList.contains('webp');
     const props = [];
@@ -396,6 +412,11 @@ export class GcpImg extends HTMLElement {
       vignette: `fVignette=1,${radius},1.4,0,${vignetteColor}`,
       invert: 'fInvert=0',
       bw: 'fbw=0',
+    };
+
+    const cropTypes = {
+      circular: `cc`,
+      smart: `pp`,
     };
 
     props.push(quality);
@@ -411,6 +432,10 @@ export class GcpImg extends HTMLElement {
 
     if (flip === 'h' || flip === 'v') {
       props.push(`f${flip}`);
+    }
+
+    if (cropTypes[crop]) {
+      props.push(cropTypes[crop]);
     }
 
     if (filterTypes[filter]) {

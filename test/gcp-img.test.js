@@ -515,3 +515,69 @@ describe('<gcp-img src="path/to/cloud/img" filter="bw">', () => {
     expect(element.shadowImage).to.be.accessible();
   });
 });
+
+describe('<gcp-img src="path/to/cloud/img" crop="smart">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" crop="smart"></gcp-img>
+    `);
+  });
+
+  it('returns crop dom property', () => {
+    expect(element.getAttribute('crop')).to.equal('smart');
+  });
+
+  it('Image sets the crop', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-pp`);
+  });
+
+  it('can override the crop via attribute', async () => {
+    expect(element.crop).to.eq('smart');
+    element.crop = 'circular';
+    await elementUpdated(element);
+    expect(element.crop).to.equal('circular');
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-cc`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" crop="circular"></gcp-img>
+    `);
+  });
+
+  it('returns crop dom property', () => {
+    expect(element.getAttribute('crop')).to.equal('circular');
+  });
+
+  it('Image sets the crop', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-cc`);
+  });
+
+  it('can override the crop via attribute', async () => {
+    expect(element.crop).to.eq('circular');
+    element.crop = 'smart';
+    await elementUpdated(element);
+    expect(element.crop).to.equal('smart');
+    expect(element.shadowImage.src).to.equal(`${gcpURL}-pp`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).to.be.accessible();
+  });
+});

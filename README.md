@@ -237,6 +237,32 @@ The above example shows usage of the `bw` on the `filter` attribute:
 
 - You can make images black and white by specifying a value of `bw`.
 
+### Applying Crop
+
+#### Smart Crop
+
+```html
+<gcp-img
+  src="https://lh3.googleusercontent.com/…"
+  crop="smart"></gcp-img>
+```
+
+The above example shows usage of the `smart` the `crop` attribute:
+
+- You can make images square crop by specifying a value of `smart`.
+
+#### Circular Crop
+
+```html
+<gcp-img
+  src="https://lh3.googleusercontent.com/…"
+  crop="circular"></gcp-img>
+```
+
+The above example shows usage of the `circular` the `crop` attribute:
+
+- You can make images circular crop by specifying a value of `circular`.
+
 ## Attribute Summary
 
 | Attribute | Required | Read-only | Type     | Default  | Description                                                                                  |
@@ -251,6 +277,7 @@ The above example shows usage of the `bw` on the `filter` attribute:
 | `filter`  | No       | No        | *String* | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
 | `radius`  | No       | No        | *Number* | `null`   | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
 | `color`   | No       | No        | *String* | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
+| `crop`    | No       | No        | *String* | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 
