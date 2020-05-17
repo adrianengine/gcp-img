@@ -1,55 +1,5 @@
 const observerIsIntersecting = ({ isIntersecting }) => isIntersecting;
 
-const tagName = 'lazy-image';
-const template = document.createElement('template');
-template.innerHTML = `
-  <style>
-    :host {
-      display: inline-block;
-      position: relative;
-    }
-
-    #image,
-    #placeholder ::slotted(*) {
-      display: block;
-      height: var(--lazy-image-height, auto);
-      transition:
-        opacity
-        var(--lazy-image-fade-duration, 1s)
-        var(--lazy-image-fade-easing, ease-out);
-      object-fit: var(--lazy-image-fit, contain);
-      width: var(--lazy-image-width, auto);
-    }
-
-    #placeholder ::slotted(*) {
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
-
-    :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
-    :host([fade]) #image:not([aria-hidden="true"]) {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    :host([fade]) #image,
-    :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
-      opacity: 0;
-      visibility: hidden;
-    }
-  </style>
-  <div id="placeholder" aria-hidden="false">
-    <slot name="placeholder"></slot>
-  </div>
-  <img id="image" loading="lazy" aria-hidden="true"/>
-`;
-
-/* istanbul ignore next */
-if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
-
 export class GcpImg extends HTMLElement {
   /**
    * Guards against loops when reflecting observed attributes.
@@ -239,14 +189,68 @@ export class GcpImg extends HTMLElement {
     this.onLoad = this.onLoad.bind(this);
     this.onError = this.onError.bind(this);
     this.attachShadow({ mode: 'open' });
+    this.createTemplate();
     this.applyTemplate();
     this.extraProperties = '';
     // TODO: Implement Network Aware Detection to change this value
     this.isConnectionFast = true;
   }
 
+  createTemplate() {
+    const tagName = 'gcp-img';
+    this.template = document.createElement('template');
+    this.template.innerHTML = `
+      <style>
+        :host {
+          display: inline-block;
+          position: relative;
+        }
+
+        #image,
+        #placeholder ::slotted(*) {
+          display: block;
+          height: var(--lazy-image-height, auto);
+          transition:
+            opacity
+            var(--lazy-image-fade-duration, 1s)
+            var(--lazy-image-fade-easing, ease-out);
+          object-fit: var(--lazy-image-fit, contain);
+          width: var(--lazy-image-width, auto);
+        }
+
+        #placeholder ::slotted(*) {
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          width: 100%;
+        }
+
+        :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
+        :host([fade]) #image:not([aria-hidden="true"]) {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        :host([fade]) #image,
+        :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
+          opacity: 0;
+          visibility: hidden;
+        }
+      </style>
+      <div id="placeholder" aria-hidden="false">
+        <slot name="placeholder"></slot>
+      </div>
+      <img id="image" loading="lazy" aria-hidden="true"/>
+    `;
+
+    /* istanbul ignore next */
+    if (window.ShadyCSS)
+      window.ShadyCSS.prepareTemplate(this.template, tagName);
+  }
+
   applyTemplate() {
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true));
     this.shadowImage = this.shadowRoot.getElementById('image');
     this.shadowImage.onload = this.onLoad;
     this.shadowImage.onerror = this.onError;
