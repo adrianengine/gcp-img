@@ -7,7 +7,6 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ## To Do
 
 ### Component
-- [ ] Add an attribute to support dark mode easily
 - [ ] Add support for Animated GIFs/WebP
   - [ ] Include motion reduce support
 - [ ] For boolean attributes see if is posible to make it work without passing the true string
@@ -30,10 +29,11 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Add a minification task for JS and CSS
+- [ ] Add an attribute to support dark mode easily
 ---
 
 ## Completed ✓
+- [x] Add a minification task
 - [x] Add Crop property
 - [x] Refactor filter
 - [x] Add default WebP Support to the component
