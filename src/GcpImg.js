@@ -196,57 +196,91 @@ export class GcpImg extends HTMLElement {
     this.isConnectionFast = true;
   }
 
-  createTemplate() {
-    const tagName = 'gcp-img';
-    this.template = document.createElement('template');
-    this.template.innerHTML = `
-      <style>
-        :host {
-          display: inline-block;
-          position: relative;
-        }
+  setTemplateImage() {
+    const img = new Image();
 
-        #image,
-        #placeholder ::slotted(*) {
-          display: block;
-          height: var(--lazy-image-height, auto);
-          transition:
-            opacity
-            var(--lazy-image-fade-duration, 1s)
-            var(--lazy-image-fade-easing, ease-out);
-          object-fit: var(--lazy-image-fit, contain);
-          width: var(--lazy-image-width, auto);
-        }
+    img.id = 'image';
+    img.loading = 'lazy';
+    img.ariaHidden = 'true';
 
-        #placeholder ::slotted(*) {
-          height: 100%;
-          left: 0;
-          position: absolute;
-          top: 0;
-          width: 100%;
-        }
+    this.templateImage = img;
+  }
 
-        :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
-        :host([fade]) #image:not([aria-hidden="true"]) {
-          opacity: 1;
-          visibility: visible;
-        }
+  setTemplatePlaceholder() {
+    const placeholder = document.createElement('div');
+    const slot = document.createElement('slot');
 
-        :host([fade]) #image,
-        :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
-          opacity: 0;
-          visibility: hidden;
-        }
-      </style>
-      <div id="placeholder" aria-hidden="false">
-        <slot name="placeholder"></slot>
-      </div>
-      <img id="image" loading="lazy" aria-hidden="true"/>
+    placeholder.id = 'placeholder';
+    placeholder.ariaHidden = 'true';
+    slot.name = 'placeholder';
+
+    placeholder.appendChild(slot);
+
+    this.templatePlaceholder = placeholder;
+  }
+
+  setTemplateStyles() {
+    const styleRules = document.createElement('style');
+    const rules = `
+      :host {
+        display: inline-block;
+        position: relative;
+      }
+
+      #image,
+      #placeholder ::slotted(*) {
+        display: block;
+        height: var(--lazy-image-height, auto);
+        transition:
+          opacity
+          var(--lazy-image-fade-duration, 1s)
+          var(--lazy-image-fade-easing, ease-out);
+        object-fit: var(--lazy-image-fit, contain);
+        width: var(--lazy-image-width, auto);
+      }
+
+      #placeholder ::slotted(*) {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
+      :host([fade]) #image:not([aria-hidden="true"]) {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      :host([fade]) #image,
+      :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
+        opacity: 0;
+        visibility: hidden;
+      }
     `;
 
+    styleRules.appendChild(document.createTextNode(rules));
+
+    this.templateStyles = styleRules;
+  }
+
+  createTemplate() {
+    const tagName = 'gcp-img';
+    const template = document.createElement('template');
+
+    this.setTemplateStyles();
+    this.setTemplatePlaceholder();
+    this.setTemplateImage();
+
+    template.content.appendChild(this.templateStyles);
+    template.content.appendChild(this.templatePlaceholder);
+    template.content.appendChild(this.templateImage);
+
+    this.template = template;
+
     /* istanbul ignore next */
-    if (window.ShadyCSS)
-      window.ShadyCSS.prepareTemplate(this.template, tagName);
+    if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
   }
 
   applyTemplate() {
