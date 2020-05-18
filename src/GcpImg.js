@@ -302,6 +302,7 @@ export class GcpImg extends HTMLElement {
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
     this.shadowPicture = this.shadowRoot.getElementById('picture');
+    this.shadowSourceTags = new DocumentFragment();
   }
 
   connectedCallback() {
@@ -343,12 +344,11 @@ export class GcpImg extends HTMLElement {
     const size = hasSize ? `=w${this.size}` : '';
     const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
-    const sourcesFragment = new DocumentFragment();
 
     webpSource.srcset = this.shadowImage.src.replace('-nw', '-rw');
     webpSource.type = 'image/webp';
 
-    sourcesFragment.prepend(webpSource);
+    this.shadowSourceTags.prepend(webpSource);
 
     if (hasDarkSource) {
       const darkSourceTag = document.createElement('source');
@@ -359,16 +359,16 @@ export class GcpImg extends HTMLElement {
       )}${size}${separator}${extra}`;
       darkSourceTag.media = '(prefers-color-scheme: dark)';
 
-      sourcesFragment.prepend(darkSourceTag);
+      this.shadowSourceTags.prepend(darkSourceTag);
 
       darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
       darkWebpSourceTag.media = '(prefers-color-scheme: dark)';
       darkWebpSourceTag.type = 'image/webp';
 
-      sourcesFragment.prepend(darkWebpSourceTag);
+      this.shadowSourceTags.prepend(darkWebpSourceTag);
     }
 
-    this.shadowPicture.prepend(sourcesFragment);
+    this.shadowPicture.prepend(this.shadowSourceTags);
   }
 
   /**
@@ -418,7 +418,6 @@ export class GcpImg extends HTMLElement {
     const imgSource = this.src;
     const sourcesArray = [];
     const sizeValues = Object.values(sizes);
-    const sourcesFragment = new DocumentFragment();
 
     for (const key of sizeValues) {
       const { screen, size, source, dark } = key;
@@ -436,7 +435,7 @@ export class GcpImg extends HTMLElement {
         webpSourceTag.media = `(min-width: ${screen}px)`;
         webpSourceTag.type = 'image/webp';
 
-        sourcesFragment.prepend(webpSourceTag);
+        this.shadowSourceTags.prepend(webpSourceTag);
       }
 
       if (dark && screen && size) {
@@ -447,17 +446,17 @@ export class GcpImg extends HTMLElement {
         darkSourceTag.srcset = `${dark}=w${size}-${extra}`;
         darkSourceTag.media = mediaQuery;
 
-        sourcesFragment.prepend(darkSourceTag);
+        this.shadowSourceTags.prepend(darkSourceTag);
 
         darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
         darkWebpSourceTag.media = mediaQuery;
         darkWebpSourceTag.type = 'image/webp';
 
-        sourcesFragment.prepend(darkWebpSourceTag);
+        this.shadowSourceTags.prepend(darkWebpSourceTag);
       }
     }
 
-    this.shadowPicture.prepend(sourcesFragment);
+    this.shadowPicture.prepend(this.shadowSourceTags);
     this.shadowImage.srcset = sourcesArray.join(',');
   }
 

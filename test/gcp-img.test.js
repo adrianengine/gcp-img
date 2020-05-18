@@ -171,14 +171,14 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('can override the size via attribute', async () => {
-    expect(element.size).to.eq('180');
+    expect(element.size).to.equal('180');
     element.size = '360';
     await elementUpdated(element);
     expect(element.size).to.equal('360');
   });
 
   it('can override the shadow image src via size attribute', async () => {
-    expect(element.shadowImage.src).to.eq(`${imgURL}=w180-${props}`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${props}`);
     element.size = '360';
     await elementUpdated(element.shadowImage);
     expect(element.shadowImage.src).to.equal(`${imgURL}=w360-${props}`);
@@ -206,7 +206,7 @@ describe('<gcp-img src="path/to/cloud/img" darksrc="path/to/cloud/img">', () => 
   });
 
   it('can override the darksrc via attribute', async () => {
-    expect(element.darksrc).to.eq(imgAltURL);
+    expect(element.darksrc).to.equal(imgAltURL);
     element.darksrc = imgURL;
     await elementUpdated(element);
     expect(element.darksrc).to.equal(imgURL);
@@ -359,7 +359,7 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
   });
 
   it('can override the rotate via attribute', async () => {
-    expect(element.rotate).to.eq('90');
+    expect(element.rotate).to.equal('90');
     element.rotate = '270';
     await elementUpdated(element);
     expect(element.rotate).to.equal('270');
@@ -392,7 +392,7 @@ describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
   });
 
   it('can override the flip via attribute', async () => {
-    expect(element.flip).to.eq('v');
+    expect(element.flip).to.equal('v');
     element.flip = 'h';
     await elementUpdated(element);
     expect(element.flip).to.equal('h');
@@ -429,7 +429,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="blur" radius="100">', () => {
   });
 
   it('can override the filter radius via attribute', async () => {
-    expect(element.radius).to.eq('100');
+    expect(element.radius).to.equal('100');
     element.radius = '50';
     await elementUpdated(element);
     expect(element.radius).to.equal('50');
@@ -468,7 +468,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () 
   });
 
   it('can override the vignette radius via attribute', async () => {
-    expect(element.radius).to.eq('100');
+    expect(element.radius).to.equal('100');
     element.radius = '50';
     await elementUpdated(element);
     expect(element.radius).to.equal('50');
@@ -569,7 +569,7 @@ describe('<gcp-img src="path/to/cloud/img" crop="smart">', () => {
   });
 
   it('can override the crop via attribute', async () => {
-    expect(element.crop).to.eq('smart');
+    expect(element.crop).to.equal('smart');
     element.crop = 'circular';
     await elementUpdated(element);
     expect(element.crop).to.equal('circular');
@@ -602,7 +602,7 @@ describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
   });
 
   it('can override the crop via attribute', async () => {
-    expect(element.crop).to.eq('circular');
+    expect(element.crop).to.equal('circular');
     element.crop = 'smart';
     await elementUpdated(element);
     expect(element.crop).to.equal('smart');
