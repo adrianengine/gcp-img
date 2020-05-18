@@ -27,7 +27,7 @@
         </noscript>
       </gcp-img>
       <article>
-        <p>Provide a URL from Google Cloud Storage amd add it on the <code>src</code> attribute.</p>
+        <p>Provide a URL from Google Cloud Storage on the <code>src</code> attribute.</p>
         <pre><code>
           <span>&lt;gcp-img</span>
           <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
@@ -72,6 +72,24 @@
     </section>
 
     <section>
+      <h2>Dark Mode</h2>
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" darksrc="https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg">
+        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
+        <noscript>
+          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w200-v3-e365">
+        </noscript>
+      </gcp-img>
+      <article>
+        <p>To change the image on browsers that supports <code>prefers-color-scheme: dark</code> provide the image URL on the <code>darksrc</code> attribute.</p>
+        <pre><code>
+          <span>&lt;gcp-img</span>
+          <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+          <span>darksrc</span>=<span>"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+        </code></pre>
+      </article>
+    </section>
+
+    <section>
       <h2>With Source Set Image Dimensions</h2>
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" sizes="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':520}]">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
@@ -109,6 +127,27 @@
             {'screen':320,'size':320},
             {'screen':600,'size':640},
             {'screen':1024,'size':520,'source':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+        </code></pre>
+      </article>
+    </section>
+
+    <section>
+      <h2>With Source Set Image Dimensions and dark mode alternatives</h2>
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" sizes="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':520,'dark':'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg'}]">
+        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
+        <noscript>
+          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w320-v3-e365 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w640-v3-e365 600w,https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg=w520-v3-e365 1024w">
+        </noscript>
+      </gcp-img>
+      <article>
+        <p>It is possible to pass a <code>source</code> value on the <code>sizes</code> configuration for the size you need.</p>
+        <pre><code>
+          <span>&lt;gcp-img</span>
+          <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+          <span>sizes</span>=<span>"[
+            {'screen':320,'size':320},
+            {'screen':600,'size':640},
+            {'screen':1024,'size':520,'dark':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
       </article>
     </section>

@@ -14,6 +14,7 @@ export class GcpImg extends HTMLElement {
   static get observedAttributes() {
     return [
       'src',
+      'darksrc',
       'alt',
       'size',
       'rotate',
@@ -42,6 +43,18 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Image URI.
+   * @type {String}
+   */
+  set darksrc(value) {
+    this.safeSetAttribute('darksrc', value);
+  }
+
+  get darksrc() {
+    return this.getAttribute('darksrc');
+  }
+
+  /**
    * Image alt-text.
    * @type {String}
    */
@@ -60,8 +73,6 @@ export class GcpImg extends HTMLElement {
    */
   set size(value) {
     this.safeSetAttribute('size', value);
-    this.shadowImage.size = value;
-    this.src = this.getAttribute('src');
   }
 
   get size() {
@@ -98,7 +109,6 @@ export class GcpImg extends HTMLElement {
    */
   set rotate(value) {
     this.safeSetAttribute('rotate', value);
-    this.shadowImage.rotate = value;
   }
 
   get rotate() {
@@ -111,7 +121,6 @@ export class GcpImg extends HTMLElement {
    */
   set flip(value) {
     this.safeSetAttribute('flip', value);
-    this.shadowImage.flip = value;
   }
 
   get flip() {
@@ -124,7 +133,6 @@ export class GcpImg extends HTMLElement {
    */
   set filter(value) {
     this.safeSetAttribute('filter', value);
-    this.shadowImage.filter = value;
   }
 
   get filter() {
@@ -137,7 +145,6 @@ export class GcpImg extends HTMLElement {
    */
   set radius(value) {
     this.safeSetAttribute('radius', value);
-    this.shadowImage.radius = value;
   }
 
   get radius() {
@@ -150,7 +157,6 @@ export class GcpImg extends HTMLElement {
    */
   set color(value) {
     this.safeSetAttribute('color', value);
-    this.shadowImage.color = value;
   }
 
   get color() {
@@ -163,7 +169,6 @@ export class GcpImg extends HTMLElement {
    */
   set crop(value) {
     this.safeSetAttribute('crop', value);
-    this.shadowImage.crop = value;
   }
 
   get crop() {
@@ -197,13 +202,16 @@ export class GcpImg extends HTMLElement {
   }
 
   setTemplateImage() {
+    const pic = document.createElement('picture');
     const img = new Image();
 
     img.id = 'image';
     img.loading = 'lazy';
     img.ariaHidden = 'true';
+    pic.id = 'picture';
+    pic.appendChild(img);
 
-    this.templateImage = img;
+    this.templateImage = pic;
   }
 
   setTemplatePlaceholder() {
@@ -225,6 +233,10 @@ export class GcpImg extends HTMLElement {
       :host {
         display: inline-block;
         position: relative;
+      }
+
+      #picture {
+        display: contents;
       }
 
       #image,
@@ -289,10 +301,12 @@ export class GcpImg extends HTMLElement {
     this.shadowImage.onload = this.onLoad;
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
+    this.shadowPicture = this.shadowRoot.getElementById('picture');
   }
 
   connectedCallback() {
     this.src = this.getAttribute('src');
+    this.darksrc = this.getAttribute('darksrc');
     this.alt = this.getAttribute('alt') || '';
     this.size = this.getAttribute('size');
     this.rotate = this.getAttribute('rotate');
@@ -302,7 +316,7 @@ export class GcpImg extends HTMLElement {
     this.color = this.getAttribute('color');
     this.crop = this.getAttribute('crop');
     this.placeholder = this.getAttribute('placeholder');
-    this.getProperties_();
+    this.setProperties_();
     this.updateShadyStyles();
 
     if ('IntersectionObserver' in window) {
@@ -314,7 +328,7 @@ export class GcpImg extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
     this[name] = newVal;
-    this.getProperties_();
+    this.setProperties_();
     this.src = this.getAttribute('src');
   }
 
@@ -326,17 +340,27 @@ export class GcpImg extends HTMLElement {
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
    */
   loadImage() {
+    const hasDarkSource = this.hasAttribute('darksrc');
     const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
     const size = hasSize ? `=w${this.size}` : '';
     const separator = hasSize ? '-' : '=';
+    const source = document.createElement('source');
     const extra = this.extraProperties;
+
+    if (hasDarkSource) {
+      source.srcset = `${this.getAttribute(
+        'darksrc'
+      )}${size}${separator}${extra}`;
+      source.media = '(prefers-color-scheme: dark)';
+      this.shadowPicture.prepend(source);
+    }
 
     this.setAttribute('intersecting', '');
     this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
     if (hasSources) {
-      this.shadowImage.srcset = this.getMediaSources_();
+      this.setMediaSources_();
     }
   }
 
@@ -357,14 +381,9 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Return image srcset sttribute.
-   * @return {Array}
+   * Set the image srcset sttribute.
    */
-  getMediaSources_() {
-    if (!this.getAttribute('sizes')) {
-      return false;
-    }
-
+  setMediaSources_() {
     const extra = this.extraProperties;
     const sizesAttribute = this.getAttribute('sizes');
     const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
@@ -374,15 +393,24 @@ export class GcpImg extends HTMLElement {
     const sizeValues = Object.values(sizes);
 
     for (const key of sizeValues) {
-      const { screen, size, source } = key;
+      const { screen, size, source, dark } = key;
       const imgUrl = source || imgSource;
 
       if (screen && size) {
         sourcesArray.push(`${imgUrl}=w${size}-${extra} ${screen}w`);
       }
+
+      if (dark && screen && size) {
+        const sourceTag = document.createElement('source');
+
+        sourceTag.srcset = `${dark}=w${size}-${extra}`;
+        sourceTag.media = `(prefers-color-scheme: dark) and (min-width: ${screen}px)`;
+
+        this.shadowPicture.prepend(sourceTag);
+      }
     }
 
-    return sourcesArray.join(',');
+    this.shadowImage.srcset = sourcesArray.join(',');
   }
 
   /**
@@ -429,9 +457,9 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Returns the propeties string.
+   * Sets the extra properties attribute.
    */
-  getProperties_() {
+  setProperties_() {
     const page = document.querySelector('html');
     const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
@@ -453,8 +481,8 @@ export class GcpImg extends HTMLElement {
     };
 
     const cropTypes = {
-      circular: `cc`,
-      smart: `pp`,
+      circular: 'cc',
+      smart: 'pp',
     };
 
     props.push(quality);

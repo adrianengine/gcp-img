@@ -41,6 +41,14 @@ describe('<gcp-img>', () => {
     `);
   });
 
+  it('has a placeholder element in shadow root', () => {
+    expect(element.shadowPlaceholder).to.be.an.instanceof(HTMLElement);
+  });
+
+  it('has an picture element in shadow root', () => {
+    expect(element.shadowPicture).to.be.an.instanceof(HTMLPictureElement);
+  });
+
   it('has an img element in shadow root', () => {
     expect(element.shadowImage).to.be.an.instanceof(HTMLImageElement);
   });
@@ -66,7 +74,7 @@ describe('<gcp-img>', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -91,7 +99,7 @@ describe('<gcp-img alt="attribute alt">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -181,7 +189,35 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" darksrc="path/to/cloud/img">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" darksrc="${imgAltURL}"></gcp-img>
+    `);
+    await elementUpdated(element);
+  });
+
+  it('returns darksrc dom property', () => {
+    expect(element.darksrc).to.equal(imgAltURL);
+  });
+
+  it('can override the darksrc via attribute', async () => {
+    expect(element.darksrc).to.eq(imgAltURL);
+    element.darksrc = imgURL;
+    await elementUpdated(element);
+    expect(element.darksrc).to.equal(imgURL);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -213,7 +249,7 @@ describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -245,7 +281,7 @@ describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify-with-src">', ()
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -277,7 +313,7 @@ describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -302,7 +338,7 @@ describe('The image quality changes according to the connection speed', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -335,7 +371,7 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -368,7 +404,7 @@ describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -405,7 +441,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="blur" radius="100">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -462,7 +498,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () 
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -487,7 +523,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="invert">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -512,7 +548,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="bw">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -545,7 +581,7 @@ describe('<gcp-img src="path/to/cloud/img" crop="smart">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -578,6 +614,6 @@ describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });

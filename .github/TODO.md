@@ -29,10 +29,11 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Add an attribute to support dark mode easily
+- [ ] Refactor WebP detection to use source method
 ---
 
 ## Completed ✓
+- [x] Add an attribute to support dark mode easily
 - [x] Add a minification task
 - [x] Add Crop property
 - [x] Refactor filter

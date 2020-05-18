@@ -87,6 +87,19 @@ The above example shows usage of the `size` attribute:
 
 - The `size` attribute holds the numeric value of the image width to be displayed.
 
+### Setting a Dark mode image alternative
+
+```html
+<gcp-img
+  src="https://lh3.googleusercontent.com/…"
+  darksrc="https://lh3.googleusercontent.com/…"></gcp-img>
+```
+
+The above example shows usage of the `darksrc` attribute:
+
+- The `darksrc` attribute contains the path to an alternate dark version of the image you want to embed from Google Cloud Services.
+- It will be displayed if `prefers-color-scheme: dark` is supported and activated.
+
 ### Setting Responsive Dimensions
 
 ```html
@@ -268,6 +281,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 | Attribute | Required | Read-only | Type     | Default  | Description                                                                                  |
 |-----------|----------|-----------|----------|----------|----------------------------------------------------------------------------------------------|
 | `src`     | Yes      | No        | URL      | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
+| `darksrc` | No       | No        | URL      | `null`   | The path to the image you want to show if `prefers-color-scheme: dark` is supported.         |
 | `alt`     | No       | No        | *String* | *empty*  | A text description of the image.                                                             |
 | `size`    | No       | No        | *Number* | `null`   | The numeric value of the image width to be displayed.                                        |
 | `sizes`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
@@ -275,7 +289,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 | `rotate`  | No       | No        | *Number* | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
 | `flip`    | No       | No        | *String* | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
 | `filter`  | No       | No        | *String* | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
-| `radius`  | No       | No        | *Number* | `null`   | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
+| `radius`  | No       | No        | *Number* | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
 | `color`   | No       | No        | *String* | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
 | `crop`    | No       | No        | *String* | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
 
