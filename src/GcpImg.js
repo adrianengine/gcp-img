@@ -196,9 +196,14 @@ export class GcpImg extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.createTemplate();
     this.applyTemplate();
+    this.setConnectionQuality();
     this.extraProperties = '';
-    // TODO: Implement Network Aware Detection to change this value
-    this.isConnectionFast = true;
+  }
+
+  setConnectionQuality() {
+    if (navigator.connection && navigator.connection.effectiveType) {
+      this.isConnectionFast = navigator.connection.effectiveType === '4g';
+    }
   }
 
   setTemplateImage() {
@@ -507,7 +512,7 @@ export class GcpImg extends HTMLElement {
    * Sets the extra properties attribute.
    */
   setProperties_() {
-    const quality = this.isConnectionFast ? 'v1' : 'v2';
+    const quality = this.isConnectionFast ? 'v1' : 'v3';
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
     const flip = this.getAttribute('flip');
