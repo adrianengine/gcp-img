@@ -5,7 +5,7 @@ import '../gcp-img.js';
 const defaultProps = {
   quality: 'v1',
   ttl: 'e365',
-  webp: 'rw',
+  nowebp: 'nw',
 };
 
 const props = Object.values(defaultProps).join('-');
@@ -305,7 +305,7 @@ describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
 
   it('Image sets the ttl property', async () => {
     await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180-rw`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180-nw`);
   });
 
   it('passes the a11y audit', () => {

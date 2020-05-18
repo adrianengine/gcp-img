@@ -9,7 +9,7 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ### Component
 - [ ] Add support for Animated GIFs/WebP
   - [ ] Include motion reduce support
-- [ ] For boolean attributes see if is posible to make it work without passing the true string
+- [ ] Review code order
 - [ ] Review and improve JSDOC comments
 - [ ] Review and improve Unit Tests
 
@@ -29,10 +29,11 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Refactor WebP detection to use source method
+- [ ] Apply a strategy to prevent CLS
 ---
 
 ## Completed ✓
+- [x] Refactor WebP detection to use source method
 - [x] Add an attribute to support dark mode easily
 - [x] Add a minification task
 - [x] Add Crop property

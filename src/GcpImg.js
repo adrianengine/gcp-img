@@ -336,31 +336,58 @@ export class GcpImg extends HTMLElement {
     this.disconnectObserver();
   }
 
+  setSingleSource() {
+    const hasSize = this.hasAttribute('size');
+    const hasDarkSource = this.hasAttribute('darksrc');
+    const webpSource = document.createElement('source');
+    const size = hasSize ? `=w${this.size}` : '';
+    const separator = hasSize ? '-' : '=';
+    const extra = this.extraProperties;
+    const sourcesFragment = new DocumentFragment();
+
+    webpSource.srcset = this.shadowImage.src.replace('-nw', '-rw');
+    webpSource.type = 'image/webp';
+
+    sourcesFragment.prepend(webpSource);
+
+    if (hasDarkSource) {
+      const darkSourceTag = document.createElement('source');
+      const darkWebpSourceTag = document.createElement('source');
+
+      darkSourceTag.srcset = `${this.getAttribute(
+        'darksrc'
+      )}${size}${separator}${extra}`;
+      darkSourceTag.media = '(prefers-color-scheme: dark)';
+
+      sourcesFragment.prepend(darkSourceTag);
+
+      darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
+      darkWebpSourceTag.media = '(prefers-color-scheme: dark)';
+      darkWebpSourceTag.type = 'image/webp';
+
+      sourcesFragment.prepend(darkWebpSourceTag);
+    }
+
+    this.shadowPicture.prepend(sourcesFragment);
+  }
+
   /**
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
    */
   loadImage() {
-    const hasDarkSource = this.hasAttribute('darksrc');
     const hasSources = this.hasAttribute('sizes');
     const hasSize = this.hasAttribute('size');
     const size = hasSize ? `=w${this.size}` : '';
     const separator = hasSize ? '-' : '=';
-    const source = document.createElement('source');
     const extra = this.extraProperties;
-
-    if (hasDarkSource) {
-      source.srcset = `${this.getAttribute(
-        'darksrc'
-      )}${size}${separator}${extra}`;
-      source.media = '(prefers-color-scheme: dark)';
-      this.shadowPicture.prepend(source);
-    }
 
     this.setAttribute('intersecting', '');
     this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
     if (hasSources) {
-      this.setMediaSources_();
+      this.setMediaSourceSets_();
+    } else {
+      this.setSingleSource();
     }
   }
 
@@ -383,7 +410,7 @@ export class GcpImg extends HTMLElement {
   /**
    * Set the image srcset sttribute.
    */
-  setMediaSources_() {
+  setMediaSourceSets_() {
     const extra = this.extraProperties;
     const sizesAttribute = this.getAttribute('sizes');
     const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
@@ -391,25 +418,46 @@ export class GcpImg extends HTMLElement {
     const imgSource = this.src;
     const sourcesArray = [];
     const sizeValues = Object.values(sizes);
+    const sourcesFragment = new DocumentFragment();
 
     for (const key of sizeValues) {
       const { screen, size, source, dark } = key;
       const imgUrl = source || imgSource;
 
       if (screen && size) {
+        const webpSourceTag = document.createElement('source');
+
         sourcesArray.push(`${imgUrl}=w${size}-${extra} ${screen}w`);
+
+        webpSourceTag.srcset = `${imgUrl}=w${size}-${extra}`.replace(
+          '-nw',
+          '-rw'
+        );
+        webpSourceTag.media = `(min-width: ${screen}px)`;
+        webpSourceTag.type = 'image/webp';
+
+        sourcesFragment.prepend(webpSourceTag);
       }
 
       if (dark && screen && size) {
-        const sourceTag = document.createElement('source');
+        const darkSourceTag = document.createElement('source');
+        const darkWebpSourceTag = document.createElement('source');
+        const mediaQuery = `(prefers-color-scheme: dark) and (min-width: ${screen}px)`;
 
-        sourceTag.srcset = `${dark}=w${size}-${extra}`;
-        sourceTag.media = `(prefers-color-scheme: dark) and (min-width: ${screen}px)`;
+        darkSourceTag.srcset = `${dark}=w${size}-${extra}`;
+        darkSourceTag.media = mediaQuery;
 
-        this.shadowPicture.prepend(sourceTag);
+        sourcesFragment.prepend(darkSourceTag);
+
+        darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
+        darkWebpSourceTag.media = mediaQuery;
+        darkWebpSourceTag.type = 'image/webp';
+
+        sourcesFragment.prepend(darkWebpSourceTag);
       }
     }
 
+    this.shadowPicture.prepend(sourcesFragment);
     this.shadowImage.srcset = sourcesArray.join(',');
   }
 
@@ -460,7 +508,6 @@ export class GcpImg extends HTMLElement {
    * Sets the extra properties attribute.
    */
   setProperties_() {
-    const page = document.querySelector('html');
     const quality = this.isConnectionFast ? 'v1' : 'v2';
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
@@ -470,7 +517,7 @@ export class GcpImg extends HTMLElement {
     const vignetteColor = this.normalizeVignetteColor_();
     const crop = this.getAttribute('crop');
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
-    const supportsWebP = page.classList.contains('webp');
+    const noWebp = 'nw';
     const props = [];
 
     const filterTypes = {
@@ -487,10 +534,7 @@ export class GcpImg extends HTMLElement {
 
     props.push(quality);
     props.push(ttl);
-
-    if (supportsWebP) {
-      props.push('rw');
-    }
+    props.push(noWebp);
 
     if (rotation) {
       props.push(`r${rotation}`);
