@@ -221,22 +221,22 @@ describe('<gcp-img src="path/to/cloud/img" darksrc="path/to/cloud/img">', () => 
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
+describe('<gcp-img src="path/to/cloud/img" config="json-stringify">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" sizes=${sizesConfig}></gcp-img>
+      <gcp-img src="${imgURL}" config=${sizesConfig}></gcp-img>
     `);
   });
 
-  it('has a read only sizes prop', () => {
-    const init = element.sizes;
+  it('has a read only config prop', () => {
+    const init = element.config;
 
-    element.sizes = Math.random();
-    expect(element.sizes).to.equal(init);
+    element.config = Math.random();
+    expect(JSON.stringify(element.config)).to.equal(JSON.stringify(init));
   });
 
-  it('returns sizes dom property', () => {
-    expect(element.getAttribute('sizes')).to.equal(sizesConfig);
+  it('returns config dom property', () => {
+    expect(element.getAttribute('config')).to.equal(sizesConfig);
   });
 
   it('Image sets the srcset property', async () => {
@@ -253,22 +253,22 @@ describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
+describe('<gcp-img src="path/to/cloud/img" config="json-stringify-with-src">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" sizes=${sizesAltConfig}></gcp-img>
+      <gcp-img src="${imgURL}" config=${sizesAltConfig}></gcp-img>
     `);
   });
 
-  it('has a read only sizes prop', () => {
-    const init = element.sizes;
+  it('has a read only config prop', () => {
+    const init = element.config;
 
-    element.sizes = Math.random();
-    expect(element.sizes).to.equal(init);
+    element.config = Math.random();
+    expect(JSON.stringify(element.config)).to.equal(JSON.stringify(init));
   });
 
   it('returns sizes dom property', () => {
-    expect(element.getAttribute('sizes')).to.equal(sizesAltConfig);
+    expect(element.getAttribute('config')).to.equal(sizesAltConfig);
   });
 
   it('Image sets the srcset property', async () => {

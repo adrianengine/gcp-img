@@ -73,6 +73,19 @@ export class GcpImg extends HTMLElement {
    */
   set size(value) {
     this.safeSetAttribute('size', value);
+
+    if (value) {
+      const size = value.split(',');
+
+      [this.wDimension, this.hDimension] = size;
+
+      if (size.length === 1) {
+        [this.hDimension] = size;
+      }
+
+      this.shadowImage.height = this.hDimension;
+      this.shadowImage.width = this.wDimension;
+    }
   }
 
   get size() {
@@ -80,15 +93,19 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Gets the sizes attribute.
+   * Sets the config attribute.
    * @type {Boolean}
    */
-  get sizes() {
-    return this.hasAttribute('sizes');
+  set config(val) {
+    return this.val;
   }
 
-  set sizes(val) {
-    return this.sizes;
+  get config() {
+    const config = this.getAttribute('config');
+    const configCorrected = config.replace(/'/g, '"');
+    const configParsed = JSON.parse(configCorrected);
+
+    return configParsed;
   }
 
   /**
@@ -236,8 +253,9 @@ export class GcpImg extends HTMLElement {
     const styleRules = document.createElement('style');
     const rules = `
       :host {
-        display: inline-block;
+        display: block;
         position: relative;
+        width: var(--gcp-image-width, 100%);
       }
 
       #picture {
@@ -246,14 +264,15 @@ export class GcpImg extends HTMLElement {
 
       #image,
       #placeholder ::slotted(*) {
+        border: none;
         display: block;
-        height: var(--lazy-image-height, auto);
+        height: var(--gcp-image-height, 100%);
+        overflow: hidden;
         transition:
           opacity
-          var(--lazy-image-fade-duration, 1s)
-          var(--lazy-image-fade-easing, ease-out);
-        object-fit: var(--lazy-image-fit, contain);
-        width: var(--lazy-image-width, auto);
+          var(--gcp-image-fade-duration, 0.3s)
+          var(--gcp-image-fade-easing, ease);
+        width: var(--gcp-image-width, 100%);
       }
 
       #placeholder ::slotted(*) {
@@ -346,7 +365,7 @@ export class GcpImg extends HTMLElement {
     const hasSize = this.hasAttribute('size');
     const hasDarkSource = this.hasAttribute('darksrc');
     const webpSource = document.createElement('source');
-    const size = hasSize ? `=w${this.size}` : '';
+    const size = hasSize ? `=w${this.wDimension}` : '';
     const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
 
@@ -380,16 +399,16 @@ export class GcpImg extends HTMLElement {
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
    */
   loadImage() {
-    const hasSources = this.hasAttribute('sizes');
+    const hasConfig = this.hasAttribute('config');
     const hasSize = this.hasAttribute('size');
-    const size = hasSize ? `=w${this.size}` : '';
+    const size = hasSize ? `=w${this.wDimension}` : '';
     const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
 
     this.setAttribute('intersecting', '');
     this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
-    if (hasSources) {
+    if (hasConfig) {
       this.setMediaSourceSets_();
     } else {
       this.setSingleSource();
@@ -417,14 +436,11 @@ export class GcpImg extends HTMLElement {
    */
   setMediaSourceSets_() {
     const extra = this.extraProperties;
-    const sizesAttribute = this.getAttribute('sizes');
-    const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
-    const sizes = JSON.parse(sizesAdjusted);
     const imgSource = this.src;
     const sourcesArray = [];
-    const sizeValues = Object.values(sizes);
+    const configValues = Object.values(this.config);
 
-    for (const key of sizeValues) {
+    for (const key of configValues) {
       const { screen, size, source, dark } = key;
       const imgUrl = source || imgSource;
 

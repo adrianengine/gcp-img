@@ -105,11 +105,11 @@ The above example shows usage of the `darksrc` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  sizes="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
+  config="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
 ```
-The above example shows usage of the `sizes` attribute:
+The above example shows usage of the `config` attribute:
 
-- The `sizes` attribute holds a JS object converted to text with the configuration of the image to be displayed.
+- The `config` attribute holds a JS object converted to text with the configuration of the image to be displayed.
 
 ```js
 [
@@ -158,7 +158,16 @@ In case you need to show a different image in certain viewport, you can specify 
 ]
 ```
 
-The above configuration will render a different image between the viewports with sizes of 640 and 1024.
+The above configuration will render a different image between the viewports with dimensions of 320, 640 and 1024.
+
+### Configuration Options
+
+| Attribute | Required | Type     | Description                                                                                  |
+|-----------|----------|----------|----------------------------------------------------------------------------------------------|
+| `screen`  | Yes      | `number` | The screen size where the configuration values are intended.                                 |
+| `size`    | Yes      | `number` | The width of the image for the companion `screen` size.                                      |
+| `source`  | Yes      | URL      | The path to the image you want to embed from Google Cloud Services.                          |
+| `dark`    | Yes      | URL      | The path to the dark mode version image you want to embed from Google Cloud Services.        |
 
 ### Change the Cache TTL (Time to live)
 
@@ -284,7 +293,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 | `darksrc` | No       | No        | URL      | `null`   | The path to the image you want to show if `prefers-color-scheme: dark` is supported.         |
 | `alt`     | No       | No        | *String* | *empty*  | A text description of the image.                                                             |
 | `size`    | No       | No        | *Number* | `null`   | The numeric value of the image width to be displayed.                                        |
-| `sizes`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
+| `config`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.          |
 | `ttl`     | No       | Yes       | *Number* | `365`    | The number of days to cache the image. Default value is recommended.                         |
 | `rotate`  | No       | No        | *Number* | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
 | `flip`    | No       | No        | *String* | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |

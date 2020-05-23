@@ -32,10 +32,11 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Apply a strategy to prevent CLS
+- [ ] Turn fixed option a boolean attribute
 ---
 
 ## Completed ✓
+- [X] Apply a responsive strategy
 - [x] Refactor WebP detection to use source method
 - [x] Add an attribute to support dark mode easily
 - [x] Add a minification task
