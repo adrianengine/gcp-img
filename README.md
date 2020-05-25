@@ -87,6 +87,19 @@ The above example shows usage of the `size` attribute:
 
 - The `size` attribute holds the numeric value of the image width to be displayed.
 
+#### A fixed width
+
+```html
+<gcp-img
+  fixed
+  src="https://lh3.googleusercontent.com/…"
+  size="200, 124"></gcp-img>
+```
+
+The above example shows usage of the `fixed` attribute:
+
+- The `fixed` attribute makes the image with the specifyied width on the `size` attribute.
+
 ### Setting a Dark mode image alternative
 
 ```html
@@ -162,12 +175,12 @@ The above configuration will render a different image between the viewports with
 
 ### Configuration Options
 
-| Attribute | Required | Type     | Description                                                                                  |
-|-----------|----------|----------|----------------------------------------------------------------------------------------------|
-| `screen`  | Yes      | `number` | The screen size where the configuration values are intended.                                 |
-| `size`    | Yes      | `number` | The width of the image for the companion `screen` size.                                      |
-| `source`  | Yes      | URL      | The path to the image you want to embed from Google Cloud Services.                          |
-| `dark`    | Yes      | URL      | The path to the dark mode version image you want to embed from Google Cloud Services.        |
+| Attribute | Required | Type     | Description                                                                           |
+|-----------|----------|----------|---------------------------------------------------------------------------------------|
+| `screen`  | Yes      | `number` | The screen size where the configuration values are intended.                          |
+| `size`    | Yes      | `number` | The width of the image for the companion `screen` size.                               |
+| `source`  | No       | URL      | The path to the image you want to embed from Google Cloud Services.                   |
+| `dark`    | No       | URL      | The path to the dark mode version image you want to embed from Google Cloud Services. |
 
 ### Change the Cache TTL (Time to live)
 
@@ -287,20 +300,21 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 ## Attribute Summary
 
-| Attribute | Required | Read-only | Type     | Default  | Description                                                                                  |
-|-----------|----------|-----------|----------|----------|----------------------------------------------------------------------------------------------|
-| `src`     | Yes      | No        | URL      | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
-| `darksrc` | No       | No        | URL      | `null`   | The path to the image you want to show if `prefers-color-scheme: dark` is supported.         |
-| `alt`     | No       | No        | *String* | *empty*  | A text description of the image.                                                             |
-| `size`    | No       | No        | *Number* | `null`   | The numeric value of the image width to be displayed.                                        |
-| `config`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.          |
-| `ttl`     | No       | Yes       | *Number* | `365`    | The number of days to cache the image. Default value is recommended.                         |
-| `rotate`  | No       | No        | *Number* | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
-| `flip`    | No       | No        | *String* | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
-| `filter`  | No       | No        | *String* | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
-| `radius`  | No       | No        | *Number* | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
-| `color`   | No       | No        | *String* | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
-| `crop`    | No       | No        | *String* | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
+| Attribute | Required | Read-only | Type      | Default  | Description                                                                                  |
+|-----------|----------|-----------|-----------|----------|----------------------------------------------------------------------------------------------|
+| `src`     | Yes      | No        | URL       | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
+| `darksrc` | No       | No        | URL       | `null`   | The path to the image you want to show if `prefers-color-scheme: dark` is supported.         |
+| `alt`     | No       | No        | *String*  | *empty*  | A text description of the image.                                                             |
+| `fixed`   | No       | No        | *Boolean* | `false`  | When specifying a single source will fix the dimensions to the values on `size` attribute.   |
+| `size`    | No       | No        | *Number*  | `null`   | The numeric value of the image width to be displayed.                                        |
+| `config`  | No       | Yes       | *String*  | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
+| `ttl`     | No       | Yes       | *Number*  | `365`    | The number of days to cache the image. Default value is recommended.                         |
+| `rotate`  | No       | No        | *Number*  | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
+| `flip`    | No       | No        | *String*  | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
+| `filter`  | No       | No        | *String*  | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
+| `radius`  | No       | No        | *Number*  | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
+| `color`   | No       | No        | *String*  | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
+| `crop`    | No       | No        | *String*  | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 

@@ -617,3 +617,39 @@ describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
     expect(element.shadowImage).dom.to.be.accessible();
   });
 });
+
+describe('<gcp-img src="path/to/cloud/img" fixed>', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" size="180, 112" fixed></gcp-img>
+    `);
+  });
+
+  it('returns fixed dom property', () => {
+    expect(element.getAttribute('fixed')).to.equal('');
+    expect(element.fixed).to.equal(true);
+  });
+
+  it('Image sets the fixed', async () => {
+    await elementUpdated(element.shadowImage);
+    expect(element.shadowImage.height).to.equal(112);
+    expect(element.shadowImage.naturalHeight).to.equal(112);
+    expect(element.shadowImage.width).to.equal(180);
+    expect(element.shadowImage.naturalWidth).to.equal(180);
+  });
+
+  it('can override the fixed via attribute', async () => {
+    expect(element.fixed).to.equal(true);
+    element.removeAttribute('fixed');
+    await elementUpdated(element);
+    expect(element.fixed).to.equal(false);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).dom.to.be.accessible();
+  });
+});

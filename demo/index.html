@@ -40,26 +40,19 @@
 
     <section>
       <h2>Defining a fixed width of 200px</h2>
-      <gcp-img class="image fixed" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" size="200, 124">
+      <gcp-img class="image fixed" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" size="200, 124" fixed>
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
           <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w200-v3-e365">
         </noscript>
       </gcp-img>
       <article>
-        <p>To change the width of the image provide a <code>size</code> attribute with the value.</p>
+        <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>class</span>=<span>"fixed"</span>
+  <span>fixed</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"200, 124"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
-        <p>Additional to this set the width and height on your CSS.</p>
-        <pre><code>
-  .fixed {
-    --gcp-image-height: 124px;
-    --gcp-image-width: 200px;
-  }
         </code></pre>
       </article>
     </section>

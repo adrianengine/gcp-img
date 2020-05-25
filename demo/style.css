@@ -205,9 +205,6 @@ gcp-img {
 }
 
 gcp-img.fixed {
-  --gcp-image-height: 124px;
-  --gcp-image-width: 200px;
-
   margin-left: auto;
   margin-right: auto;
 }

@@ -23,6 +23,7 @@ export class GcpImg extends HTMLElement {
       'radius',
       'color',
       'crop',
+      'fixed',
     ];
   }
 
@@ -193,6 +194,29 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Gets the Fixed attribute.
+   * @type {Boolean}
+   */
+  get fixed() {
+    return this.hasAttribute('fixed');
+  }
+
+  set fixed(val) {
+    const hasFixedAttribute = this.hasAttribute('fixed');
+    const hasMultipleSources = this.hasAttribute('config');
+
+    if (hasFixedAttribute && !hasMultipleSources) {
+      this.setAttribute(
+        'style',
+        `--gcp-image-height:${this.hDimension}px;` +
+          `--gcp-image-width:${this.wDimension}px;`
+      );
+    } else {
+      this.removeAttribute('style');
+    }
+  }
+
+  /**
    * Whether the element is on screen.
    * @type {Boolean}
    */
@@ -341,6 +365,7 @@ export class GcpImg extends HTMLElement {
     this.color = this.getAttribute('color');
     this.crop = this.getAttribute('crop');
     this.placeholder = this.getAttribute('placeholder');
+    this.fixed = this.getAttribute('fixed');
     this.setProperties_();
     this.updateShadyStyles();
 
