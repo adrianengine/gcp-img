@@ -8,28 +8,35 @@ This web component follows the [open-wc](https://github.com/open-wc/open-wc) rec
 
 ## Table of Contents
 
- * [Concept](#concept)
-  * [Philosophy](#philosophy)
-  * [Installation](#installation)
-  * [Usage](#usage)
-    + [Setting Dimensions](#setting-dimensions)
-    + [Setting Responsive Dimensions](#setting-responsive-dimensions)
-      - [Art Directed Image](#art-directed-image)
-    + [Change the Cache TTL (Time to live)](#change-the-cache-ttl--time-to-live)
-    + [Applying Transformations](#applying-transformations)
-      - [Rotation](#rotation)
-      - [Flip](#flip)
-    + [Applying Filters](#applying-filters)
-      - [Blur](#blur)
-      - [Vignette](#vignette)
-      - [Invert](#invert)
-      - [Black and White](#black-and-white)
-  * [Attribute Summary](#attribute-summary)
-  * [Recommended Options](#recommended-options)
-    + [Fallback Image](#fallback-image)
-    + [Placeholder Image](#placeholder-image)
-    + [Animate Image loading](#animate-image-loading)
-  * [How to Contribute](#how-to-contribute)
+* [Concept](#concept)
+* [Philosophy](#philosophy)
+* [Installation](#installation)
+* [Usage](#usage)
+  + [Setting Dimensions](#setting-dimensions)
+    - [A fixed width](#a-fixed-width)
+  + [Setting a Dark mode image alternative](#setting-a-dark-mode-image-alternative)
+  + [Setting Responsive Dimensions](#setting-responsive-dimensions)
+    - [Art Directed Image](#art-directed-image)
+  + [Configuration Options](#configuration-options)
+  + [Change the Cache TTL (Time to live)](#change-the-cache-ttl--time-to-live)
+  + [Applying Transformations](#applying-transformations)
+    - [Rotation](#rotation)
+    - [Flip](#flip)
+  + [Applying Filters](#applying-filters)
+    - [Blur](#blur)
+    - [Vignette](#vignette)
+    - [Invert](#invert)
+    - [Black and White](#black-and-white)
+  + [Applying Crop](#applying-crop)
+    - [Smart Crop](#smart-crop)
+    - [Circular Crop](#circular-crop)
+  + [Animated GIFs](#animated-gifs)
+* [Attribute Summary](#attribute-summary)
+* [Recommended Options](#recommended-options)
+  + [Fallback Image](#fallback-image)
+  + [Placeholder Image](#placeholder-image)
+  + [Animate Image loading](#animate-image-loading)
+* [How to Contribute](#how-to-contribute)
 
 ## Concept
 
@@ -120,7 +127,7 @@ The above example shows usage of the `darksrc` attribute:
   src="https://lh3.googleusercontent.com/…"
   config="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
 ```
-The above example shows usage of the `config` attribute:
+The above example shows usage of the read-only `config` attribute:
 
 - The `config` attribute holds a JS object converted to text with the configuration of the image to be displayed.
 
@@ -192,7 +199,7 @@ The above configuration will render a different image between the viewports with
 
 By default the images will be requested with a cache for one year (365 Days).
 
-To change the number of days you can specify the new number of days in the `ttl` attribute.
+To change the number of days you can specify the new number of days in the read-only `ttl` attribute.
 
 ### Applying Transformations
 
@@ -298,6 +305,19 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 - You can make images circular crop by specifying a value of `circular`.
 
+### Animated GIFs
+
+```html
+<gcp-img
+  play
+  src="https://lh3.googleusercontent.com/…"
+  crop="circular"></gcp-img>
+```
+
+The above example shows usage of the `play` attribute:
+
+- You can start the animation of GIF images by specifying an attribute of `play`.
+
 ## Attribute Summary
 
 | Attribute | Required | Read-only | Type      | Default  | Description                                                                                  |
@@ -315,6 +335,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 | `radius`  | No       | No        | *Number*  | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
 | `color`   | No       | No        | *String*  | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
 | `crop`    | No       | No        | *String*  | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
+| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated GIF it will play it with autoloop.                        |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 

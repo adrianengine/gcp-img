@@ -24,6 +24,7 @@ export class GcpImg extends HTMLElement {
       'color',
       'crop',
       'fixed',
+      'play',
     ];
   }
 
@@ -73,6 +74,8 @@ export class GcpImg extends HTMLElement {
    * @type {String}
    */
   set size(value) {
+    const hasFixedAttribute = this.hasAttribute('fixed');
+
     this.safeSetAttribute('size', value);
 
     if (value) {
@@ -86,6 +89,10 @@ export class GcpImg extends HTMLElement {
 
       this.shadowImage.height = this.hDimension;
       this.shadowImage.width = this.wDimension;
+    }
+
+    if (hasFixedAttribute) {
+      this.setAttribute('fixed', '');
     }
   }
 
@@ -214,6 +221,18 @@ export class GcpImg extends HTMLElement {
     } else {
       this.removeAttribute('style');
     }
+  }
+
+  /**
+   * Sets the play attribute.
+   * @type {Boolean}
+   */
+  set play(value) {
+    this.safeSetAttribute('play', value);
+  }
+
+  get play() {
+    return this.hasAttribute('play');
   }
 
   /**
@@ -366,20 +385,17 @@ export class GcpImg extends HTMLElement {
     this.crop = this.getAttribute('crop');
     this.placeholder = this.getAttribute('placeholder');
     this.fixed = this.getAttribute('fixed');
+    this.play = this.getAttribute('play');
     this.setProperties_();
     this.updateShadyStyles();
-
-    if ('IntersectionObserver' in window) {
-      this.initIntersectionObserver();
-    } else {
-      this.loadImage();
-    }
+    this.applyChanges();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     this[name] = newVal;
     this.setProperties_();
-    this.src = this.getAttribute('src');
+    this.clearSources();
+    this.applyChanges();
   }
 
   disconnectedCallback() {
@@ -418,6 +434,26 @@ export class GcpImg extends HTMLElement {
     }
 
     this.shadowPicture.prepend(this.shadowSourceTags);
+  }
+
+  clearSources() {
+    while (this.shadowPicture.hasChildNodes()) {
+      if (this.shadowPicture.firstChild instanceof HTMLSourceElement) {
+        this.shadowPicture.removeChild(this.shadowPicture.firstChild);
+      } else {
+        break;
+      }
+    }
+  }
+
+  applyChanges() {
+    this.src = this.getAttribute('src');
+
+    if ('IntersectionObserver' in window) {
+      this.initIntersectionObserver();
+    } else {
+      this.loadImage();
+    }
   }
 
   /**
@@ -561,8 +597,10 @@ export class GcpImg extends HTMLElement {
     const radius = this.normalizeFilterRadius_();
     const vignetteColor = this.normalizeVignetteColor_();
     const crop = this.getAttribute('crop');
+    const play = this.hasAttribute('play');
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
     const noWebp = 'nw';
+    const killAnimation = 'k';
     const props = [];
 
     const filterTypes = {
@@ -580,6 +618,10 @@ export class GcpImg extends HTMLElement {
     props.push(quality);
     props.push(ttl);
     props.push(noWebp);
+
+    if (!play) {
+      props.push(killAnimation);
+    }
 
     if (rotation) {
       props.push(`r${rotation}`);

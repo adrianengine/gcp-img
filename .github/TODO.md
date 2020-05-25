@@ -19,9 +19,7 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
   - [ ] Grammar
 
 ### Miscellaneous
-- [ ] Add dark theme to Demo Page styles
 - [ ] Add figcaption to Demo Page Images with Requested Size, Display Size, Format
-- [ ] Add interactive controls to Demo Page Images where possible
 - [ ] Create an SVG Favicon for Demo Page
 - [ ] Edit logo to be transparent and support for dark background
 - [ ] Publish to NPM
@@ -30,11 +28,13 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## In Progress
-- [ ] Add support for Animated GIFs/WebP
+- [X] Add support for Animated GIFs/WebP
   - [ ] Include motion reduce support
 ---
 
 ## Completed ✓
+- [x] Add interactive controls to Demo Page Images where possible
+- [x] Add dark theme to Demo Page styles
 - [X] Turn fixed option a boolean attribute
 - [X] Apply a responsive strategy
 - [x] Refactor WebP detection to use source method

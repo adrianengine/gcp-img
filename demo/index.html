@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,9 @@
   <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script type="module" src="../gcp-img.js"></script>
   <title>GCP Image Custom Element Demo</title>
+  <script>
+    document.documentElement.className = `${document.documentElement.className.replace(/\bno-js\b/g, '')  }has-js `;
+  </script>
 </head>
 <body>
   <header>
@@ -21,58 +24,78 @@
     <section>
       <h2>Basic Usage</h2>
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" size="684, 424">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
+        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder" aria-hidden="true">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v3-e365-rw-k" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v3-e365-nw-k"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>Provide a URL from Google Cloud Storage on the <code>src</code> attribute and the width and height (separated by a comma) of the image in the <code>size</code> attribute.</p>
-        <p>Don't forget to provide a descriptive <code>alt</code> text attribute.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>&gt;</span><span>
-  <span>alt</span>=<span>"Three people sitting on a lawn and blowing bubbles."</span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">src</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>
+  <span class="highlight">size</span>=<span class="highlight">"512, 318"</span>&gt;</span><span>
+  <span class="highlight">alt</span>=<span class="highlight">"Three people sitting on a lawn and blowing bubbles."</span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>Provide a URL from Google Cloud Storage on the <code>src</code> attribute and the width and height (separated by a comma) of the image in the <code>size</code> attribute.</p>
+        <p>Don't forget to provide a descriptive <code>alt</code> text attribute.</p>
       </article>
     </section>
 
-    <section>
-      <h2>Defining a fixed width of 200px</h2>
-      <gcp-img class="image fixed" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" size="200, 124" fixed>
+    <section id="size" class="interactive">
+      <h2>Defining a fixed width</h2>
+      <gcp-img class="image fixed" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" size="180, 112" fixed>
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w200-v3-e365">
-        </noscript>
       </gcp-img>
       <article>
-        <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
+        <form action="">
+          <fieldset>
+            <legend>Set a Fixed Width</legend>
+            <label for="width">Size</label>
+            <input type="range" name="width" id="width" min="180" max="684" step="6" value="200">
+          </fieldset>
+        </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>fixed</span>
+  <span class="highlight">fixed</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"200, 124"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">size</span>=<span class="highlight change">"180, 112"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
       </article>
     </section>
+
+    <noscript>
+      <section>
+        <h2>Defining a fixed width of 200px</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w180-v1-e365-rw-k" type="image/webp"><img id="image" loading="lazy" height="112" width="180" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w180-v1-e365-nw-k"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span class="highlight">fixed</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span class="highlight">size</span>=<span class="highlight">"200, 124"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
+        </article>
+      </section>
+    </noscript>
 
     <section>
       <h2>Setting a different Image for Dark Mode</h2>
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ" darksrc="https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA" size="684, 384">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w200-v3-e365">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA=w684-v1-e365-rw-k" media="(prefers-color-scheme: dark)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA=w684-v1-e365-nw-k" media="(prefers-color-scheme: dark)"><source srcset="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w684-v1-e365-rw-k" type="image/webp"><img id="image" loading="lazy" height="384" width="684" alt="" src="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w684-v1-e365-nw-k"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>To change the image on browsers that supports <code>prefers-color-scheme: dark</code> provide the image URL on the <code>darksrc</code> attribute.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>darksrc</span>=<span>"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">darksrc</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>To change the image on browsers that supports <code>prefers-color-scheme: dark</code> provide the image URL on the <code>darksrc</code> attribute.</p>
       </article>
     </section>
 
@@ -81,20 +104,20 @@
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" config="[{'screen':320,'size':294},{'screen':600,'size':574},{'screen':1024,'size':684}]" size="684, 424">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w320-v3-e365 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w640-v3-e365 600w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w520-v3-e365 1024w">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k" media="(min-width: 1024px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w574-v1-e365-rw-k" media="(min-width: 600px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w294-v1-e365-rw-k" media="(min-width: 320px)" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w294-v1-e365-nw-k 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w574-v1-e365-nw-k 600w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k 1024w"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>For responsive images provide a configuration to the <code>config</code> attribute.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>config</span>=<span>"[
+  <span class="highlight">config</span>=<span class="highlight">"[
     {'screen':320,'size':294},
     {'screen':600,'size':574},
     {'screen':1024,'size':684}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>For responsive images provide a configuration to the <code>config</code> attribute.</p>
       </article>
     </section>
 
@@ -103,20 +126,20 @@
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" config="[{'screen':320,'size':294},{'screen':600,'size':574},{'screen':1024,'size':684,'source':'https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg'}]" size="684, 424">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w320-v3-e365 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w640-v3-e365 600w,https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg=w520-v3-e365 1024w">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg=w684-v1-e365-rw-k" media="(min-width: 1024px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w574-v1-e365-rw-k" media="(min-width: 600px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w294-v1-e365-rw-k" media="(min-width: 320px)" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w294-v1-e365-nw-k 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w574-v1-e365-nw-k 600w,https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg=w684-v1-e365-nw-k 1024w"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>config</span>=<span>"[
+  <span class="highlight">config</span>=<span class="highlight">"[
     {'screen':320,'size':294},
     {'screen':600,'size':574},
     {'screen':1024,'size':684,'source':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
       </article>
     </section>
 
@@ -125,20 +148,20 @@
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ" config="[{'screen':320,'size':294},{'screen':600,'size':574},{'screen':1024,'size':684,'dark':'https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA'}]" size="684, 384">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365" srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w320-v3-e365 320w,https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w640-v3-e365 600w,https://lh3.googleusercontent.com/xS2eiv5_nOEX8SL_l3JLL9HaIpprRo8JFoEud4OI7TUNJuoPnD_eGj6qNtA5f9mNmpl8fuQ3cAsFg-HfaXQeFgs7q7Ur_4YrFwyg=w520-v3-e365 1024w">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA=w684-v1-e365-rw-k" media="(prefers-color-scheme: dark) and (min-width: 1024px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/rTaTdb1A4EfTN0E-oeX2jnzDyr8p1SCXNCFB_JpWi9qD6XN9CRpnhFahrGAxsv6X4mAF2TaP_ahNVzTTv2nxhs2dHAsnfNe3IbFwKA=w684-v1-e365-nw-k" media="(prefers-color-scheme: dark) and (min-width: 1024px)"><source srcset="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w684-v1-e365-rw-k" media="(min-width: 1024px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w574-v1-e365-rw-k" media="(min-width: 600px)" type="image/webp"><source srcset="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w294-v1-e365-rw-k" media="(min-width: 320px)" type="image/webp"><img id="image" loading="lazy" height="384" width="684" alt="" src="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w684-v1-e365-nw-k" srcset="https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w294-v1-e365-nw-k 320w,https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w574-v1-e365-nw-k 600w,https://lh3.googleusercontent.com/siC_cemzNwib2mrUqyUtHMXggv52_9oo2INLUmtKiLPtzyJRw5dK521kKVArh02PruaxNHYiNTdQ5RIsUj7JDY2SLkmF9JL8Un2klcQ=w684-v1-e365-nw-k 1024w"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>config</span>=<span>"[
+  <span class="highlight">config</span>=<span class="highlight">"[
     {'screen':320,'size':320},
     {'screen':600,'size':574},
     {'screen':1024,'size':684,'dark':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
       </article>
     </section>
 
@@ -147,181 +170,303 @@
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" ttl="180" size="684, 424">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
         <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e180">
+          <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e180-rw-k" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e180-nw-k"></picture>
         </noscript>
       </gcp-img>
       <article>
-        <p>In case you need to specify a different cache time to live days, you can use <code>ttl</code> attribute.</p>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>ttl</span>=<span>"180"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">ttl</span>=<span class="highlight">"180"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>In case you need to specify a different cache time to live days, you can use <code>ttl</code> attribute.</p>
       </article>
     </section>
 
-    <section>
+    <section id="rotate" class="interactive">
       <h2>Rotate</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" rotate="270" size="684, 1101">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-r270-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-r270">
-        </noscript>
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" rotate="" size="684, 1101">
+        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-r180-fSoften=1,100,0" alt="" slot="placeholder">
       </gcp-img>
       <article>
-        <p>To rotate the image clockwise use the <code>rotate</code> attribute. Only valid values are <code>90</code>, <code>180</code> and <code>270</code></p>
+        <form action="">
+          <fieldset>
+            <legend>Change rotation</legend>
+            <button type="button" value="">Original</button>
+            <button type="button" value="90">Apply 90 Rotation</button>
+            <button type="button" value="180">Apply 180 Rotation</button>
+            <button type="button" value="270">Apply 270 Rotation</button>
+          </fieldset>
+        </form>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"318, 512"</span>
-  <span>rotate</span>=<span>"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>To rotate the image clockwise use the <code>rotate</code> attribute. Only valid values are <code>90</code>, <code>180</code> and <code>270</code></p>
       </article>
     </section>
 
-    <section>
+    <noscript>
+      <section>
+        <h2>Rotate</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-r270-rw-k" type="image/webp"><img id="image" loading="lazy" height="1101" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-r270-nw-k"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"318, 512"</span>
+    <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>To rotate the image clockwise use the <code>rotate</code> attribute. Only valid values are <code>90</code>, <code>180</code> and <code>270</code></p>
+        </article>
+      </section>
+    </noscript>
+
+    <section id="flip" class="interactive">
       <h2>Flip</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" flip="v" size="684, 424">
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" flip="" size="684, 424">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fv-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fv">
-        </noscript>
       </gcp-img>
       <article>
+        <form action="">
+          <fieldset>
+            <legend>Change the Image Flip</legend>
+            <button type="button" value="">Original</button>
+            <button type="button" value="v">Apply Vertical Flip</button>
+            <button type="button" value="h">Apply Horizontal Flip</button>
+          </fieldset>
+        </form>
+        <pre><code>
+  <span>&lt;gcp-img</span>
+  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+  <span>size</span>=<span>"512, 318"</span>
+  <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+        </code></pre>
         <p>It is possible to flip the image using <code>flip</code> attribute. Only valid options are <code>h</code> to flip horizontally and <code>v</code> to flip vertically.</p>
+      </article>
+    </section>
+
+    <noscript>
+      <section>
+        <h2>Flip Vertically and Horizontally</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-fv-rw-k" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-fv-nw-k"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>It is possible to flip the image using <code>flip</code> attribute. Only valid options are <code>h</code> to flip horizontally and <code>v</code> to flip vertically</p>
+        </article>
+      </section>
+    </noscript>
+
+    <section id="filter" class="interactive">
+      <h2>Image Filters</h2>
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="" radius="40" size="684, 424" color="FC0FC0">
+        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
+      </gcp-img>
+      <article>
+        <form action="">
+          <fieldset>
+            <legend>Change the Filter</legend>
+            <button type="button" value="">Original</button>
+            <button type="button" value="blur">Apply Blur</button>
+            <button type="button" value="vignette">Apply Vignette</button>
+            <button type="button" value="invert">Apply Invert</button>
+            <button type="button" value="bw">Apply Black and White</button>
+          </fieldset>
+          <fieldset>
+            <legend>Change the radius (Blur or Vignette Only)</legend>
+            <label for="radius">Filter Radius</label>
+            <input type="range" name="radius" id="radius" min="0" max="100" step="10" value="10">
+          </fieldset>
+          <fieldset>
+            <legend>Change the color (Vignette Only)</legend>
+            <label for="color">Filter Color</label>
+            <input type="color" name="color" id="color" value="#fc0fc0">
+          </fieldset>
+        </form>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
   <span>size</span>=<span>"512, 318"</span>
-  <span>flip</span>=<span>"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
+  <span class="highlight">radius</span>=<span class="highlight">"40"</span>
+  <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
-      </article>
-    </section>
-
-    <section>
-      <h2>Blur</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="blur" radius="40" size="684, 424">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fSoften=1,40,0">
-        </noscript>
-      </gcp-img>
-      <article>
         <p>Add some blur to the image by adding the <code>blur</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
-        <pre><code>
-  <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span>filter</span>=<span>"blur"</span>
-  <span>radius</span>=<span>"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
       </article>
     </section>
 
-    <section>
-      <h2>Vignette</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="vignette" radius="100" color="FC0FC0" size="684, 424">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fVignette=1,100,1.4,0,000000">
-        </noscript>
-      </gcp-img>
-      <article>
-        <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute. Add a vignette color by adding a six digit HEX color number value on the <code>color</code> attribute.</p>
-        <pre><code>
-  <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span>filter</span>=<span>"vignette"</span>
-  <span>radius</span>=<span>"100"</span>
-  <span>color</span>=<span>"FC0FC00"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
-      </article>
-    </section>
+    <noscript>
+      <section>
+        <h2>Blur</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-fSoften=1,40,0" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-fSoften=1,40,0"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
+    <span class="highlight">radius</span>=<span class="highlight">"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>Add some blur to the image by adding the <code>blur</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
+        </article>
+      </section>
 
-    <section>
-      <h2>Invert</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="invert" size="684, 424">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fInvert=0">
-        </noscript>
-      </gcp-img>
-      <article>
-        <p>Invert the image using the <code>invert</code> value on the <code>filter</code> attribute.</p>
-        <pre><code>
-  <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span>filter</span>=<span>"invert"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
-      </article>
-    </section>
+      <section>
+        <h2>Vignette</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-fVignette=1,40,1.4,0,FC0FC0" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-fVignette=1,40,1.4,0,FC0FC0"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">filter</span>=<span class="highlight">"vignette"</span>
+    <span class="highlight">radius</span>=<span class="highlight">"100"</span>
+    <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute. Add a vignette color by adding a six digit HEX color number value on the <code>color</code> attribute.</p>
+        </article>
+      </section>
 
-    <section>
-      <h2>Black &amp; White</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" filter="bw" size="684, 424">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v3-e365-fbw=0">
-        </noscript>
-      </gcp-img>
-      <article>
-        <p>Convert to black and white the image using the <code>bw</code> value on the <code>filter</code> attribute.</p>
-        <pre><code>
-  <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span>filter</span>=<span>"bw"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
-      </article>
-    </section>
-  </main>
+      <section>
+        <h2>Invert</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-fInvert=0" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-fInvert=0"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">filter</span>=<span class="highlight">"invert"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>Invert the image using the <code>invert</code> value on the <code>filter</code> attribute.</p>
+        </article>
+      </section>
 
-    <section>
-      <h2>Smart Crop</h2>
+      <section>
+        <h2>Black &amp; White</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-fbw=0" type="image/webp"><img id="image" loading="lazy" height="424" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-fbw=0"></picture>
+        <article>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">filter</span>=<span class="highlight">"bw"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>Convert to black and white the image using the <code>bw</code> value on the <code>filter</code> attribute.</p>
+        </article>
+      </section>
+    </noscript>
+
+    <section id="crop" class="interactive">
+      <h2>Smart and Circle Crop</h2>
       <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" crop="smart" size="684">
         <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-pp-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v1-e365-rw-pp">
-        </noscript>
       </gcp-img>
       <article>
+        <form action="">
+          <fieldset>
+            <legend>Switch between Smart and Circular Crop</legend>
+            <button type="button" data-action="Circular">Switch to </button>
+          </fieldset>
+        </form>
+        <pre><code>
+  <span>&lt;gcp-img</span>
+  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+  <span>size</span>=<span>"200"</span>
+  <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+        </code></pre>
         <p>Crop the image to a square using the <code>smart</code> value on the <code>crop</code> attribute.</p>
-        <pre><code>
-  <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"200"</span>
-  <span>crop</span>=<span>"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
-        </code></pre>
+        <p>Crop the image to a circle using the <code>circular</code> value on the <code>crop</code> attribute.</p>
       </article>
     </section>
-  </main>
 
-    <section>
-      <h2>Circular Crop</h2>
-      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND" crop="circular" size="684">
-        <img src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w100-v3-e365-cc-fSoften=1,100,0" alt="" slot="placeholder">
-        <noscript>
-          <img alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=v1-e365-rw-cc">
-        </noscript>
+    <noscript>
+      <section>
+        <h2>Smart Crop</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-pp" type="image/webp"><img id="image" loading="lazy" height="684" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-pp"></picture>
+        <article>
+          <p>Crop the image to a square using the <code>smart</code> value on the <code>crop</code> attribute.</p>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"200"</span>
+    <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+        </article>
+      </section>
+
+      <section>
+        <h2>Circular Crop</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-rw-k-cc" type="image/webp"><img id="image" loading="lazy" height="684" width="684" alt="" src="https://lh3.googleusercontent.com/YXPVsT8M2Z1N5lJa4L1HNaytl5YnrH452QC_bUdmOP3iyfK8wgJ2GFsTbaQ7Ha8F5XDD8yKSYDORksuJqrDBpzr6ZV8aJ151SMND=w684-v1-e365-nw-k-cc"></picture>
+        <article>
+          <p>Crop the image to a circle using the <code>circular</code> value on the <code>crop</code> attribute.</p>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"200"</span>
+    <span class="highlight">crop</span>=<span class="highlight">"circular"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+        </article>
+      </section>
+    </noscript>
+
+    <section id="animation" class="interactive">
+      <h2>Animations</h2>
+      <gcp-img class="image" fade src="https://lh3.googleusercontent.com/KpRfD5A4BtsoQamGLiE7MKinzme3uTYXm-SvsWd80MxFGmrWC3Gj0AwDhSIc4-5D4IYX1440_-T0Zb1ir0SmMm6Bo0blYWBdV3UZ" size="480, 270">
+        <img src="https://lh3.googleusercontent.com/KpRfD5A4BtsoQamGLiE7MKinzme3uTYXm-SvsWd80MxFGmrWC3Gj0AwDhSIc4-5D4IYX1440_-T0Zb1ir0SmMm6Bo0blYWBdV3UZ=w100-v3-e365-cc-fSoften=1,100,0" alt="" slot="placeholder">
       </gcp-img>
       <article>
-        <p>Crop the image to a circle using the <code>circular</code> value on the <code>crop</code> attribute.</p>
+        <form action="">
+          <fieldset>
+            <legend>Play or Stop the animation</legend>
+            <button type="button" data-action="Play">Switch to </button>
+          </fieldset>
+        </form>
         <pre><code>
   <span>&lt;gcp-img</span>
   <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"200"</span>
-  <span>crop</span>=<span>"circular"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+  <span>size</span>=<span>"480, 270"</span>
+  <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
+        <p>If the image is an animated GIF you can toggle Play/Stop by adding or removing the <code>play</code> attribute.</p>
       </article>
     </section>
+
+    <noscript>
+      <section>
+        <h2>Animations</h2>
+        <picture id="picture"><source srcset="https://lh3.googleusercontent.com/KpRfD5A4BtsoQamGLiE7MKinzme3uTYXm-SvsWd80MxFGmrWC3Gj0AwDhSIc4-5D4IYX1440_-T0Zb1ir0SmMm6Bo0blYWBdV3UZ=w480-v1-e365-rw" type="image/webp"><img id="image" loading="lazy" height="270" width="480" alt="" src="https://lh3.googleusercontent.com/KpRfD5A4BtsoQamGLiE7MKinzme3uTYXm-SvsWd80MxFGmrWC3Gj0AwDhSIc4-5D4IYX1440_-T0Zb1ir0SmMm6Bo0blYWBdV3UZ=w480-v1-e365-nw"></picture>
+        <article>
+          <form action="">
+            <fieldset>
+              <legend>Play or Stop the animation</legend>
+              <button type="button" data-action="Play">Switch to </button>
+            </fieldset>
+          </form>
+          <pre><code>
+    <span>&lt;gcp-img</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"480, 270"</span>
+    <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+          </code></pre>
+          <p>If the image is an animated GIF you can toggle Play/Stop by adding or removing the <code>play</code> attribute.</p>
+        </article>
+      </section>
+    </noscript>
   </main>
 
   <footer>
     <p>This custom element is not affiliated, endorsed or certified by Google.</p>
     <p>Cloud Image Platform and Cloud Image Services trademarks belong to Google LLC.</p>
   </footer>
+
+  <script src="demo.js"></script>
 </body>
 </html>
