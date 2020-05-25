@@ -30,6 +30,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Image URI.
+   * @param {String} value
    * @type {String}
    */
   set src(value) {
@@ -46,6 +47,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Image URI.
+   * @param {String} value
    * @type {String}
    */
   set darksrc(value) {
@@ -58,6 +60,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Image alt-text.
+   * @param {String} value
    * @type {String}
    */
   set alt(value) {
@@ -71,6 +74,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Image size.
+   * @param {String} value
    * @type {String}
    */
   set size(value) {
@@ -102,7 +106,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the config attribute.
-   * @type {Boolean}
+   * @param {String} val
+   * @type {String}
    */
   set config(val) {
     return this.val;
@@ -118,7 +123,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Gets the Cache Time to live attribute.
-   * @type {Boolean}
+   * @type {Number}
    */
   get ttl() {
     return this.hasAttribute('ttl');
@@ -130,7 +135,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the Rotate attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set rotate(value) {
     this.safeSetAttribute('rotate', value);
@@ -142,7 +148,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the Flip attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set flip(value) {
     this.safeSetAttribute('flip', value);
@@ -154,7 +161,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set filter(value) {
     this.safeSetAttribute('filter', value);
@@ -166,7 +174,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter radius attribute.
-   * @type {Boolean}
+   * @param {Number} value
+   * @type {Number}
    */
   set radius(value) {
     this.safeSetAttribute('radius', value);
@@ -178,7 +187,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter vignnete color attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set color(value) {
     this.safeSetAttribute('color', value);
@@ -190,7 +200,8 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the crop attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set crop(value) {
     this.safeSetAttribute('crop', value);
@@ -225,6 +236,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the play attribute.
+   * @param {any} value
    * @type {Boolean}
    */
   set play(value) {
@@ -260,12 +272,22 @@ export class GcpImg extends HTMLElement {
     this.extraProperties = '';
   }
 
+  /**
+   * Detects and set the connection fast variable.
+   * @protected
+   */
   setConnectionQuality() {
     if (navigator.connection && navigator.connection.effectiveType) {
       this.isConnectionFast = navigator.connection.effectiveType === '4g';
+    } else {
+      this.isConnectionFast = true;
     }
   }
 
+  /**
+   * Builds the Image Template.
+   * @protected
+   */
   setTemplateImage() {
     const pic = document.createElement('picture');
     const img = new Image();
@@ -279,6 +301,10 @@ export class GcpImg extends HTMLElement {
     this.templateImage = pic;
   }
 
+  /**
+   * Builds the Placeholder template.
+   * @protected
+   */
   setTemplatePlaceholder() {
     const placeholder = document.createElement('div');
     const slot = document.createElement('slot');
@@ -292,6 +318,10 @@ export class GcpImg extends HTMLElement {
     this.templatePlaceholder = placeholder;
   }
 
+  /**
+   * Defines the Template CSS Style Tag.
+   * @protected
+   */
   setTemplateStyles() {
     const styleRules = document.createElement('style');
     const rules = `
@@ -344,6 +374,10 @@ export class GcpImg extends HTMLElement {
     this.templateStyles = styleRules;
   }
 
+  /**
+   * Builds the custom element template.
+   * @protected
+   */
   createTemplate() {
     const tagName = 'gcp-img';
     const template = document.createElement('template');
@@ -362,6 +396,9 @@ export class GcpImg extends HTMLElement {
     if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
   }
 
+  /**
+   *
+   */
   applyTemplate() {
     this.shadowRoot.appendChild(this.template.content.cloneNode(true));
     this.shadowImage = this.shadowRoot.getElementById('image');
@@ -386,15 +423,15 @@ export class GcpImg extends HTMLElement {
     this.placeholder = this.getAttribute('placeholder');
     this.fixed = this.getAttribute('fixed');
     this.play = this.getAttribute('play');
-    this.setProperties_();
+    this.setProperties();
     this.updateShadyStyles();
     this.applyChanges();
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     this[name] = newVal;
-    this.setProperties_();
-    this.clearSources();
+    this.setProperties();
+    this.clearPictureSources();
     this.applyChanges();
   }
 
@@ -402,6 +439,10 @@ export class GcpImg extends HTMLElement {
     this.disconnectObserver();
   }
 
+  /**
+   * Sets the source tags for a single image.
+   * @protected
+   */
   setSingleSource() {
     const hasSize = this.hasAttribute('size');
     const hasDarkSource = this.hasAttribute('darksrc');
@@ -436,7 +477,11 @@ export class GcpImg extends HTMLElement {
     this.shadowPicture.prepend(this.shadowSourceTags);
   }
 
-  clearSources() {
+  /**
+   * Removes source tags inside the picture element.
+   * @protected
+   */
+  clearPictureSources() {
     while (this.shadowPicture.hasChildNodes()) {
       if (this.shadowPicture.firstChild instanceof HTMLSourceElement) {
         this.shadowPicture.removeChild(this.shadowPicture.firstChild);
@@ -458,6 +503,7 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
+   * @protected
    */
   loadImage() {
     const hasConfig = this.hasAttribute('config');
@@ -470,7 +516,7 @@ export class GcpImg extends HTMLElement {
     this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
     if (hasConfig) {
-      this.setMediaSourceSets_();
+      this.setMediaSourceSets();
     } else {
       this.setSingleSource();
     }
@@ -494,8 +540,9 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Set the image srcset sttribute.
+   * @protected
    */
-  setMediaSourceSets_() {
+  setMediaSourceSets() {
     const extra = this.extraProperties;
     const imgSource = this.src;
     const sourcesArray = [];
@@ -543,52 +590,10 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Returns a valid filter radius number.
-   * @returns {number}
-   */
-  normalizeFilterRadius_() {
-    if (!this.getAttribute('radius')) {
-      return 0;
-    }
-
-    const radius = this.getAttribute('radius');
-    const radiusVal = parseInt(radius, 10);
-
-    if (radiusVal >= 0 && radiusVal <= 100) {
-      return radiusVal;
-    }
-
-    if (radiusVal > 100) {
-      return 100;
-    }
-
-    return 0;
-  }
-
-  /**
-   * Returns a valid vignette radius number.
-   * @returns {string}
-   */
-  normalizeVignetteColor_() {
-    if (!this.getAttribute('color')) {
-      return '000000';
-    }
-
-    const vignetteColor = this.getAttribute('color');
-    const captureHexColor = /[0-9A-Fa-f]{6}\b/;
-    const isValidColor = vignetteColor.match(captureHexColor);
-
-    if (isValidColor) {
-      return vignetteColor.toUpperCase();
-    }
-
-    return '000000';
-  }
-
-  /**
    * Sets the extra properties attribute.
+   * @protected
    */
-  setProperties_() {
+  setProperties() {
     const quality = this.isConnectionFast ? 'v1' : 'v3';
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
@@ -695,5 +700,50 @@ export class GcpImg extends HTMLElement {
     this.observer.disconnect();
     this.observer = null;
     delete this.observer;
+  }
+
+  /**
+   * Returns a valid filter radius number.
+   * @returns {number}
+   * @private
+   */
+  normalizeFilterRadius_() {
+    if (!this.getAttribute('radius')) {
+      return 0;
+    }
+
+    const radius = this.getAttribute('radius');
+    const radiusVal = parseInt(radius, 10);
+
+    if (radiusVal >= 0 && radiusVal <= 100) {
+      return radiusVal;
+    }
+
+    if (radiusVal > 100) {
+      return 100;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Returns a valid vignette radius number.
+   * @returns {string}
+   * @private
+   */
+  normalizeVignetteColor_() {
+    if (!this.getAttribute('color')) {
+      return '000000';
+    }
+
+    const vignetteColor = this.getAttribute('color');
+    const captureHexColor = /[0-9A-Fa-f]{6}\b/;
+    const isValidColor = vignetteColor.match(captureHexColor);
+
+    if (isValidColor) {
+      return vignetteColor.toUpperCase();
+    }
+
+    return '000000';
   }
 }

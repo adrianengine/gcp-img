@@ -21,7 +21,6 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ### Miscellaneous
 - [ ] Add figcaption to Demo Page Images with Requested Size, Display Size, Format
 - [ ] Create an SVG Favicon for Demo Page
-- [ ] Edit logo to be transparent and support for dark background
 - [ ] Publish to NPM
   - [ ] Add Semantic Versioning
 
@@ -33,6 +32,7 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 ---
 
 ## Completed ✓
+- [x] Edit logo to be transparent and support for dark background
 - [x] Add interactive controls to Demo Page Images where possible
 - [x] Add dark theme to Demo Page styles
 - [X] Turn fixed option a boolean attribute

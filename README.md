@@ -30,7 +30,7 @@ This web component follows the [open-wc](https://github.com/open-wc/open-wc) rec
   + [Applying Crop](#applying-crop)
     - [Smart Crop](#smart-crop)
     - [Circular Crop](#circular-crop)
-  + [Animated GIFs](#animated-gifs)
+  + [Animated Images](#animated-images)
 * [Attribute Summary](#attribute-summary)
 * [Recommended Options](#recommended-options)
   + [Fallback Image](#fallback-image)
@@ -305,7 +305,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 - You can make images circular crop by specifying a value of `circular`.
 
-### Animated GIFs
+### Animated Images
 
 ```html
 <gcp-img
@@ -316,7 +316,7 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 The above example shows usage of the `play` attribute:
 
-- You can start the animation of GIF images by specifying an attribute of `play`.
+- You can start the animation of GIF or WEBP images by specifying an attribute of `play`.
 
 ## Attribute Summary
 
@@ -335,7 +335,7 @@ The above example shows usage of the `play` attribute:
 | `radius`  | No       | No        | *Number*  | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
 | `color`   | No       | No        | *String*  | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
 | `crop`    | No       | No        | *String*  | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
-| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated GIF it will play it with autoloop.                        |
+| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated  or WEBP it will play it with autoloop.                   |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 
