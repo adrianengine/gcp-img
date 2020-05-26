@@ -1,9 +1,23 @@
 {
   "name": "gcp-img",
   "version": "0.1.0",
-  "description": "Lazily load and configure your Google Cloud images with <gcp-img> custom element following open-wc recommendations",
+  "description": "Lazily load and configure your images from Google Cloud Storage.",
   "author": "adrianengine",
   "license": "LGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adrianengine/gcp-img.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrianengine/gcp-img/issues"
+  },
+  "keywords": [
+    "web-component",
+    "e2015-modules",
+    "images",
+    "google-cloud",
+    "google-cloud-storage"
+  ],
   "main": "index.js",
   "module": "index.js",
   "scripts": {
