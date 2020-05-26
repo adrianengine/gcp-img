@@ -2,34 +2,43 @@
 
 # \<gcp-img>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8963b8fa-da9f-4b52-a34f-f132d84b0936/deploy-status)](https://app.netlify.com/sites/gcp-img/deploys)
+
 The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage into the document.
 
 This web component follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
 ## Table of Contents
 
- * [Concept](#concept)
-  * [Philosophy](#philosophy)
-  * [Installation](#installation)
-  * [Usage](#usage)
-    + [Setting Dimensions](#setting-dimensions)
-    + [Setting Responsive Dimensions](#setting-responsive-dimensions)
-      - [Art Directed Image](#art-directed-image)
-    + [Change the Cache TTL (Time to live)](#change-the-cache-ttl--time-to-live)
-    + [Applying Transformations](#applying-transformations)
-      - [Rotation](#rotation)
-      - [Flip](#flip)
-    + [Applying Filters](#applying-filters)
-      - [Blur](#blur)
-      - [Vignette](#vignette)
-      - [Invert](#invert)
-      - [Black and White](#black-and-white)
-  * [Attribute Summary](#attribute-summary)
-  * [Recommended Options](#recommended-options)
-    + [Fallback Image](#fallback-image)
-    + [Placeholder Image](#placeholder-image)
-    + [Animate Image loading](#animate-image-loading)
-  * [How to Contribute](#how-to-contribute)
+* [Concept](#concept)
+* [Philosophy](#philosophy)
+* [Installation](#installation)
+* [Usage](#usage)
+  + [Setting Dimensions](#setting-dimensions)
+    - [A fixed width](#a-fixed-width)
+  + [Setting a Dark mode image alternative](#setting-a-dark-mode-image-alternative)
+  + [Setting Responsive Dimensions](#setting-responsive-dimensions)
+    - [Art Directed Image](#art-directed-image)
+  + [Configuration Options](#configuration-options)
+  + [Change the Cache TTL (Time to live)](#change-the-cache-ttl--time-to-live)
+  + [Applying Transformations](#applying-transformations)
+    - [Rotation](#rotation)
+    - [Flip](#flip)
+  + [Applying Filters](#applying-filters)
+    - [Blur](#blur)
+    - [Vignette](#vignette)
+    - [Invert](#invert)
+    - [Black and White](#black-and-white)
+  + [Applying Crop](#applying-crop)
+    - [Smart Crop](#smart-crop)
+    - [Circular Crop](#circular-crop)
+  + [Animated Images](#animated-images)
+* [Attribute Summary](#attribute-summary)
+* [Recommended Options](#recommended-options)
+  + [Fallback Image](#fallback-image)
+  + [Placeholder Image](#placeholder-image)
+  + [Animate Image loading](#animate-image-loading)
+* [How to Contribute](#how-to-contribute)
 
 ## Concept
 
@@ -80,23 +89,51 @@ The above example shows usage of the `<gcp-img>` element:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  size="200"></gcp-img>
+  size="684, 424"></gcp-img>
 ```
 
 The above example shows usage of the `size` attribute:
 
 - The `size` attribute holds the numeric value of the image width to be displayed.
 
+#### A fixed width
+
+```html
+<gcp-img
+  fixed
+  src="https://lh3.googleusercontent.com/…"
+  size="200, 124"></gcp-img>
+```
+
+The above example shows usage of the `fixed` attribute:
+
+- The `fixed` attribute makes the image with the specifyied width on the `size` attribute.
+
+### Setting a Dark mode image alternative
+
+```html
+<gcp-img
+  src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
+  darksrc="https://lh3.googleusercontent.com/…"></gcp-img>
+```
+
+The above example shows usage of the `darksrc` attribute:
+
+- The `darksrc` attribute contains the path to an alternate dark version of the image you want to embed from Google Cloud Services.
+- It will be displayed if `prefers-color-scheme: dark` is supported and activated.
+
 ### Setting Responsive Dimensions
 
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  sizes="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
+  size="684, 424"
+  config="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
 ```
-The above example shows usage of the `sizes` attribute:
+The above example shows usage of the read-only `config` attribute:
 
-- The `sizes` attribute holds a JS object converted to text with the configuration of the image to be displayed.
+- The `config` attribute holds a JS object converted to text with the configuration of the image to be displayed.
 
 ```js
 [
@@ -145,19 +182,29 @@ In case you need to show a different image in certain viewport, you can specify 
 ]
 ```
 
-The above configuration will render a different image between the viewports with sizes of 640 and 1024.
+The above configuration will render a different image between the viewports with dimensions of 320, 640 and 1024.
+
+### Configuration Options
+
+| Attribute | Required | Type     | Description                                                                           |
+|-----------|----------|----------|---------------------------------------------------------------------------------------|
+| `screen`  | Yes      | `number` | The screen size where the configuration values are intended.                          |
+| `size`    | Yes      | `number` | The width of the image for the companion `screen` size.                               |
+| `source`  | No       | URL      | The path to the image you want to embed from Google Cloud Services.                   |
+| `dark`    | No       | URL      | The path to the dark mode version image you want to embed from Google Cloud Services. |
 
 ### Change the Cache TTL (Time to live)
 
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   ttl="190"></gcp-img>
 ```
 
 By default the images will be requested with a cache for one year (365 Days).
 
-To change the number of days you can specify the new number of days in the `ttl` attribute.
+To change the number of days you can specify the new number of days in the read-only `ttl` attribute.
 
 ### Applying Transformations
 
@@ -166,6 +213,7 @@ To change the number of days you can specify the new number of days in the `ttl`
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   rotate="180"></gcp-img>
 ```
 
@@ -178,6 +226,7 @@ The above example shows usage of the `rotate` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   flip="180"></gcp-img>
 ```
 
@@ -192,6 +241,7 @@ The above example shows usage of the `flip` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="blur"
   radius="40"></gcp-img>
 ```
@@ -205,6 +255,7 @@ The above example shows usage of the `blur` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="vignette"
   radius="80"></gcp-img>
 ```
@@ -218,6 +269,7 @@ The above example shows usage of the `vignette` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="invert"></gcp-img>
 ```
 
@@ -230,6 +282,7 @@ The above example shows usage of the `invert` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="bw"></gcp-img>
 ```
 
@@ -244,6 +297,7 @@ The above example shows usage of the `bw` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   crop="smart"></gcp-img>
 ```
 
@@ -256,6 +310,7 @@ The above example shows usage of the `smart` the `crop` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   crop="circular"></gcp-img>
 ```
 
@@ -263,21 +318,37 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 - You can make images circular crop by specifying a value of `circular`.
 
+### Animated Images
+
+```html
+<gcp-img
+  src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
+  play></gcp-img>
+```
+
+The above example shows usage of the `play` attribute:
+
+- You can start the animation of GIF or WEBP images by specifying an attribute of `play`.
+
 ## Attribute Summary
 
-| Attribute | Required | Read-only | Type     | Default  | Description                                                                                  |
-|-----------|----------|-----------|----------|----------|----------------------------------------------------------------------------------------------|
-| `src`     | Yes      | No        | URL      | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
-| `alt`     | No       | No        | *String* | *empty*  | A text description of the image.                                                             |
-| `size`    | No       | No        | *Number* | `null`   | The numeric value of the image width to be displayed.                                        |
-| `sizes`   | No       | Yes       | *String* | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
-| `ttl`     | No       | Yes       | *Number* | `365`    | The number of days to cache the image. Default value is recommended.                         |
-| `rotate`  | No       | No        | *Number* | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
-| `flip`    | No       | No        | *String* | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
-| `filter`  | No       | No        | *String* | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
-| `radius`  | No       | No        | *Number* | `null`   | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
-| `color`   | No       | No        | *String* | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
-| `crop`    | No       | No        | *String* | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
+| Attribute | Required | Read-only | Type      | Default  | Description                                                                                  |
+|-----------|----------|-----------|-----------|----------|----------------------------------------------------------------------------------------------|
+| `src`     | Yes      | No        | URL       | `null`   | The path to the image you want to embed from Google Cloud Services.                          |
+| `darksrc` | No       | No        | URL       | `null`   | The path to the image you want to show if `prefers-color-scheme: dark` is supported.         |
+| `alt`     | No       | No        | *String*  | *empty*  | A text description of the image.                                                             |
+| `fixed`   | No       | No        | *Boolean* | `false`  | When specifying a single source will fix the dimensions to the values on `size` attribute.   |
+| `size`    | No       | No        | *Number*  | `null`   | The numeric value of the image width to be displayed.                                        |
+| `config`  | No       | Yes       | *String*  | `null`   | A JS object converted to text with the configuration of the image to be displayed.           |
+| `ttl`     | No       | Yes       | *Number*  | `365`    | The number of days to cache the image. Default value is recommended.                         |
+| `rotate`  | No       | No        | *Number*  | `null`   | The value for the degrees clockwise to rotate the image. Only accepts `90`, `180`, or `270`. |
+| `flip`    | No       | No        | *String*  | `null`   | Flip images vertically with `v` or horizontally with `h`.                                    |
+| `filter`  | No       | No        | *String*  | `null`   | Apply a filter to the image by specifying `blur`, `vignette`, `invert` or `bw`.              |
+| `radius`  | No       | No        | *Number*  | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
+| `color`   | No       | No        | *String*  | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
+| `crop`    | No       | No        | *String*  | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
+| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated GIF/WEBP it will play it with autoloop.                   |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 

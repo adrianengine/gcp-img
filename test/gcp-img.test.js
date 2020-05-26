@@ -5,10 +5,12 @@ import '../gcp-img.js';
 const defaultProps = {
   quality: 'v1',
   ttl: 'e365',
-  webp: 'rw',
+  nowebp: 'nw',
+  killanim: 'k',
 };
 
 const props = Object.values(defaultProps).join('-');
+const propsWithPlay = props.replace('-k', '');
 
 // eslint-disable-next-line max-len
 const imgURL =
@@ -41,6 +43,14 @@ describe('<gcp-img>', () => {
     `);
   });
 
+  it('has a placeholder element in shadow root', () => {
+    expect(element.shadowPlaceholder).to.be.an.instanceof(HTMLElement);
+  });
+
+  it('has an picture element in shadow root', () => {
+    expect(element.shadowPicture).to.be.an.instanceof(HTMLPictureElement);
+  });
+
   it('has an img element in shadow root', () => {
     expect(element.shadowImage).to.be.an.instanceof(HTMLImageElement);
   });
@@ -66,7 +76,7 @@ describe('<gcp-img>', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -91,7 +101,7 @@ describe('<gcp-img alt="attribute alt">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -163,16 +173,16 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('can override the size via attribute', async () => {
-    expect(element.size).to.eq('180');
+    expect(element.size).to.equal('180');
     element.size = '360';
     await elementUpdated(element);
     expect(element.size).to.equal('360');
   });
 
   it('can override the shadow image src via size attribute', async () => {
-    expect(element.shadowImage.src).to.eq(`${imgURL}=w180-${props}`);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${props}`);
     element.size = '360';
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${imgURL}=w360-${props}`);
   });
 
@@ -181,30 +191,58 @@ describe('<gcp-img src="path/to/cloud/img" size="180">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
+describe('<gcp-img src="path/to/cloud/img" darksrc="path/to/cloud/img">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" sizes=${sizesConfig}></gcp-img>
+      <gcp-img src="${imgURL}" darksrc="${imgAltURL}"></gcp-img>
+    `);
+    await elementUpdated(element);
+  });
+
+  it('returns darksrc dom property', () => {
+    expect(element.darksrc).to.equal(imgAltURL);
+  });
+
+  it('can override the darksrc via attribute', async () => {
+    expect(element.darksrc).to.equal(imgAltURL);
+    element.darksrc = imgURL;
+    await elementUpdated(element);
+    expect(element.darksrc).to.equal(imgURL);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).dom.to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" config="json-stringify">', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" config=${sizesConfig}></gcp-img>
     `);
   });
 
-  it('has a read only sizes prop', () => {
-    const init = element.sizes;
+  it('has a read only config prop', () => {
+    const init = element.config;
 
-    element.sizes = Math.random();
-    expect(element.sizes).to.equal(init);
+    element.config = Math.random();
+    expect(JSON.stringify(element.config)).to.equal(JSON.stringify(init));
   });
 
-  it('returns sizes dom property', () => {
-    expect(element.getAttribute('sizes')).to.equal(sizesConfig);
+  it('returns config dom property', () => {
+    expect(element.getAttribute('config')).to.equal(sizesConfig);
   });
 
   it('Image sets the srcset property', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.srcset).to.equal(sourceSet);
   });
 
@@ -213,30 +251,30 @@ describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
-describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify-with-src">', () => {
+describe('<gcp-img src="path/to/cloud/img" config="json-stringify-with-src">', () => {
   beforeEach(async () => {
     element = await fixture(`
-      <gcp-img src="${imgURL}" sizes=${sizesAltConfig}></gcp-img>
+      <gcp-img src="${imgURL}" config=${sizesAltConfig}></gcp-img>
     `);
   });
 
-  it('has a read only sizes prop', () => {
-    const init = element.sizes;
+  it('has a read only config prop', () => {
+    const init = element.config;
 
-    element.sizes = Math.random();
-    expect(element.sizes).to.equal(init);
+    element.config = Math.random();
+    expect(JSON.stringify(element.config)).to.equal(JSON.stringify(init));
   });
 
   it('returns sizes dom property', () => {
-    expect(element.getAttribute('sizes')).to.equal(sizesAltConfig);
+    expect(element.getAttribute('config')).to.equal(sizesAltConfig);
   });
 
   it('Image sets the srcset property', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.srcset).to.equal(sourceSetAlt);
   });
 
@@ -245,7 +283,7 @@ describe('<gcp-img src="path/to/cloud/img" sizes="json-stringify-with-src">', ()
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -268,8 +306,8 @@ describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
   });
 
   it('Image sets the ttl property', async () => {
-    await elementUpdated(element.shadowImage);
-    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180-rw`);
+    await elementUpdated(element);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=v1-e180-nw-k`);
   });
 
   it('passes the a11y audit', () => {
@@ -277,7 +315,7 @@ describe('<gcp-img src="path/to/cloud/img" ttl="180">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -302,7 +340,7 @@ describe('The image quality changes according to the connection speed', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -318,12 +356,12 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
   });
 
   it('Image sets the rotate property', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-r90`);
   });
 
   it('can override the rotate via attribute', async () => {
-    expect(element.rotate).to.eq('90');
+    expect(element.rotate).to.equal('90');
     element.rotate = '270';
     await elementUpdated(element);
     expect(element.rotate).to.equal('270');
@@ -335,7 +373,7 @@ describe('<gcp-img src="path/to/cloud/img" rotate="90">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -351,12 +389,12 @@ describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
   });
 
   it('Image sets the flip property', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fv`);
   });
 
   it('can override the flip via attribute', async () => {
-    expect(element.flip).to.eq('v');
+    expect(element.flip).to.equal('v');
     element.flip = 'h';
     await elementUpdated(element);
     expect(element.flip).to.equal('h');
@@ -368,7 +406,7 @@ describe('<gcp-img src="path/to/cloud/img" flip="v">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -388,12 +426,12 @@ describe('<gcp-img src="path/to/cloud/img" filter="blur" radius="100">', () => {
   });
 
   it('Image sets the blur filter', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fSoften=1,100,0`);
   });
 
   it('can override the filter radius via attribute', async () => {
-    expect(element.radius).to.eq('100');
+    expect(element.radius).to.equal('100');
     element.radius = '50';
     await elementUpdated(element);
     expect(element.radius).to.equal('50');
@@ -405,7 +443,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="blur" radius="100">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -425,14 +463,14 @@ describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () 
   });
 
   it('Image sets the vignette filter', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(
       `${gcpURL}-fVignette=1,100,1.4,0,000000`
     );
   });
 
   it('can override the vignette radius via attribute', async () => {
-    expect(element.radius).to.eq('100');
+    expect(element.radius).to.equal('100');
     element.radius = '50';
     await elementUpdated(element);
     expect(element.radius).to.equal('50');
@@ -462,7 +500,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="vignette" radius="100">', () 
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -478,7 +516,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="invert">', () => {
   });
 
   it('Image sets the invert filter', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fInvert=0`);
   });
 
@@ -487,7 +525,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="invert">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -503,7 +541,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="bw">', () => {
   });
 
   it('Image sets the bw filter', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-fbw=0`);
   });
 
@@ -512,7 +550,7 @@ describe('<gcp-img src="path/to/cloud/img" filter="bw">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -528,12 +566,12 @@ describe('<gcp-img src="path/to/cloud/img" crop="smart">', () => {
   });
 
   it('Image sets the crop', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-pp`);
   });
 
   it('can override the crop via attribute', async () => {
-    expect(element.crop).to.eq('smart');
+    expect(element.crop).to.equal('smart');
     element.crop = 'circular';
     await elementUpdated(element);
     expect(element.crop).to.equal('circular');
@@ -545,7 +583,7 @@ describe('<gcp-img src="path/to/cloud/img" crop="smart">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });
 
@@ -561,12 +599,12 @@ describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
   });
 
   it('Image sets the crop', async () => {
-    await elementUpdated(element.shadowImage);
+    await elementUpdated(element);
     expect(element.shadowImage.src).to.equal(`${gcpURL}-cc`);
   });
 
   it('can override the crop via attribute', async () => {
-    expect(element.crop).to.eq('circular');
+    expect(element.crop).to.equal('circular');
     element.crop = 'smart';
     await elementUpdated(element);
     expect(element.crop).to.equal('smart');
@@ -578,6 +616,78 @@ describe('<gcp-img src="path/to/cloud/img" crop="circular">', () => {
   });
 
   it('shadow image passes the a11y audit', () => {
-    expect(element.shadowImage).to.be.accessible();
+    expect(element.shadowImage).dom.to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" fixed>', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" size="180, 112" fixed></gcp-img>
+    `);
+  });
+
+  it('returns fixed dom property', () => {
+    expect(element.getAttribute('fixed')).to.equal('');
+    expect(element.fixed).to.equal(true);
+  });
+
+  it('Image sets the fixed', async () => {
+    await elementUpdated(element);
+    expect(element.shadowImage.height).to.equal(112);
+    expect(element.shadowImage.naturalHeight).to.equal(112);
+    expect(element.shadowImage.width).to.equal(180);
+    expect(element.shadowImage.naturalWidth).to.equal(180);
+  });
+
+  it('can override the fixed via attribute', async () => {
+    expect(element.fixed).to.equal(true);
+    element.removeAttribute('fixed');
+    await elementUpdated(element);
+    expect(element.fixed).to.equal(false);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).dom.to.be.accessible();
+  });
+});
+
+describe('<gcp-img src="path/to/cloud/img" play>', () => {
+  beforeEach(async () => {
+    element = await fixture(`
+      <gcp-img src="${imgURL}" size="180, 112" play></gcp-img>
+    `);
+  });
+
+  it('returns play dom property', () => {
+    expect(element.getAttribute('play')).to.equal('');
+    expect(element.play).to.equal(true);
+  });
+
+  it('Image sets the play', async () => {
+    await elementUpdated(element);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${propsWithPlay}`);
+  });
+
+  it('can override the play via attribute', async () => {
+    await elementUpdated(element);
+    expect(element.play).to.equal(true);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${propsWithPlay}`);
+    element.removeAttribute('play');
+    await elementUpdated(element);
+    expect(element.play).to.equal(false);
+    expect(element.shadowImage.src).to.equal(`${imgURL}=w180-${props}`);
+  });
+
+  it('passes the a11y audit', () => {
+    expect(element).shadowDom.to.be.accessible();
+  });
+
+  it('shadow image passes the a11y audit', () => {
+    expect(element.shadowImage).dom.to.be.accessible();
   });
 });

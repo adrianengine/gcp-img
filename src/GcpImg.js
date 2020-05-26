@@ -1,55 +1,5 @@
 const observerIsIntersecting = ({ isIntersecting }) => isIntersecting;
 
-const tagName = 'lazy-image';
-const template = document.createElement('template');
-template.innerHTML = `
-  <style>
-    :host {
-      display: inline-block;
-      position: relative;
-    }
-
-    #image,
-    #placeholder ::slotted(*) {
-      display: block;
-      height: var(--lazy-image-height, auto);
-      transition:
-        opacity
-        var(--lazy-image-fade-duration, 1s)
-        var(--lazy-image-fade-easing, ease-out);
-      object-fit: var(--lazy-image-fit, contain);
-      width: var(--lazy-image-width, auto);
-    }
-
-    #placeholder ::slotted(*) {
-      height: 100%;
-      left: 0;
-      position: absolute;
-      top: 0;
-      width: 100%;
-    }
-
-    :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
-    :host([fade]) #image:not([aria-hidden="true"]) {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    :host([fade]) #image,
-    :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
-      opacity: 0;
-      visibility: hidden;
-    }
-  </style>
-  <div id="placeholder" aria-hidden="false">
-    <slot name="placeholder"></slot>
-  </div>
-  <img id="image" loading="lazy" aria-hidden="true"/>
-`;
-
-/* istanbul ignore next */
-if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
-
 export class GcpImg extends HTMLElement {
   /**
    * Guards against loops when reflecting observed attributes.
@@ -64,6 +14,7 @@ export class GcpImg extends HTMLElement {
   static get observedAttributes() {
     return [
       'src',
+      'darksrc',
       'alt',
       'size',
       'rotate',
@@ -72,11 +23,14 @@ export class GcpImg extends HTMLElement {
       'radius',
       'color',
       'crop',
+      'fixed',
+      'play',
     ];
   }
 
   /**
    * Image URI.
+   * @param {String} value
    * @type {String}
    */
   set src(value) {
@@ -92,7 +46,21 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
+   * Image URI.
+   * @param {String} value
+   * @type {String}
+   */
+  set darksrc(value) {
+    this.safeSetAttribute('darksrc', value);
+  }
+
+  get darksrc() {
+    return this.getAttribute('darksrc');
+  }
+
+  /**
    * Image alt-text.
+   * @param {String} value
    * @type {String}
    */
   set alt(value) {
@@ -106,12 +74,30 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Image size.
+   * @param {String} value
    * @type {String}
    */
   set size(value) {
+    const hasFixedAttribute = this.hasAttribute('fixed');
+
     this.safeSetAttribute('size', value);
-    this.shadowImage.size = value;
-    this.src = this.getAttribute('src');
+
+    if (value) {
+      const size = value.split(',');
+
+      [this.wDimension, this.hDimension] = size;
+
+      if (size.length === 1) {
+        [this.hDimension] = size;
+      }
+
+      this.shadowImage.height = this.hDimension;
+      this.shadowImage.width = this.wDimension;
+    }
+
+    if (hasFixedAttribute) {
+      this.setAttribute('fixed', '');
+    }
   }
 
   get size() {
@@ -119,20 +105,25 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Gets the sizes attribute.
-   * @type {Boolean}
+   * Sets the config attribute.
+   * @param {String} val
+   * @type {String}
    */
-  get sizes() {
-    return this.hasAttribute('sizes');
+  set config(val) {
+    return this.val;
   }
 
-  set sizes(val) {
-    return this.sizes;
+  get config() {
+    const config = this.getAttribute('config');
+    const configCorrected = config.replace(/'/g, '"');
+    const configParsed = JSON.parse(configCorrected);
+
+    return configParsed;
   }
 
   /**
    * Gets the Cache Time to live attribute.
-   * @type {Boolean}
+   * @type {Number}
    */
   get ttl() {
     return this.hasAttribute('ttl');
@@ -144,11 +135,11 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the Rotate attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set rotate(value) {
     this.safeSetAttribute('rotate', value);
-    this.shadowImage.rotate = value;
   }
 
   get rotate() {
@@ -157,11 +148,11 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the Flip attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set flip(value) {
     this.safeSetAttribute('flip', value);
-    this.shadowImage.flip = value;
   }
 
   get flip() {
@@ -170,11 +161,11 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set filter(value) {
     this.safeSetAttribute('filter', value);
-    this.shadowImage.filter = value;
   }
 
   get filter() {
@@ -183,11 +174,11 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter radius attribute.
-   * @type {Boolean}
+   * @param {Number} value
+   * @type {Number}
    */
   set radius(value) {
     this.safeSetAttribute('radius', value);
-    this.shadowImage.radius = value;
   }
 
   get radius() {
@@ -196,11 +187,11 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the filter vignnete color attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set color(value) {
     this.safeSetAttribute('color', value);
-    this.shadowImage.color = value;
   }
 
   get color() {
@@ -209,15 +200,51 @@ export class GcpImg extends HTMLElement {
 
   /**
    * Sets the crop attribute.
-   * @type {Boolean}
+   * @param {String} value
+   * @type {String}
    */
   set crop(value) {
     this.safeSetAttribute('crop', value);
-    this.shadowImage.crop = value;
   }
 
   get crop() {
     return this.getAttribute('crop');
+  }
+
+  /**
+   * Gets the Fixed attribute.
+   * @type {Boolean}
+   */
+  get fixed() {
+    return this.hasAttribute('fixed');
+  }
+
+  set fixed(val) {
+    const hasFixedAttribute = this.hasAttribute('fixed');
+    const hasMultipleSources = this.hasAttribute('config');
+
+    if (hasFixedAttribute && !hasMultipleSources) {
+      this.setAttribute(
+        'style',
+        `--gcp-image-height:${this.hDimension}px;` +
+          `--gcp-image-width:${this.wDimension}px;`
+      );
+    } else {
+      this.removeAttribute('style');
+    }
+  }
+
+  /**
+   * Sets the play attribute.
+   * @param {any} value
+   * @type {Boolean}
+   */
+  set play(value) {
+    this.safeSetAttribute('play', value);
+  }
+
+  get play() {
+    return this.hasAttribute('play');
   }
 
   /**
@@ -239,22 +266,152 @@ export class GcpImg extends HTMLElement {
     this.onLoad = this.onLoad.bind(this);
     this.onError = this.onError.bind(this);
     this.attachShadow({ mode: 'open' });
+    this.createTemplate();
     this.applyTemplate();
+    this.setConnectionQuality();
     this.extraProperties = '';
-    // TODO: Implement Network Aware Detection to change this value
-    this.isConnectionFast = true;
   }
 
+  /**
+   * Detects and set the connection fast variable.
+   * @protected
+   */
+  setConnectionQuality() {
+    if (navigator.connection && navigator.connection.effectiveType) {
+      this.isConnectionFast = navigator.connection.effectiveType === '4g';
+    } else {
+      this.isConnectionFast = true;
+    }
+  }
+
+  /**
+   * Builds the Image Template.
+   * @protected
+   */
+  setTemplateImage() {
+    const pic = document.createElement('picture');
+    const img = new Image();
+
+    img.id = 'image';
+    img.loading = 'lazy';
+    img.ariaHidden = 'true';
+    pic.id = 'picture';
+    pic.appendChild(img);
+
+    this.templateImage = pic;
+  }
+
+  /**
+   * Builds the Placeholder template.
+   * @protected
+   */
+  setTemplatePlaceholder() {
+    const placeholder = document.createElement('div');
+    const slot = document.createElement('slot');
+
+    placeholder.id = 'placeholder';
+    placeholder.ariaHidden = 'true';
+    slot.name = 'placeholder';
+
+    placeholder.appendChild(slot);
+
+    this.templatePlaceholder = placeholder;
+  }
+
+  /**
+   * Defines the Template CSS Style Tag.
+   * @protected
+   */
+  setTemplateStyles() {
+    const styleRules = document.createElement('style');
+    const rules = `
+      :host {
+        display: block;
+        position: relative;
+        width: var(--gcp-image-width, 100%);
+      }
+
+      #picture {
+        display: contents;
+      }
+
+      #image,
+      #placeholder ::slotted(*) {
+        border: none;
+        display: block;
+        height: var(--gcp-image-height, 100%);
+        overflow: hidden;
+        transition:
+          opacity
+          var(--gcp-image-fade-duration, 0.3s)
+          var(--gcp-image-fade-easing, ease);
+        width: var(--gcp-image-width, 100%);
+      }
+
+      #placeholder ::slotted(*) {
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
+        width: 100%;
+      }
+
+      :host([fade]) #placeholder:not([aria-hidden="true"]) ::slotted(*),
+      :host([fade]) #image:not([aria-hidden="true"]) {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      :host([fade]) #image,
+      :host([fade]) #placeholder[aria-hidden="true"] ::slotted(*) {
+        opacity: 0;
+        visibility: hidden;
+      }
+    `;
+
+    styleRules.appendChild(document.createTextNode(rules));
+
+    this.templateStyles = styleRules;
+  }
+
+  /**
+   * Builds the custom element template.
+   * @protected
+   */
+  createTemplate() {
+    const tagName = 'gcp-img';
+    const template = document.createElement('template');
+
+    this.setTemplateStyles();
+    this.setTemplatePlaceholder();
+    this.setTemplateImage();
+
+    template.content.appendChild(this.templateStyles);
+    template.content.appendChild(this.templatePlaceholder);
+    template.content.appendChild(this.templateImage);
+
+    this.template = template;
+
+    /* istanbul ignore next */
+    if (window.ShadyCSS) window.ShadyCSS.prepareTemplate(template, tagName);
+  }
+
+  /**
+   *
+   */
   applyTemplate() {
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.appendChild(this.template.content.cloneNode(true));
     this.shadowImage = this.shadowRoot.getElementById('image');
     this.shadowImage.onload = this.onLoad;
     this.shadowImage.onerror = this.onError;
     this.shadowPlaceholder = this.shadowRoot.getElementById('placeholder');
+    this.shadowPicture = this.shadowRoot.getElementById('picture');
+    this.shadowSourceTags = new DocumentFragment();
   }
 
   connectedCallback() {
     this.src = this.getAttribute('src');
+    this.darksrc = this.getAttribute('darksrc');
     this.alt = this.getAttribute('alt') || '';
     this.size = this.getAttribute('size');
     this.rotate = this.getAttribute('rotate');
@@ -264,8 +421,78 @@ export class GcpImg extends HTMLElement {
     this.color = this.getAttribute('color');
     this.crop = this.getAttribute('crop');
     this.placeholder = this.getAttribute('placeholder');
-    this.getProperties_();
+    this.fixed = this.getAttribute('fixed');
+    this.play = this.getAttribute('play');
+    this.setProperties();
     this.updateShadyStyles();
+    this.applyChanges();
+  }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    this[name] = newVal;
+    this.setProperties();
+    this.clearPictureSources();
+    this.applyChanges();
+  }
+
+  disconnectedCallback() {
+    this.disconnectObserver();
+  }
+
+  /**
+   * Sets the source tags for a single image.
+   * @protected
+   */
+  setSingleSource() {
+    const hasSize = this.hasAttribute('size');
+    const hasDarkSource = this.hasAttribute('darksrc');
+    const webpSource = document.createElement('source');
+    const size = hasSize ? `=w${this.wDimension}` : '';
+    const separator = hasSize ? '-' : '=';
+    const extra = this.extraProperties;
+
+    webpSource.srcset = this.shadowImage.src.replace('-nw', '-rw');
+    webpSource.type = 'image/webp';
+
+    this.shadowSourceTags.prepend(webpSource);
+
+    if (hasDarkSource) {
+      const darkSourceTag = document.createElement('source');
+      const darkWebpSourceTag = document.createElement('source');
+
+      darkSourceTag.srcset = `${this.getAttribute(
+        'darksrc'
+      )}${size}${separator}${extra}`;
+      darkSourceTag.media = '(prefers-color-scheme: dark)';
+
+      this.shadowSourceTags.prepend(darkSourceTag);
+
+      darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
+      darkWebpSourceTag.media = '(prefers-color-scheme: dark)';
+      darkWebpSourceTag.type = 'image/webp';
+
+      this.shadowSourceTags.prepend(darkWebpSourceTag);
+    }
+
+    this.shadowPicture.prepend(this.shadowSourceTags);
+  }
+
+  /**
+   * Removes source tags inside the picture element.
+   * @protected
+   */
+  clearPictureSources() {
+    while (this.shadowPicture.hasChildNodes()) {
+      if (this.shadowPicture.firstChild instanceof HTMLSourceElement) {
+        this.shadowPicture.removeChild(this.shadowPicture.firstChild);
+      } else {
+        break;
+      }
+    }
+  }
+
+  applyChanges() {
+    this.src = this.getAttribute('src');
 
     if ('IntersectionObserver' in window) {
       this.initIntersectionObserver();
@@ -274,31 +501,24 @@ export class GcpImg extends HTMLElement {
     }
   }
 
-  attributeChangedCallback(name, oldVal, newVal) {
-    this[name] = newVal;
-    this.getProperties_();
-    this.src = this.getAttribute('src');
-  }
-
-  disconnectedCallback() {
-    this.disconnectObserver();
-  }
-
   /**
    * Sets the intersecting attribute and reload styles if the polyfill is at play.
+   * @protected
    */
   loadImage() {
-    const hasSources = this.hasAttribute('sizes');
+    const hasConfig = this.hasAttribute('config');
     const hasSize = this.hasAttribute('size');
-    const size = hasSize ? `=w${this.size}` : '';
+    const size = hasSize ? `=w${this.wDimension}` : '';
     const separator = hasSize ? '-' : '=';
     const extra = this.extraProperties;
 
     this.setAttribute('intersecting', '');
     this.shadowImage.src = `${this.src}${size}${separator}${extra}`;
 
-    if (hasSources) {
-      this.shadowImage.srcset = this.getMediaSources_();
+    if (hasConfig) {
+      this.setMediaSourceSets();
+    } else {
+      this.setSingleSource();
     }
   }
 
@@ -319,83 +539,62 @@ export class GcpImg extends HTMLElement {
   }
 
   /**
-   * Return image srcset sttribute.
-   * @return {Array}
+   * Set the image srcset sttribute.
+   * @protected
    */
-  getMediaSources_() {
-    if (!this.getAttribute('sizes')) {
-      return false;
-    }
-
+  setMediaSourceSets() {
     const extra = this.extraProperties;
-    const sizesAttribute = this.getAttribute('sizes');
-    const sizesAdjusted = sizesAttribute.replace(/'/g, '"');
-    const sizes = JSON.parse(sizesAdjusted);
     const imgSource = this.src;
     const sourcesArray = [];
-    const sizeValues = Object.values(sizes);
+    const configValues = Object.values(this.config);
 
-    for (const key of sizeValues) {
-      const { screen, size, source } = key;
+    for (const key of configValues) {
+      const { screen, size, source, dark } = key;
       const imgUrl = source || imgSource;
 
       if (screen && size) {
+        const webpSourceTag = document.createElement('source');
+
         sourcesArray.push(`${imgUrl}=w${size}-${extra} ${screen}w`);
+
+        webpSourceTag.srcset = `${imgUrl}=w${size}-${extra}`.replace(
+          '-nw',
+          '-rw'
+        );
+        webpSourceTag.media = `(min-width: ${screen}px)`;
+        webpSourceTag.type = 'image/webp';
+
+        this.shadowSourceTags.prepend(webpSourceTag);
+      }
+
+      if (dark && screen && size) {
+        const darkSourceTag = document.createElement('source');
+        const darkWebpSourceTag = document.createElement('source');
+        const mediaQuery = `(prefers-color-scheme: dark) and (min-width: ${screen}px)`;
+
+        darkSourceTag.srcset = `${dark}=w${size}-${extra}`;
+        darkSourceTag.media = mediaQuery;
+
+        this.shadowSourceTags.prepend(darkSourceTag);
+
+        darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
+        darkWebpSourceTag.media = mediaQuery;
+        darkWebpSourceTag.type = 'image/webp';
+
+        this.shadowSourceTags.prepend(darkWebpSourceTag);
       }
     }
 
-    return sourcesArray.join(',');
+    this.shadowPicture.prepend(this.shadowSourceTags);
+    this.shadowImage.srcset = sourcesArray.join(',');
   }
 
   /**
-   * Returns a valid filter radius number.
-   * @returns {number}
+   * Sets the extra properties attribute.
+   * @protected
    */
-  normalizeFilterRadius_() {
-    if (!this.getAttribute('radius')) {
-      return 0;
-    }
-
-    const radius = this.getAttribute('radius');
-    const radiusVal = parseInt(radius, 10);
-
-    if (radiusVal >= 0 && radiusVal <= 100) {
-      return radiusVal;
-    }
-
-    if (radiusVal > 100) {
-      return 100;
-    }
-
-    return 0;
-  }
-
-  /**
-   * Returns a valid vignette radius number.
-   * @returns {string}
-   */
-  normalizeVignetteColor_() {
-    if (!this.getAttribute('color')) {
-      return '000000';
-    }
-
-    const vignetteColor = this.getAttribute('color');
-    const captureHexColor = /[0-9A-Fa-f]{6}\b/;
-    const isValidColor = vignetteColor.match(captureHexColor);
-
-    if (isValidColor) {
-      return vignetteColor.toUpperCase();
-    }
-
-    return '000000';
-  }
-
-  /**
-   * Returns the propeties string.
-   */
-  getProperties_() {
-    const page = document.querySelector('html');
-    const quality = this.isConnectionFast ? 'v1' : 'v2';
+  setProperties() {
+    const quality = this.isConnectionFast ? 'v1' : 'v3';
     const cacheDays = this.getAttribute('ttl');
     const rotation = this.getAttribute('rotate');
     const flip = this.getAttribute('flip');
@@ -403,8 +602,10 @@ export class GcpImg extends HTMLElement {
     const radius = this.normalizeFilterRadius_();
     const vignetteColor = this.normalizeVignetteColor_();
     const crop = this.getAttribute('crop');
+    const play = this.hasAttribute('play');
     const ttl = cacheDays ? `e${cacheDays}` : 'e365';
-    const supportsWebP = page.classList.contains('webp');
+    const noWebp = 'nw';
+    const killAnimation = 'k';
     const props = [];
 
     const filterTypes = {
@@ -415,15 +616,16 @@ export class GcpImg extends HTMLElement {
     };
 
     const cropTypes = {
-      circular: `cc`,
-      smart: `pp`,
+      circular: 'cc',
+      smart: 'pp',
     };
 
     props.push(quality);
     props.push(ttl);
+    props.push(noWebp);
 
-    if (supportsWebP) {
-      props.push('rw');
+    if (!play) {
+      props.push(killAnimation);
     }
 
     if (rotation) {
@@ -498,5 +700,50 @@ export class GcpImg extends HTMLElement {
     this.observer.disconnect();
     this.observer = null;
     delete this.observer;
+  }
+
+  /**
+   * Returns a valid filter radius number.
+   * @returns {number}
+   * @private
+   */
+  normalizeFilterRadius_() {
+    if (!this.getAttribute('radius')) {
+      return 0;
+    }
+
+    const radius = this.getAttribute('radius');
+    const radiusVal = parseInt(radius, 10);
+
+    if (radiusVal >= 0 && radiusVal <= 100) {
+      return radiusVal;
+    }
+
+    if (radiusVal > 100) {
+      return 100;
+    }
+
+    return 0;
+  }
+
+  /**
+   * Returns a valid vignette radius number.
+   * @returns {string}
+   * @private
+   */
+  normalizeVignetteColor_() {
+    if (!this.getAttribute('color')) {
+      return '000000';
+    }
+
+    const vignetteColor = this.getAttribute('color');
+    const captureHexColor = /[0-9A-Fa-f]{6}\b/;
+    const isValidColor = vignetteColor.match(captureHexColor);
+
+    if (isValidColor) {
+      return vignetteColor.toUpperCase();
+    }
+
+    return '000000';
   }
 }
