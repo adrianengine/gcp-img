@@ -1,6 +1,6 @@
 {
   "name": "gcp-img",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Lazily load and configure your Google Cloud images with <gcp-img> custom element following open-wc recommendations",
   "author": "adrianengine",
   "license": "LGPL-3.0",
