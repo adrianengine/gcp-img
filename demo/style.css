@@ -85,7 +85,7 @@ hr {
 
 a {
   text-decoration: none;
-  color: var(--color-blossom, #2c8898); }
+  color: var(--color-text, #2c8898); }
   a:hover {
     color: var(--color-fade, #982c61);
     border-bottom: 2px solid var(--color-text, #4a4a4a); }
@@ -196,7 +196,8 @@ label, legend, fieldset {
   margin-bottom: .5rem;
   font-weight: 600; }
 
-.title {
+.title,
+.subtitle {
   text-align: center;
 }
 

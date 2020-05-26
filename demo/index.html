@@ -6,9 +6,20 @@
   <meta name="description" content="Demos of the custom element gcp-img that wraps an image from Google Cloud Storage into the document.">
   <link rel="preconnect" href="https://lh3.googleusercontent.com/" crossorigin>
   <link rel="stylesheet" href="style.css">
-  <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="GCP-IMG">
+  <meta name="application-name" content="GCP-IMG">
+  <meta name="msapplication-TileColor" content="#2b5797">
+  <meta name="theme-color" content="#ffffff">
+
+  <script type="text/javascript" src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script type="module" src="../gcp-img.js"></script>
-  <title>GCP Image Custom Element Demo</title>
+  <title>GCP Image Web Component - Demo Page</title>
   <script>
     document.documentElement.className = `${document.documentElement.className.replace(/\bno-js\b/g, '')  }has-js `;
   </script>
@@ -18,6 +29,10 @@
     <h1 class="title">
       <img src="../gcp-img-logo.png" alt="Google Cloud image - Web Component">
     </h1>
+    <div class="subtitle">
+      <p>The Custom Element <code>&lt;gcp-img&gt;</code> element wraps an image from Google Cloud Storage into the document.</p>
+      <p><a href="https://github.com/adrianengine/gcp-img">Github Repository</a></p>
+    </div>
   </header>
 
   <main id="demo">
@@ -32,9 +47,9 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span class="highlight">src</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>
-  <span class="highlight">size</span>=<span class="highlight">"512, 318"</span>&gt;</span><span>
-  <span class="highlight">alt</span>=<span class="highlight">"Three people sitting on a lawn and blowing bubbles."</span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span class="highlight">src</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>
+    <span class="highlight">size</span>=<span class="highlight">"512, 318"</span>
+    <span class="highlight">alt</span>=<span class="highlight">"Three people sitting on a lawn and blowing bubbles."</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>Provide a URL from Google Cloud Storage on the <code>src</code> attribute and the width and height (separated by a comma) of the image in the <code>size</code> attribute.</p>
         <p>Don't forget to provide a descriptive <code>alt</code> text attribute.</p>
@@ -56,9 +71,9 @@
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span class="highlight">fixed</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span class="highlight">size</span>=<span class="highlight change">"180, 112"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span class="highlight">fixed</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span class="highlight">size</span>=<span class="highlight change">"180, 112"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
       </article>
@@ -71,9 +86,9 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span class="highlight">fixed</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span class="highlight">size</span>=<span class="highlight">"200, 124"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span class="highlight">fixed</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span class="highlight">size</span>=<span class="highlight">"200, 124"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>To make the image width fixed at the specified value in <code>size</code>, add the <code>fixed</code> attribute.</p>
         </article>
@@ -91,9 +106,9 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">darksrc</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">darksrc</span>=<span class="highlight">"https://lh3.googleusercontent.com/…"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>To change the image on browsers that supports <code>prefers-color-scheme: dark</code> provide the image URL on the <code>darksrc</code> attribute.</p>
       </article>
@@ -110,12 +125,12 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">config</span>=<span class="highlight">"[
-    {'screen':320,'size':294},
-    {'screen':600,'size':574},
-    {'screen':1024,'size':684}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">config</span>=<span class="highlight">"[
+      {'screen':320,'size':294},
+      {'screen':600,'size':574},
+      {'screen':1024,'size':684}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>For responsive images provide a configuration to the <code>config</code> attribute.</p>
       </article>
@@ -132,12 +147,12 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">config</span>=<span class="highlight">"[
-    {'screen':320,'size':294},
-    {'screen':600,'size':574},
-    {'screen':1024,'size':684,'source':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">config</span>=<span class="highlight">"[
+      {'screen':320,'size':294},
+      {'screen':600,'size':574},
+      {'screen':1024,'size':684,'source':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
       </article>
@@ -154,12 +169,12 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">config</span>=<span class="highlight">"[
-    {'screen':320,'size':320},
-    {'screen':600,'size':574},
-    {'screen':1024,'size':684,'dark':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">config</span>=<span class="highlight">"[
+      {'screen':320,'size':320},
+      {'screen':600,'size':574},
+      {'screen':1024,'size':684,'dark':'https://lh3.googleusercontent.com/…'}]"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>It is possible to pass a <code>source</code> value on the <code>config</code> configuration for the size you need.</p>
       </article>
@@ -176,9 +191,9 @@
       <article>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">ttl</span>=<span class="highlight">"180"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">ttl</span>=<span class="highlight">"180"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>In case you need to specify a different cache time to live days, you can use <code>ttl</code> attribute.</p>
       </article>
@@ -201,9 +216,9 @@
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"318, 512"</span>
-  <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"318, 512"</span>
+    <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>To rotate the image clockwise use the <code>rotate</code> attribute. Only valid values are <code>90</code>, <code>180</code> and <code>270</code></p>
       </article>
@@ -216,9 +231,9 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"318, 512"</span>
-    <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"318, 512"</span>
+      <span class="highlight">rotate</span>=<span class="highlight">"270"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>To rotate the image clockwise use the <code>rotate</code> attribute. Only valid values are <code>90</code>, <code>180</code> and <code>270</code></p>
         </article>
@@ -241,9 +256,9 @@
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>It is possible to flip the image using <code>flip</code> attribute. Only valid options are <code>h</code> to flip horizontally and <code>v</code> to flip vertically.</p>
       </article>
@@ -256,9 +271,9 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"512, 318"</span>
-    <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"512, 318"</span>
+      <span class="highlight">flip</span>=<span class="highlight">"v"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>It is possible to flip the image using <code>flip</code> attribute. Only valid options are <code>h</code> to flip horizontally and <code>v</code> to flip vertically</p>
         </article>
@@ -293,11 +308,11 @@
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"512, 318"</span>
-  <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
-  <span class="highlight">radius</span>=<span class="highlight">"40"</span>
-  <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"512, 318"</span>
+    <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
+    <span class="highlight">radius</span>=<span class="highlight">"40"</span>
+    <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>Add some blur to the image by adding the <code>blur</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
       </article>
@@ -310,10 +325,10 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"512, 318"</span>
-    <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
-    <span class="highlight">radius</span>=<span class="highlight">"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"512, 318"</span>
+      <span class="highlight">filter</span>=<span class="highlight">"blur"</span>
+      <span class="highlight">radius</span>=<span class="highlight">"40"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>Add some blur to the image by adding the <code>blur</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute.</p>
         </article>
@@ -325,11 +340,11 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"512, 318"</span>
-    <span class="highlight">filter</span>=<span class="highlight">"vignette"</span>
-    <span class="highlight">radius</span>=<span class="highlight">"100"</span>
-    <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"512, 318"</span>
+      <span class="highlight">filter</span>=<span class="highlight">"vignette"</span>
+      <span class="highlight">radius</span>=<span class="highlight">"100"</span>
+      <span class="highlight">color</span>=<span class="highlight">"FC0FC0"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>Add a vignette to the image by adding the <code>vignette</code> value on the <code>filter</code> attribute. Pass a value between <code>0</code> and <code>100</code> to the <code>radius</code> attribute. Add a vignette color by adding a six digit HEX color number value on the <code>color</code> attribute.</p>
         </article>
@@ -341,9 +356,9 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"512, 318"</span>
-    <span class="highlight">filter</span>=<span class="highlight">"invert"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"512, 318"</span>
+      <span class="highlight">filter</span>=<span class="highlight">"invert"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>Invert the image using the <code>invert</code> value on the <code>filter</code> attribute.</p>
         </article>
@@ -355,9 +370,9 @@
         <article>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"512, 318"</span>
-    <span class="highlight">filter</span>=<span class="highlight">"bw"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"512, 318"</span>
+      <span class="highlight">filter</span>=<span class="highlight">"bw"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>Convert to black and white the image using the <code>bw</code> value on the <code>filter</code> attribute.</p>
         </article>
@@ -373,14 +388,14 @@
         <form action="">
           <fieldset>
             <legend>Switch between Smart and Circular Crop</legend>
-            <button type="button" data-action="Circular">Switch to </button>
+            <button type="button" data-action="Circular"> Crop</button>
           </fieldset>
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"200"</span>
-  <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"200"</span>
+    <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>Crop the image to a square using the <code>smart</code> value on the <code>crop</code> attribute.</p>
         <p>Crop the image to a circle using the <code>circular</code> value on the <code>crop</code> attribute.</p>
@@ -395,9 +410,9 @@
           <p>Crop the image to a square using the <code>smart</code> value on the <code>crop</code> attribute.</p>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"200"</span>
-    <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"200"</span>
+      <span class="highlight">crop</span>=<span class="highlight">"smart"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
         </article>
       </section>
@@ -409,9 +424,9 @@
           <p>Crop the image to a circle using the <code>circular</code> value on the <code>crop</code> attribute.</p>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"200"</span>
-    <span class="highlight">crop</span>=<span class="highlight">"circular"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"200"</span>
+      <span class="highlight">crop</span>=<span class="highlight">"circular"</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
         </article>
       </section>
@@ -431,9 +446,9 @@
         </form>
         <pre><code>
   <span>&lt;gcp-img</span>
-  <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-  <span>size</span>=<span>"480, 270"</span>
-  <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+    <span>size</span>=<span>"480, 270"</span>
+    <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
         </code></pre>
         <p>If the image is an animated GIF or WEBP you can toggle Play/Stop by adding or removing the <code>play</code> attribute.</p>
       </article>
@@ -452,9 +467,9 @@
           </form>
           <pre><code>
     <span>&lt;gcp-img</span>
-    <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
-    <span>size</span>=<span>"480, 270"</span>
-    <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
+      <span>src</span>=<span>"https://lh3.googleusercontent.com/…"</span>
+      <span>size</span>=<span>"480, 270"</span>
+      <span class="highlight">play</span>&gt;</span><span>&lt;/<span>gcp-img</span>&gt;</span>
           </code></pre>
           <p>If the image is an animated GIF or WEBP you can toggle Play/Stop by adding or removing the <code>play</code> attribute.</p>
         </article>
@@ -470,6 +485,6 @@
     <p>Cloud Image Platform and Cloud Image Services trademarks belong to Google LLC.</p>
   </footer>
 
-  <script src="demo.js"></script>
+  <script src="demo.js" type="text/javascript"></script>
 </body>
 </html>

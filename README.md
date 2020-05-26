@@ -2,6 +2,8 @@
 
 # \<gcp-img>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8963b8fa-da9f-4b52-a34f-f132d84b0936/deploy-status)](https://app.netlify.com/sites/gcp-img/deploys)
+
 The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage into the document.
 
 This web component follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
@@ -87,7 +89,7 @@ The above example shows usage of the `<gcp-img>` element:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
-  size="200"></gcp-img>
+  size="684, 424"></gcp-img>
 ```
 
 The above example shows usage of the `size` attribute:
@@ -112,6 +114,7 @@ The above example shows usage of the `fixed` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   darksrc="https://lh3.googleusercontent.com/…"></gcp-img>
 ```
 
@@ -125,6 +128,7 @@ The above example shows usage of the `darksrc` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   config="[{'screen':320,'size':320},{'screen':600,'size':640},{'screen':1024,'size':960}]"></gcp-img>
 ```
 The above example shows usage of the read-only `config` attribute:
@@ -194,6 +198,7 @@ The above configuration will render a different image between the viewports with
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   ttl="190"></gcp-img>
 ```
 
@@ -208,6 +213,7 @@ To change the number of days you can specify the new number of days in the read-
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   rotate="180"></gcp-img>
 ```
 
@@ -220,6 +226,7 @@ The above example shows usage of the `rotate` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   flip="180"></gcp-img>
 ```
 
@@ -234,6 +241,7 @@ The above example shows usage of the `flip` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="blur"
   radius="40"></gcp-img>
 ```
@@ -247,6 +255,7 @@ The above example shows usage of the `blur` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="vignette"
   radius="80"></gcp-img>
 ```
@@ -260,6 +269,7 @@ The above example shows usage of the `vignette` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="invert"></gcp-img>
 ```
 
@@ -272,6 +282,7 @@ The above example shows usage of the `invert` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   filter="bw"></gcp-img>
 ```
 
@@ -286,6 +297,7 @@ The above example shows usage of the `bw` on the `filter` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   crop="smart"></gcp-img>
 ```
 
@@ -298,6 +310,7 @@ The above example shows usage of the `smart` the `crop` attribute:
 ```html
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   crop="circular"></gcp-img>
 ```
 
@@ -309,9 +322,9 @@ The above example shows usage of the `circular` the `crop` attribute:
 
 ```html
 <gcp-img
-  play
   src="https://lh3.googleusercontent.com/…"
-  crop="circular"></gcp-img>
+  size="684, 424"
+  play></gcp-img>
 ```
 
 The above example shows usage of the `play` attribute:
@@ -335,7 +348,7 @@ The above example shows usage of the `play` attribute:
 | `radius`  | No       | No        | *Number*  | `0`      | Radius value between `0` and `100`. For `blur` and `vignette` filters.                       |
 | `color`   | No       | No        | *String*  | `000000` | A Hexadecimal color number value to apply into the `vignette` filter.                        |
 | `crop`    | No       | No        | *String*  | `null`   | Turn the image into a square or circle by specifying `smart` or `circular`.                  |
-| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated  or WEBP it will play it with autoloop.                   |
+| `play`    | No       | No        | *Boolean* | `false`  | If the image source is an animated GIF/WEBP it will play it with autoloop.                   |
 
 > Read-only properties mean if the attribute change on-the-fly, the image does not get updated to reflect the new value.
 
