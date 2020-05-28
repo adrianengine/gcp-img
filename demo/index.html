@@ -12,13 +12,28 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
   <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+
   <meta name="apple-mobile-web-app-title" content="GCP-IMG">
   <meta name="application-name" content="GCP-IMG">
   <meta name="msapplication-TileColor" content="#2b5797">
   <meta name="theme-color" content="#ffffff">
 
-  <script type="module" src="../gcp-img.js"></script>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gcp-img.netlify.app">
+  <meta property="og:description" content="Demos of the custom element gcp-img that wraps an image from Google Cloud Storage into the document.">
+  <meta property="og:image" content="https://repository-images.githubusercontent.com/260743945/9b9cb480-9ebc-11ea-87c8-7c449dad0fa7">
+  <meta property="og:image:alt" content="gcp-img: A web component to provide a web developer friendly way to take advantage of Google Cloud Image Storeage.">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:image" content="https://repository-images.githubusercontent.com/260743945/9b9cb480-9ebc-11ea-87c8-7c449dad0fa7">
+  <meta property="twitter:image:alt" content="gcp-img: A web component to provide a web developer friendly way to take advantage of Google Cloud Image Storeage.">
+
   <title>GCP Image Web Component - Demo Page</title>
+
+  <script type="module" src="../gcp-img.js"></script>
   <script>
     document.documentElement.className = `${document.documentElement.className.replace(/\bno-js\b/g, '')  }has-js `;
   </script>

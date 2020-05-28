@@ -83,6 +83,7 @@ npm i gcp-img
 
 <gcp-img
   src="https://lh3.googleusercontent.com/…"
+  size="684, 424"
   alt="Three people sitting on a lawn and blowing bubbles."></gcp-img>
 ```
 
