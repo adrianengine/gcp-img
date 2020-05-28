@@ -9,6 +9,12 @@ The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage 
 
 This web component follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
+## Demo Page
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8963b8fa-da9f-4b52-a34f-f132d84b0936/deploy-status)](https://app.netlify.com/sites/gcp-img/deploys)
+
+[Visit the Demo Page](https://gcp-img.netlify.app)
+
 ## Table of Contents
 
 * [Concept](#concept)
