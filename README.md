@@ -2,7 +2,8 @@
 
 # \<gcp-img>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8963b8fa-da9f-4b52-a34f-f132d84b0936/deploy-status)](https://app.netlify.com/sites/gcp-img/deploys)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/gcp-img)
+![NPM](https://img.shields.io/npm/l/gcp-img)
 
 The Custom Element `<gcp-img>` element wraps an image from Google Cloud Storage into the document.
 
