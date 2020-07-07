@@ -1,6 +1,6 @@
 {
   "name": "gcp-img",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Lazily load and configure your images from Google Cloud Storage.",
   "files": [
     "gcp.img.js"
