@@ -546,43 +546,57 @@ export class GcpImg extends HTMLElement {
     const extra = this.extraProperties;
     const imgSource = this.src;
     const sourcesArray = [];
+    const darkSourcesArray = [];
+    const darkWebpSourcesArray = [];
+    const webpSourcesArray = [];
     const configValues = Object.values(this.config);
+    const darkSourceTag = document.createElement('source');
+    const darkWebpSourceTag = document.createElement('source');
+    const webpSourceTag = document.createElement('source');
+    const darkModeMediaQuery = '(prefers-color-scheme: dark)';
+    let hasDarkSource = false;
 
     for (const key of configValues) {
       const { screen, size, source, dark } = key;
       const imgUrl = source || imgSource;
 
       if (screen && size) {
-        const webpSourceTag = document.createElement('source');
+        const sourcePath = `${imgUrl}=w${size}-${extra} ${screen}w`;
+        const webpSourcePath = sourcePath.replace('-nw', '-rw');
 
-        sourcesArray.push(`${imgUrl}=w${size}-${extra} ${screen}w`);
+        sourcesArray.push(sourcePath);
+        webpSourcesArray.push(webpSourcePath);
 
-        webpSourceTag.srcset = `${imgUrl}=w${size}-${extra}`.replace(
-          '-nw',
-          '-rw'
-        );
-        webpSourceTag.media = `(min-width: ${screen}px)`;
-        webpSourceTag.type = 'image/webp';
+        if (dark) {
+          const darkSourcePath = `${dark}=w${size}-${extra} ${screen}w`;
+          const darkWebpSourcePath = darkSourcePath.replace('-nw', '-rw');
 
-        this.shadowSourceTags.prepend(webpSourceTag);
+          darkSourcesArray.push(darkSourcePath);
+          darkWebpSourcesArray.push(darkWebpSourcePath);
+
+          hasDarkSource = true;
+        } else {
+          darkSourcesArray.push(sourcePath);
+          darkWebpSourcesArray.push(webpSourcePath);
+        }
       }
+    }
 
-      if (dark && screen && size) {
-        const darkSourceTag = document.createElement('source');
-        const darkWebpSourceTag = document.createElement('source');
-        const mediaQuery = `(prefers-color-scheme: dark) and (min-width: ${screen}px)`;
+    webpSourceTag.srcset = webpSourcesArray.join(',');
+    webpSourceTag.type = 'image/webp';
 
-        darkSourceTag.srcset = `${dark}=w${size}-${extra}`;
-        darkSourceTag.media = mediaQuery;
+    darkSourceTag.srcset = darkSourcesArray.join(',');
+    darkSourceTag.media = darkModeMediaQuery;
 
-        this.shadowSourceTags.prepend(darkSourceTag);
+    darkWebpSourceTag.srcset = darkWebpSourcesArray.join(',');
+    darkWebpSourceTag.media = darkModeMediaQuery;
+    darkWebpSourceTag.type = 'image/webp';
 
-        darkWebpSourceTag.srcset = darkSourceTag.srcset.replace('-nw', '-rw');
-        darkWebpSourceTag.media = mediaQuery;
-        darkWebpSourceTag.type = 'image/webp';
+    this.shadowSourceTags.prepend(webpSourceTag);
 
-        this.shadowSourceTags.prepend(darkWebpSourceTag);
-      }
+    if (hasDarkSource) {
+      this.shadowSourceTags.prepend(darkSourceTag);
+      this.shadowSourceTags.prepend(darkWebpSourceTag);
     }
 
     this.shadowPicture.prepend(this.shadowSourceTags);

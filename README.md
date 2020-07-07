@@ -102,7 +102,7 @@ The above example shows usage of the `<gcp-img>` element:
 
 The above example shows usage of the `size` attribute:
 
-- The `size` attribute holds the numeric value of the image width to be displayed.
+- The `size` attribute holds the numeric value of the image dimensions to be displayed. It works as an Aspect Ratio to prevent layout shifting. It is recommended to include it.
 
 #### A fixed width
 
