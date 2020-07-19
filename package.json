@@ -1,6 +1,6 @@
 {
   "name": "gcp-img",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Lazily load and configure your images from Google Cloud Storage.",
   "author": "adrianengine",
   "license": "LGPL-3.0",
